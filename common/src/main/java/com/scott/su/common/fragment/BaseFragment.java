@@ -1,0 +1,160 @@
+package com.scott.su.common.fragment;
+
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+
+/**
+ * 描述: Fragment基类
+ * 作者: su
+ * 日期: 2017/10/16 18:11
+ */
+public abstract class BaseFragment extends Fragment {
+    private static final String DEFAULT_LOADING_TIP = "请稍候..";
+
+    protected View viewRoot;
+    private boolean mFirstTimeResume = true;
+    private ProgressDialog mLoadingDialog;
+
+    protected abstract View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container,
+                                               @Nullable Bundle savedInstanceState);
+
+    protected abstract void onInit();
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        if (viewRoot == null) {
+            viewRoot = provideContentView(inflater, container, savedInstanceState);
+        }
+
+        return viewRoot;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mFirstTimeResume) {
+            onInit();
+            mFirstTimeResume = false;
+
+            if (subscribeEvents()) {
+                EventBus.getDefault()
+                        .register(this);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (subscribeEvents()) {
+            EventBus.getDefault()
+                    .unregister(this);
+        }
+    }
+
+    /**
+     * 默认加载框提示文本
+     *
+     * @return
+     */
+    protected String provideDefaultLoadingTips() {
+        return DEFAULT_LOADING_TIP;
+    }
+
+    /**
+     * 子类重写
+     *
+     * @return
+     */
+    protected boolean subscribeEvents() {
+        return false;
+    }
+
+    protected void postEvent(Object event) {
+        EventBus.getDefault()
+                .post(event);
+    }
+
+    protected View findViewById(@IdRes int id) {
+        if (viewRoot == null) {
+            return null;
+        }
+        return viewRoot.findViewById(id);
+    }
+
+    protected void showToast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showSnackbar(String text) {
+        showSnackbar(getView(), text);
+    }
+
+    protected void showSnackbar(@NonNull View parent, String text) {
+        Snackbar.make(parent, text, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void showLoadingDialog() {
+        showLoadingDialog(provideDefaultLoadingTips(), false);
+    }
+
+    protected void showLoadingDialog(String msg) {
+        showLoadingDialog(msg, false);
+    }
+
+    protected void showLoadingDialog(String msg, boolean cancelable) {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new ProgressDialog(getActivity());
+        }
+
+        hideLoadingDialog();
+
+        mLoadingDialog.setCancelable(cancelable);
+
+        if (!TextUtils.isEmpty(msg)) {
+            mLoadingDialog.setMessage(msg);
+        }
+
+        mLoadingDialog.show();
+    }
+
+    protected void hideLoadingDialog() {
+        if ((mLoadingDialog != null) && (mLoadingDialog.isShowing())) {
+            mLoadingDialog.dismiss();
+        }
+    }
+
+    /**
+     * 关闭系统软键盘
+     */
+    protected void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            IBinder token = getActivity().getWindow().getDecorView().getWindowToken();
+            imm.hideSoftInputFromWindow(token, 0);
+        }
+    }
+
+}
+

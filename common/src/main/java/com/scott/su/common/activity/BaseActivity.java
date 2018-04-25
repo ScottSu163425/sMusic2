@@ -2,6 +2,7 @@ package com.scott.su.common.activity;
 
 
 import android.os.Bundle;
+import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.scott.su.common.R;
 import com.scott.su.common.entity.PermissionEntity;
+import com.scott.su.common.interfaces.PermissionCallback;
 import com.scott.su.common.util.FragmentUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -27,18 +29,36 @@ import io.reactivex.functions.Consumer;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-
+    private static final int sDefaultAnimOpenIn = R.anim.slide_in_right;
+    private static final int sDefaultAnimOpenOut = android.R.anim.fade_out;
+    private static final int sDefaultAnimCloseIn = R.anim.fade_in;
+    private static final int sDefaultAnimCloseOut = R.anim.slide_out_right;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out);
+        overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_right);
+        overridePendingTransition(provideAnimCloseIn(), provideAnimCloseOut());
+    }
+
+    protected @AnimRes int provideAnimOpenIn(){
+        return sDefaultAnimOpenIn;
+    }
+    protected @AnimRes int provideAnimOpenOut(){
+        return sDefaultAnimOpenOut;
+    }
+
+    protected @AnimRes int provideAnimCloseIn(){
+        return sDefaultAnimCloseIn;
+    }
+
+    protected @AnimRes int provideAnimCloseOut(){
+        return sDefaultAnimCloseOut;
     }
 
     protected View getContentView() {
@@ -49,6 +69,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentUtil.show(BaseActivity.this, containerId, fragment, false);
     }
 
+    /**
+     * 动态请求权限
+     * @param permissions
+     * @param callback
+     */
     protected void requestPermissions(@NonNull List<String> permissions,
                                       @NonNull final PermissionCallback callback) {
         if ((permissions == null) || (permissions.size() == 0)) {
@@ -101,10 +126,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    public interface PermissionCallback {
-        void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted);
 
-        void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied);
-    }
 
 }

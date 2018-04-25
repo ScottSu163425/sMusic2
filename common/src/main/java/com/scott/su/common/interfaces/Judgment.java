@@ -1,4 +1,4 @@
-package com.scott.su.common.adapter;
+package com.scott.su.common.interfaces;
 
 /**
  * 描述:

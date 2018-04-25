@@ -52,11 +52,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected @AnimRes int provideAnimOpenOut(){
         return sDefaultAnimOpenOut;
     }
-
     protected @AnimRes int provideAnimCloseIn(){
         return sDefaultAnimCloseIn;
     }
-
     protected @AnimRes int provideAnimCloseOut(){
         return sDefaultAnimCloseOut;
     }
@@ -123,6 +121,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    protected AppCompatActivity getActivity(){
+        return this;
     }
 
 

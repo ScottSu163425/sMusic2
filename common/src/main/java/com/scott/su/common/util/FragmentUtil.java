@@ -6,11 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-/**
- * 描述:
- * 作者: su
- * 日期: 2017/9/26 9:58
- */
 
 public class FragmentUtil {
     public static void show(FragmentActivity activity, @IdRes int containerViewId,

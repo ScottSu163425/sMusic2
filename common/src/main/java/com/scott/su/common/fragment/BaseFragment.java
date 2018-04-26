@@ -19,11 +19,7 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-/**
- * 描述: Fragment基类
- * 作者: su
- * 日期: 2017/10/16 18:11
- */
+
 public abstract class BaseFragment extends Fragment {
     private static final String DEFAULT_LOADING_TIP = "请稍候..";
 

@@ -1,10 +1,5 @@
 package com.scott.su.common.entity;
 
-/**
- * 描述:
- * 作者: su
- * 日期: 2017/12/4 14:48
- */
 
 public class PermissionEntity {
     public final String name;

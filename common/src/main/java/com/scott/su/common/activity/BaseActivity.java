@@ -22,11 +22,6 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-/**
- * 描述: Activity基类
- * 作者: su
- * 日期: 2017/9/21 14:34
- */
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static final int sDefaultAnimOpenIn = R.anim.slide_in_right;

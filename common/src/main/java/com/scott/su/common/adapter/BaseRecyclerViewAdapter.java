@@ -10,13 +10,8 @@ import com.scott.su.common.interfaces.Judgment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 描述: 一般RecyclerView列表适配器基类
- * 作者: su
- * 日期: 2017/10/31 15:39
- */
 
-public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
+public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHolder<E>>
         extends RecyclerView.Adapter<VH> {
     public static final int POSITION_NONE = -1;
     private Context mContext;
@@ -81,9 +76,9 @@ public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
         getData().addAll(dataList);
 
         if (autoNotify()) {
-            notifyDataSetChanged();
-            //            notifyItemRangeRemoved(0, prevSize);
-            //            notifyItemRangeInserted(0, dataList.size());
+//            notifyDataSetChanged();
+            notifyItemRangeRemoved(0, prevSize);
+            notifyItemRangeInserted(0, dataList.size());
         }
     }
 
@@ -96,7 +91,7 @@ public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
         getData().addAll(dataList);
 
         if (autoNotify()) {
-            //            notifyDataSetChanged();
+//                        notifyDataSetChanged();
             notifyItemRangeInserted(prevSize, dataList.size());
         }
     }
@@ -113,9 +108,9 @@ public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
         getData().add(position, data);
 
         if (autoNotify() && isRecyclerViewAttached()) {
-            //            notifyItemInserted(position);
-            //            scrollToPosition(position);
-            notifyDataSetChanged();
+            notifyItemInserted(position);
+            scrollToPosition(position);
+//            notifyDataSetChanged();
         }
         return true;
     }
@@ -147,10 +142,9 @@ public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
         getData().remove(position);
 
         if (autoNotify() && isRecyclerViewAttached()) {
-            //            notifyItemRemoved(position);
-            //            notifyItemRangeChanged(position, getCount() - position);
-            // TODO: 2017/11/8
-            notifyDataSetChanged();
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, getCount() - position);
+//            notifyDataSetChanged();
         }
 
         return true;
@@ -171,8 +165,8 @@ public abstract class BaseListAdapter<E, VH extends RecyclerView.ViewHolder>
         getData().removeAll(removeList);
 
         if (autoNotify() && isRecyclerViewAttached()) {
-            //            notifyItemRangeChanged(positionStart, itemCount);
-            notifyDataSetChanged();
+            notifyItemRangeChanged(positionStart, itemCount);
+//            notifyDataSetChanged();
         }
 
         return true;

@@ -11,11 +11,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.scott.su.common.R;
 
-/**
- * 描述:
- * 作者: su
- * 日期: 2017/10/19 16:15
- */
 
 public final class ImageLoader {
     private static final int DEFAULT_PLACEHOLDER = R.color.md_grey_200;

@@ -16,12 +16,6 @@ import android.widget.TextView;
 import com.scott.su.common.R;
 
 
-/**
- * 描述: 带有标题栏fragment基类
- * 作者: su
- * 日期: 2017/10/17 14:35
- */
-
 public abstract class BaseTitleFragment extends BaseFragment {
     private static int sDefaultLeftIconRes = R.drawable.ic_arrow_back_white_24dp;
     private Toolbar mToolbar;

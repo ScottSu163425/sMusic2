@@ -1,8 +1,6 @@
 package com.scott.su.smusic2;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.main.MainActivity;

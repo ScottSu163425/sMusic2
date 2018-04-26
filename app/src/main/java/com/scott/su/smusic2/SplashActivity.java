@@ -20,6 +20,7 @@ import io.reactivex.schedulers.Schedulers;
  * Date: 2018/4/25
  */
 public class SplashActivity extends BaseActivity {
+    protected boolean mDelaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,13 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
+        //Can not be closed by pressing back button when delaying.
 
-        //Can not be closed by pressing back button.
+        if (mDelaying) {
+
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

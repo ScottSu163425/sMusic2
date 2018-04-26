@@ -36,6 +36,7 @@ public class SplashActivity extends BaseActivity {
 //                        MainActivity.getStartIntent(getActivity(), true);
 //                    }
 //                });
+        MainActivity.getStartIntent(getActivity(), true);
     }
 
     @Override

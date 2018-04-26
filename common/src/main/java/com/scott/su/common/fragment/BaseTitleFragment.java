@@ -1,5 +1,6 @@
 package com.scott.su.common.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -25,7 +26,11 @@ public abstract class BaseTitleFragment extends BaseFragment {
     private final View.OnClickListener mDefaultLeftIconClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getActivity().onBackPressed();
+            Activity activity = getActivity();
+
+            if (activity != null) {
+                activity.onBackPressed();
+            }
         }
     };
 

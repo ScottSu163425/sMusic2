@@ -19,18 +19,23 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-
 public abstract class BaseFragment extends Fragment {
     private static final String DEFAULT_LOADING_TIP = "请稍候..";
 
     protected View viewRoot;
-    private boolean mFirstTimeResume = true;
+    private boolean mFirstTimeResume;
     private ProgressDialog mLoadingDialog;
 
     protected abstract View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container,
                                                @Nullable Bundle savedInstanceState);
 
     protected abstract void onInit();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFirstTimeResume = true;
+    }
 
     @Nullable
     @Override
@@ -48,13 +53,14 @@ public abstract class BaseFragment extends Fragment {
         super.onResume();
 
         if (mFirstTimeResume) {
-            onInit();
             mFirstTimeResume = false;
 
             if (subscribeEvents()) {
                 EventBus.getDefault()
                         .register(this);
             }
+
+            onInit();
         }
     }
 
@@ -65,6 +71,10 @@ public abstract class BaseFragment extends Fragment {
         if (subscribeEvents()) {
             EventBus.getDefault()
                     .unregister(this);
+        }
+
+        if (viewRoot != null) {
+            ((ViewGroup) viewRoot).removeAllViews();
         }
     }
 
@@ -123,7 +133,7 @@ public abstract class BaseFragment extends Fragment {
             mLoadingDialog = new ProgressDialog(getActivity());
         }
 
-        hideLoadingDialog();
+//        hideLoadingDialog();
 
         mLoadingDialog.setCancelable(cancelable);
 
@@ -131,13 +141,20 @@ public abstract class BaseFragment extends Fragment {
             mLoadingDialog.setMessage(msg);
         }
 
-        mLoadingDialog.show();
+        if (!isLoadingDialogShown()) {
+            mLoadingDialog.show();
+        }
+
     }
 
     protected void hideLoadingDialog() {
-        if ((mLoadingDialog != null) && (mLoadingDialog.isShowing())) {
+        if (isLoadingDialogShown()) {
             mLoadingDialog.dismiss();
         }
+    }
+
+    protected boolean isLoadingDialogShown() {
+        return (mLoadingDialog != null) && (mLoadingDialog.isShowing());
     }
 
     /**

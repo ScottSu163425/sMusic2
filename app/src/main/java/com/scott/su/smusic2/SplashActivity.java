@@ -27,17 +27,16 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-//        Observable.empty()
-//                .delay(3, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<Object>() {
-//                    @Override
-//                    public void accept(Object o) throws Exception {
-//                        MainActivity.getStartIntent(getActivity(), true);
-//                    }
-//                });
-        MainActivity.getStartIntent(getActivity(), true);
+        Observable.just("")
+                .delay(3, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        MainActivity.getStartIntent(getActivity(), true);
+                    }
+                });
     }
 
     @Override

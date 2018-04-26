@@ -15,15 +15,13 @@ import com.scott.su.smusic2.R;
  */
 
 public class MainActivity extends BaseActivity {
-    private MainFragment mFragmentMain;
 
+    public static void start(Context context) {
+        context.startActivity(getStartIntent(context));
+    }
 
-    public static Intent getStartIntent(Context context, boolean start) {
+    public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
-
-        if (start) {
-            context.startActivity(intent);
-        }
 
         return intent;
     }
@@ -33,10 +31,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        mFragmentMain = MainFragment.newInstance();
-
-        showFragment(mFragmentMain, R.id.fl_container_main);
     }
 
 

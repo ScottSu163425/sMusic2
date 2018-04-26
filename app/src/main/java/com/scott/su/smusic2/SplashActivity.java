@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SplashActivity extends BaseActivity {
     protected boolean mDelaying;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,10 @@ public class SplashActivity extends BaseActivity {
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
-                        MainActivity.getStartIntent(getActivity(), true);
+
+                        MainActivity.start(getActivity());
+                        //startActivity(MainActivity.getStartIntent(getActivity()));
+
                     }
                 });
     }

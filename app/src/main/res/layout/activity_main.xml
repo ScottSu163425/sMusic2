@@ -7,9 +7,14 @@
     android:layout_height="match_parent"
     tools:context="com.scott.su.smusic2.SplashActivity">
 
-    <FrameLayout
-        android:id="@+id/fl_container_main"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Main"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_display_1"
+        />
 
 </FrameLayout>

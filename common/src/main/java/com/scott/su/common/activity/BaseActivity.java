@@ -1,14 +1,21 @@
 package com.scott.su.common.activity;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.scott.su.common.R;
 import com.scott.su.common.entity.PermissionEntity;
@@ -16,6 +23,8 @@ import com.scott.su.common.interfaces.PermissionCallback;
 import com.scott.su.common.util.FragmentUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +38,21 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final int sDefaultAnimCloseIn = R.anim.fade_in;
     private static final int sDefaultAnimCloseOut = R.anim.slide_out_right;
 
+    private static final String DEFAULT_LOADING_TIP = "请稍候..";
+
+
+    private ProgressDialog mLoadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
+
+        if (subscribeEvents()) {
+            EventBus.getDefault()
+                    .register(this);
+        }
     }
 
     @Override
@@ -41,29 +61,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         overridePendingTransition(provideAnimCloseIn(), provideAnimCloseOut());
     }
 
-    protected @AnimRes int provideAnimOpenIn(){
-        return sDefaultAnimOpenIn;
-    }
-    protected @AnimRes int provideAnimOpenOut(){
-        return sDefaultAnimOpenOut;
-    }
-    protected @AnimRes int provideAnimCloseIn(){
-        return sDefaultAnimCloseIn;
-    }
-    protected @AnimRes int provideAnimCloseOut(){
-        return sDefaultAnimCloseOut;
-    }
-
-    protected View getContentView() {
-        return this.findViewById(android.R.id.content);
-    }
-
-    protected void showFragment(Fragment fragment, @IdRes int containerId) {
-        FragmentUtil.show(BaseActivity.this, containerId, fragment, false);
-    }
-
     /**
      * 动态请求权限
+     *
      * @param permissions
      * @param callback
      */
@@ -118,11 +118,120 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
     }
 
-    protected AppCompatActivity getActivity(){
+    protected
+    @AnimRes
+    int provideAnimOpenIn() {
+        return sDefaultAnimOpenIn;
+    }
+
+    protected
+    @AnimRes
+    int provideAnimOpenOut() {
+        return sDefaultAnimOpenOut;
+    }
+
+    protected
+    @AnimRes
+    int provideAnimCloseIn() {
+        return sDefaultAnimCloseIn;
+    }
+
+    protected
+    @AnimRes
+    int provideAnimCloseOut() {
+        return sDefaultAnimCloseOut;
+    }
+
+    protected boolean subscribeEvents() {
+        return false;
+    }
+
+    protected void postEvent(Object event) {
+        EventBus.getDefault()
+                .post(event);
+    }
+
+    /**
+     * 默认加载框提示文本
+     *
+     * @return
+     */
+    protected String provideDefaultLoadingTips() {
+        return DEFAULT_LOADING_TIP;
+    }
+
+    protected View getContentView() {
+        return this.findViewById(android.R.id.content);
+    }
+
+    protected void showFragment(Fragment fragment, @IdRes int containerId) {
+        FragmentUtil.show(BaseActivity.this, containerId, fragment, false);
+    }
+
+    protected AppCompatActivity getActivity() {
         return this;
     }
 
+    protected void showToast(String text) {
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    }
 
+    protected void showSnackbar(String text) {
+        showSnackbar(getContentView(), text);
+    }
+
+    protected void showSnackbar(@NonNull View parent, String text) {
+        Snackbar.make(parent, text, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void showLoadingDialog() {
+        showLoadingDialog(provideDefaultLoadingTips(), false);
+    }
+
+    protected void showLoadingDialog(String msg) {
+        showLoadingDialog(msg, false);
+    }
+
+    protected void showLoadingDialog(String msg, boolean cancelable) {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new ProgressDialog(getActivity());
+        }
+
+//        hideLoadingDialog();
+
+        mLoadingDialog.setCancelable(cancelable);
+
+        if (!TextUtils.isEmpty(msg)) {
+            mLoadingDialog.setMessage(msg);
+        }
+
+        if (!isLoadingDialogShown()) {
+            mLoadingDialog.show();
+        }
+
+    }
+
+    protected void hideLoadingDialog() {
+        if (isLoadingDialogShown()) {
+            mLoadingDialog.dismiss();
+        }
+    }
+
+    protected boolean isLoadingDialogShown() {
+        return (mLoadingDialog != null) && (mLoadingDialog.isShowing());
+    }
+
+    /**
+     * 关闭系统软键盘
+     */
+    protected void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            IBinder token = getActivity().getWindow().getDecorView().getWindowToken();
+            imm.hideSoftInputFromWindow(token, 0);
+        }
+    }
 
 
 }

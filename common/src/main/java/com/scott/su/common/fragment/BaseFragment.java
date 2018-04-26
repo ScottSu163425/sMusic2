@@ -78,20 +78,10 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    /**
-     * 默认加载框提示文本
-     *
-     * @return
-     */
     protected String provideDefaultLoadingTips() {
         return DEFAULT_LOADING_TIP;
     }
 
-    /**
-     * 子类重写
-     *
-     * @return
-     */
     protected boolean subscribeEvents() {
         return false;
     }

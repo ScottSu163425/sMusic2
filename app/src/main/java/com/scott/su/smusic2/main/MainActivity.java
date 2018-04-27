@@ -43,8 +43,8 @@ public class MainActivity extends BaseActivity {
 
         mTabLayout = findViewById(R.id.tab_layout_main);
 
-        mTabLayout.addTab(mTabLayout.newTab().setText("推荐"), 0, false);
-        mTabLayout.addTab(mTabLayout.newTab().setText("歌曲"), 1, true);
+        mTabLayout.addTab(mTabLayout.newTab().setText("推荐"), 0, true);
+        mTabLayout.addTab(mTabLayout.newTab().setText("歌曲"), 1, false);
         mTabLayout.addTab(mTabLayout.newTab().setText("收藏"), 2, false);
         mTabLayout.addTab(mTabLayout.newTab().setText("专辑"), 3, false);
     }

@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.main.collection;
+package com.scott.su.smusic2.modules.main.collection;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,9 @@ import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/27
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/27
  */
 
 public class MainTabCollectionFragment extends BaseFragment {
@@ -28,7 +28,7 @@ public class MainTabCollectionFragment extends BaseFragment {
     
     @Override
     protected View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_tab_song, container, false);
+        return inflater.inflate(R.layout.fragment_main_tab_recommend, container, false);
 
     }
 

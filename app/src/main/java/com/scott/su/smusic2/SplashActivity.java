@@ -3,7 +3,7 @@ package com.scott.su.smusic2;
 import android.os.Bundle;
 
 import com.scott.su.common.activity.BaseActivity;
-import com.scott.su.smusic2.main.MainActivity;
+import com.scott.su.smusic2.modules.main.MainActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,9 +13,9 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/25
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/25
  */
 public class SplashActivity extends BaseActivity {
     protected boolean mDelaying;

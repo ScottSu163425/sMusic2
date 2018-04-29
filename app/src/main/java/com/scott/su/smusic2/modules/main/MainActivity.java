@@ -1,34 +1,30 @@
-package com.scott.su.smusic2.main;
+package com.scott.su.smusic2.modules.main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
-import com.scott.su.smusic2.main.album.MainTabAlbumFragment;
-import com.scott.su.smusic2.main.collection.MainTabCollectionFragment;
-import com.scott.su.smusic2.main.drawer.MainDrawerMenuFragment;
-import com.scott.su.smusic2.main.recommend.MainTabRecommendFragment;
-import com.scott.su.smusic2.main.song.MainTabSongFragment;
+import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
+import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
+import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
+import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
+import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/25
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/25
  */
 
 public class MainActivity extends BaseActivity {

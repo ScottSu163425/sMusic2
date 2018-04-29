@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.main.recommend;
+package com.scott.su.smusic2.modules.main.album;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,25 +10,26 @@ import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/27
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/27
  */
 
-public class MainTabRecommendFragment extends BaseFragment {
+public class MainTabAlbumFragment extends BaseFragment {
 
-    public static MainTabRecommendFragment newInstance() {
-
+    public static MainTabAlbumFragment newInstance() {
+        
         Bundle args = new Bundle();
-
-        MainTabRecommendFragment fragment = new MainTabRecommendFragment();
+        
+        MainTabAlbumFragment fragment = new MainTabAlbumFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     protected View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main_tab_recommend, container, false);
+
     }
 
     @Override

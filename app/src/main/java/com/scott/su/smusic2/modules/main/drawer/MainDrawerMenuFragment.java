@@ -1,6 +1,5 @@
-package com.scott.su.smusic2.main.drawer;
+package com.scott.su.smusic2.modules.main.drawer;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,9 +13,9 @@ import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.FragmentMainDrawerMenuBinding;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/29
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/28
  */
 
 public class MainDrawerMenuFragment extends BaseFragment {

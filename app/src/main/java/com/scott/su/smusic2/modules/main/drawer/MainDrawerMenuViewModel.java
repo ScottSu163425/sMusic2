@@ -1,15 +1,14 @@
-package com.scott.su.smusic2.main.drawer;
+package com.scott.su.smusic2.modules.main.drawer;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
 import com.scott.su.common.viewmodel.BaseAndroidViewModel;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/29
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/29
  */
 
 public class MainDrawerMenuViewModel extends BaseAndroidViewModel {

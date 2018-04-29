@@ -1,13 +1,13 @@
-package com.scott.su.smusic2.main;
+package com.scott.su.smusic2.modules.main;
 
 import android.support.v4.app.FragmentManager;
 
 import com.scott.su.common.adapter.BaseFragmentPageAdapter;
 
 /**
- * Description:
- * Author: Su
- * Date: 2018/4/27
+ * 描述:
+ * 作者: Su
+ * 日期: 2018/4/27
  */
 
 public class MainViewPagerAdapter extends BaseFragmentPageAdapter {

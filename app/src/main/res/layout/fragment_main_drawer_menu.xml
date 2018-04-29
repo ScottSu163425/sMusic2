@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.scott.su.smusic2.main.drawer.MainDrawerMenuViewModel"/>
+            type="com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuViewModel"/>
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

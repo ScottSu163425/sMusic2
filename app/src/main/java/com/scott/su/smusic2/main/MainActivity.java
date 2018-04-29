@@ -2,18 +2,23 @@ package com.scott.su.smusic2.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.main.collection.MainTabCollectionFragment;
+import com.scott.su.smusic2.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.main.song.MainTabSongFragment;
 
@@ -38,15 +43,14 @@ public class MainActivity extends BaseActivity {
         return intent;
     }
 
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
-    private FloatingActionButton mFAB;
 
+    private ActivityMainBinding mBinding;
     private List<Fragment> mListTabContentFragment;
     private MainTabRecommendFragment mTabFragmentRecommend;
     private MainTabSongFragment mTabFragmentSong;
     private MainTabCollectionFragment mTabFragmentCollection;
     private MainTabAlbumFragment mTabFragmentAlbum;
+    private MainDrawerMenuFragment mDrawerMenuFragment;
 
     private MainViewPagerAdapter mViewPagerAdapter;
 
@@ -54,15 +58,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
+        mBinding.toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(mBinding.toolbar);
 
-        mTabLayout = findViewById(R.id.tab_layout_main);
-        mViewPager = findViewById(R.id.vp_main);
-        mFAB = findViewById(R.id.fab_main);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
+                mBinding.toolbar, R.string.drawer_open, R.string.drawer_close);
+        mBinding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
         mListTabContentFragment = new ArrayList<>();
         mTabFragmentRecommend = MainTabRecommendFragment.newInstance();
@@ -75,6 +79,9 @@ public class MainActivity extends BaseActivity {
         mListTabContentFragment.add(mTabFragmentCollection);
         mListTabContentFragment.add(mTabFragmentAlbum);
 
+        mDrawerMenuFragment = MainDrawerMenuFragment.newInstance();
+        showFragment(mDrawerMenuFragment, mBinding.flContainerMenuDrawerMain.getId());
+
         mViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mViewPagerAdapter.setFragments(mListTabContentFragment);
         mViewPagerAdapter.setTitles(new String[]{
@@ -83,8 +90,15 @@ public class MainActivity extends BaseActivity {
                 getString(R.string.tab_main_collection),
                 getString(R.string.tab_main_album)});
 
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mBinding.vpMain.setAdapter(mViewPagerAdapter);
+        mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
+
+        mBinding.fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSnackbar(mBinding.fabMain, "Click FAB.");
+            }
+        });
     }
 
 

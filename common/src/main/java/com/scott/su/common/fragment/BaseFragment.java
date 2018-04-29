@@ -26,6 +26,7 @@ public abstract class BaseFragment extends Fragment {
     private boolean mFirstTimeResume;
     private ProgressDialog mLoadingDialog;
 
+
     protected abstract View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container,
                                                @Nullable Bundle savedInstanceState);
 

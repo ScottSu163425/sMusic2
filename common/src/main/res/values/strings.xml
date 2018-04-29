@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">common</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="no">不了</string>
+    <string name="ok">好</string>
+
 </resources>

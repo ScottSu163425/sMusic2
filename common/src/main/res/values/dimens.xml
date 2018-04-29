@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="elevation_appbar">4dp</dimen>
+    <dimen name="elevation_bottom_navigation">8dp</dimen>
+    <dimen name="elevation_bottom_sheet">16dp</dimen>
+    <dimen name="elevation_button_normal">2dp</dimen>
+    <dimen name="elevation_button_raised">8dp</dimen>
+    <dimen name="elevation_card_normal">2dp</dimen>
+    <dimen name="elevation_card_raised">8dp</dimen>
+    <dimen name="elevation_dialog">24dp</dimen>
+    <dimen name="elevation_drawer">16dp</dimen>
+    <dimen name="elevation_fab_normal">6dp</dimen>
+    <dimen name="elevation_fab_raised">12dp</dimen>
+    <dimen name="elevation_menu">8dp</dimen>
+    <dimen name="elevation_picker">24dp</dimen>
+    <dimen name="elevation_snackbar">6dp</dimen>
+    <dimen name="elevation_submenu">9dp</dimen>
+    <dimen name="elevation_switch">1dp</dimen>
+
+    <dimen name="height_divider_line">1dp</dimen>
+    <dimen name="height_divider_line_s">1px</dimen>
+    <dimen name="height_item_xs">24dp</dimen>
+    <dimen name="height_item_s">48dp</dimen>
+    <dimen name="height_item_m">56dp</dimen>
+    <dimen name="height_item_l">64dp</dimen>
+    <dimen name="height_item_xl">72dp</dimen>
+    <dimen name="height_sub_header">48dp</dimen>
+    <dimen name="height_button_l">56dp</dimen>
+    <dimen name="height_button_m">48dp</dimen>
+    <dimen name="height_button_s">36dp</dimen>
+
+    <dimen name="padding_l">32dp</dimen>
+    <dimen name="padding_m">24dp</dimen>
+    <dimen name="padding_s">16dp</dimen>
+    <dimen name="padding_xl">48dp</dimen>
+    <dimen name="padding_xs">8dp</dimen>
+    <dimen name="padding_xxl">56dp</dimen>
+    <dimen name="padding_xxs">4dp</dimen>
+    <dimen name="padding_xxxl">72dp</dimen>
+
+    <dimen name="text_size_body">14sp</dimen>
+    <dimen name="text_size_button">14sp</dimen>
+    <dimen name="text_size_caption">12sp</dimen>
+    <dimen name="text_size_display_1">34sp</dimen>
+    <dimen name="text_size_display_2">45sp</dimen>
+    <dimen name="text_size_display_3">56sp</dimen>
+    <dimen name="text_size_display_4">112sp</dimen>
+    <dimen name="text_size_headline">24sp</dimen>
+    <dimen name="text_size_menu">14sp</dimen>
+    <dimen name="text_size_subhead">16sp</dimen>
+    <dimen name="text_size_title">20sp</dimen>
+
+    <integer name="duration_anim_l">375</integer>
+    <integer name="duration_anim_m">225</integer>
+    <integer name="duration_anim_s">195</integer>
+    <string name="app_name">library</string>
+
+</resources>

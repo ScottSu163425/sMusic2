@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="@dimen/height_cover_item_song"
+            android:layout_height="@dimen/height_cover_item_song"
+            android:layout_marginBottom="@dimen/padding_xs"
+            android:layout_marginLeft="@dimen/padding_xs"
+            android:layout_marginTop="@dimen/padding_xs"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_default_cover_song"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/view_more"
+            android:layout_toRightOf="@+id/iv_cover"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_xs">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/text_size_body"
+                tools:text="Butter Fly"/>
+
+            <TextView
+                android:id="@+id/tv_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingTop="@dimen/padding_xxs"
+                android:singleLine="true"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_caption"
+                tools:text="和田光司"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/view_more"
+            android:layout_width="@dimen/height_button_s"
+            android:layout_height="@dimen/height_button_s"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_xs"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_item_xs"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_more_vert_white"
+                android:tint="@color/md_grey_800"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_divider_line_s"
+            android:layout_below="@+id/iv_cover"
+            android:background="@color/dividerLine"/>
+    </RelativeLayout>
+
+</FrameLayout>

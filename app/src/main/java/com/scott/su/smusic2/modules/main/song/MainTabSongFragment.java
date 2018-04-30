@@ -47,6 +47,18 @@ public class MainTabSongFragment extends BaseFragment {
     @Override
     protected void onInit() {
         mSongListAdapter = new MainTabSongListAdapter();
+        mSongListAdapter.setCallback(new MainTabSongListAdapter.Callback() {
+            @Override
+            public void onItemClick(View view, LocalSongEntity entity, int position) {
+                showSnackbar("onItemClick" + position);
+            }
+
+            @Override
+            public void onMoreClick(View view, LocalSongEntity entity, int position) {
+                showSnackbar("onMoreClick" + position);
+            }
+        });
+
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mBinding.rv.setAdapter(mSongListAdapter);

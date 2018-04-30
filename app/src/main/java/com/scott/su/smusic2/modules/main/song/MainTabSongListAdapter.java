@@ -28,7 +28,8 @@ public class MainTabSongListAdapter
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-
+        holder.bind(getData(position), position);
+        holder.setCallback(getCallback());
     }
 
 
@@ -43,13 +44,85 @@ public class MainTabSongListAdapter
         }
 
         @Override
-        public void bind(LocalSongEntity entity, int position) {
+        public void bind(final LocalSongEntity entity, final int position) {
             //test
             binding.ivCover.setImageResource(R.drawable.ic_default_cover_song);
             binding.tvName.setText("听妈妈的话");
             binding.tvArtist.setText("周杰伦");
+            binding.layoutRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getCallback().onItemClick(v, entity, position);
+                }
+            });
+            binding.viewMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getCallback().onMoreClick(v, entity, position);
+                }
+            });
+
+
+            binding.executePendingBindings();
         }
 
+        private Callback mCallback;
+
+        public void setCallback(Callback callback) {
+            this.mCallback = callback;
+        }
+
+        private Callback getCallback() {
+            if (mCallback == null) {
+                mCallback = new Callback() {
+                    @Override
+                    public void onItemClick(View view, LocalSongEntity entity, int position) {
+
+                    }
+
+                    @Override
+                    public void onMoreClick(View view, LocalSongEntity entity, int position) {
+
+                    }
+                };
+            }
+            return mCallback;
+        }
+
+        public interface Callback {
+
+            void onItemClick(View view, LocalSongEntity entity, int position);
+
+            void onMoreClick(View view, LocalSongEntity entity, int position);
+        }
+
+    }
+
+
+    private Callback mCallback;
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
+    }
+
+    private Callback getCallback() {
+        if (mCallback == null) {
+            mCallback = new Callback() {
+                @Override
+                public void onItemClick(View view, LocalSongEntity entity, int position) {
+
+                }
+
+                @Override
+                public void onMoreClick(View view, LocalSongEntity entity, int position) {
+
+                }
+            };
+        }
+        return mCallback;
+    }
+
+    public interface Callback extends VH.Callback {
     }
 
 }

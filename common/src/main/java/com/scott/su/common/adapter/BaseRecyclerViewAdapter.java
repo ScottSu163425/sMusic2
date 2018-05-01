@@ -19,6 +19,10 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     private RecyclerView mRecyclerView;
     private LayoutInflater mLayoutInflater;
 
+    public BaseRecyclerViewAdapter(Context context) {
+        mContext = context;
+    }
+
     protected Context getContext() {
         return mContext;
     }
@@ -28,7 +32,6 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
         super.onAttachedToRecyclerView(recyclerView);
 
         this.mRecyclerView = recyclerView;
-        this.mContext = recyclerView.getContext();
     }
 
     @Override

@@ -17,6 +17,7 @@
     <dimen name="elevation_submenu">9dp</dimen>
     <dimen name="elevation_switch">1dp</dimen>
 
+    <dimen name="height_toolbar">56dp</dimen>
     <dimen name="height_divider_line">1dp</dimen>
     <dimen name="height_divider_line_s">1px</dimen>
     <dimen name="height_item_xs">24dp</dimen>

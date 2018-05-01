@@ -5,11 +5,18 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.scott.su.common.viewmodel.BaseAndroidViewModel;
-import com.scott.su.smusic2.common.LocalSongEntity;
+import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.source.local.LocalSongDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 描述:
@@ -27,14 +34,21 @@ public class MainTabSongViewModel extends BaseAndroidViewModel {
 
     @Override
     protected void start() {
-        //test
-
-        List<LocalSongEntity> list = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            list.add(new LocalSongEntity());
-        }
-
-        mLiveDataSongList.setValue(list);
+        Observable.create(new ObservableOnSubscribe<List<LocalSongEntity>>() {
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<List<LocalSongEntity>> emitter) throws Exception {
+                emitter.onNext(LocalSongDataSource.getInstance().getAll(getContext()));
+                emitter.onComplete();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<LocalSongEntity>>() {
+                    @Override
+                    public void accept(List<LocalSongEntity> localSongEntities) throws Exception {
+                        mLiveDataSongList.setValue(localSongEntities);
+                    }
+                });
     }
 
     public MutableLiveData<List<LocalSongEntity>> getLiveDataSongList() {

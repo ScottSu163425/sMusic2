@@ -1,10 +1,15 @@
-package com.scott.su.smusic2;
+package com.scott.su.smusic2.modules.entrance;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.entity.PermissionEntity;
+import com.scott.su.common.interfaces.PermissionCallback;
+import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.modules.main.MainActivity;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -33,12 +38,29 @@ public class SplashActivity extends BaseActivity {
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
-
-                        MainActivity.start(getActivity());
-                        //startActivity(MainActivity.getStartIntent(getActivity()));
-
+                        requestPermissionsIfNeed();
                     }
                 });
+    }
+
+    private void requestPermissionsIfNeed() {
+        //startActivity(MainActivity.getStartIntent(getActivity()));
+        final String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+
+        };
+
+        requestPermissions(permissions, new PermissionCallback() {
+            @Override
+            public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
+                MainActivity.start(getActivity());
+            }
+
+            @Override
+            public void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied) {
+
+            }
+        });
     }
 
     @Override

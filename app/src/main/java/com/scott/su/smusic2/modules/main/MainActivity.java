@@ -4,19 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.entity.MainTabListDragEvent;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +93,7 @@ public class MainActivity extends BaseActivity {
                 getString(R.string.tab_main_song),
                 getString(R.string.tab_main_collection),
                 getString(R.string.tab_main_album)});
-
+        mBinding.vpMain.setOffscreenPageLimit(mListTabContentFragment.size());
         mBinding.vpMain.setAdapter(mViewPagerAdapter);
         mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
 
@@ -95,6 +103,44 @@ public class MainActivity extends BaseActivity {
                 showSnackbar(mBinding.fabMain, "Click FAB.");
             }
         });
+
+    }
+
+    @Override
+    protected boolean subscribeEvents() {
+        return true;
+    }
+
+    @Subscribe
+    public void onEventMainTabListDragging(MainTabListDragEvent event) {
+        if (event.isDragging()) {
+            hideFab(mBinding.fabMain);
+        } else {
+            showFab(mBinding.fabMain);
+        }
+
+        hideFab(mBinding.fabMain);
+
+    }
+
+    private void showFab(@NonNull View fab) {
+        Log.e("===>", "showFab");
+
+        fab.animate()
+                .setDuration(R.integer.duration_anim_m)
+                .translationY(0)
+                .setInterpolator(new AccelerateInterpolator())
+                .start();
+    }
+
+    private void hideFab(@NonNull View fab) {
+        Log.e("===>", "hideFab");
+
+        fab.animate()
+                .setDuration(R.integer.duration_anim_m)
+                .translationY(fab.getBottom() * 1.5f)
+                .setInterpolator(new DecelerateInterpolator())
+                .start();
     }
 
 

@@ -5,7 +5,7 @@
 
         <variable
             name="entity"
-            type="com.scott.su.smusic2.common.LocalSongEntity"/>
+            type="com.scott.su.smusic2.data.entity.LocalSongEntity"/>
     </data>
 
     <FrameLayout

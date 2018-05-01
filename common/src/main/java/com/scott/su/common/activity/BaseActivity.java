@@ -56,6 +56,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (subscribeEvents()) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(provideAnimCloseIn(), provideAnimCloseOut());
@@ -67,18 +76,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param permissions
      * @param callback
      */
-    protected void requestPermissions(@NonNull List<String> permissions,
+    protected void requestPermissions(@NonNull String[] permissions,
                                       @NonNull final PermissionCallback callback) {
-        if ((permissions == null) || (permissions.size() == 0)) {
+        if ((permissions == null) || (permissions.length == 0)) {
             return;
         }
 
-        final int count = permissions.size();   //count > 0 ;
+        final int count = permissions.length;   //count > 0 ;
         final List<PermissionEntity> permissionsGranted = new ArrayList<>();
         final List<PermissionEntity> permissionsDenied = new ArrayList<>();
 
         new RxPermissions(BaseActivity.this)
-                .requestEach(permissions.toArray(new String[count]))
+                .requestEach(permissions)
                 .subscribe(new Consumer<Permission>() {
                     int index = 0;
 

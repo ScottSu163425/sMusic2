@@ -2,6 +2,7 @@ package com.scott.su.common.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
@@ -11,11 +12,17 @@ import android.support.annotation.NonNull;
  */
 
 public abstract class BaseAndroidViewModel extends AndroidViewModel {
+    private Context mContext;
 
     protected abstract void start();
 
     public BaseAndroidViewModel(@NonNull Application application) {
         super(application);
+        mContext = application.getApplicationContext();
+    }
+
+    protected Context getContext() {
+        return mContext;
     }
 
 

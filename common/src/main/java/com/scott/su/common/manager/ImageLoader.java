@@ -14,7 +14,7 @@ import com.scott.su.common.R;
 
 public final class ImageLoader {
     private static final int DEFAULT_PLACEHOLDER = R.color.md_grey_200;
-    private static final int DEFAULT_ERROR = R.drawable.ic_placeholder_image_error;
+    private static final int DEFAULT_ERROR = R.drawable.pic_default_placeholder_error;
 
 
     public static void load(Context context, Object source, ImageView target) {

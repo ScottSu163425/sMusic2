@@ -49,20 +49,32 @@ public abstract class BaseFragment extends Fragment {
         return viewRoot;
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (mFirstTimeResume) {
+//            mFirstTimeResume = false;
+//
+//            if (subscribeEvents()) {
+//                EventBus.getDefault()
+//                        .register(this);
+//            }
+//
+//            onInit();
+//        }
+//    }
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        if (mFirstTimeResume) {
-            mFirstTimeResume = false;
-
-            if (subscribeEvents()) {
-                EventBus.getDefault()
-                        .register(this);
-            }
-
-            onInit();
+        if (subscribeEvents()) {
+            EventBus.getDefault()
+                    .register(this);
         }
+
+        onInit();
     }
 
     @Override

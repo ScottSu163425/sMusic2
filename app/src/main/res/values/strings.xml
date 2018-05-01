@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">sMusic2</string>
+    <string name="app_name">sMusic</string>
     <string name="tab_main_recommend">推荐</string>
     <string name="tab_main_song">歌曲</string>
     <string name="tab_main_collection">收藏</string>

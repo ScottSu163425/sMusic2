@@ -23,7 +23,6 @@ import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -101,6 +100,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 showSnackbar(mBinding.fabMain, "Click FAB.");
+                hideFab(v);
             }
         });
 
@@ -118,13 +118,10 @@ public class MainActivity extends BaseActivity {
         } else {
             showFab(mBinding.fabMain);
         }
-
-        hideFab(mBinding.fabMain);
-
     }
 
     private void showFab(@NonNull View fab) {
-        Log.e("===>", "showFab");
+        Log.e("===>","showFab");
 
         fab.animate()
                 .setDuration(R.integer.duration_anim_m)
@@ -134,7 +131,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideFab(@NonNull View fab) {
-        Log.e("===>", "hideFab");
+        Log.e("===>","hideFab");
 
         fab.animate()
                 .setDuration(R.integer.duration_anim_m)

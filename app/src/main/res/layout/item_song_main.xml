@@ -74,7 +74,7 @@
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/height_item_xxs"
                     android:layout_height="@dimen/height_item_xs"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_more_vert_white"

@@ -54,6 +54,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
                 MainActivity.start(getActivity());
+                finish();
             }
 
             @Override

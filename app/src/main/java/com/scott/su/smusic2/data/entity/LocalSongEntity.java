@@ -1,12 +1,14 @@
 package com.scott.su.smusic2.data.entity;
 
+import java.io.Serializable;
+
 /**
  * 描述: 本地音乐实体类
  * 作者: Su
  * 日期: 2018/4/29
  */
 
-public class LocalSongEntity {
+public class LocalSongEntity implements Serializable{
     private long songId;
     private long albumId;
     private long duration;

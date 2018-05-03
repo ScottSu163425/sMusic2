@@ -10,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.entity.MainTabListScrollEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
+import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,12 +54,13 @@ public class MainTabSongFragment extends BaseFragment {
         mSongListAdapter = new MainTabSongListAdapter(getActivity());
         mSongListAdapter.setCallback(new MainTabSongListAdapter.Callback() {
             @Override
-            public void onItemClick(View view, LocalSongEntity entity, int position) {
-                showSnackbar("onItemClick" + entity.getTitle());
+            public void onItemClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
+                MusicPlayActivity.start(getActivity(),
+                        (ArrayList<LocalSongEntity>) mSongListAdapter.getData(), entity, new View[]{cover});
             }
 
             @Override
-            public void onMoreClick(View view, LocalSongEntity entity, int position) {
+            public void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
                 showSnackbar("onMoreClick" + entity.getTitle());
             }
         });
@@ -73,7 +77,7 @@ public class MainTabSongFragment extends BaseFragment {
                 boolean settling = RecyclerView.SCROLL_STATE_SETTLING == newState;
                 boolean idle = RecyclerView.SCROLL_STATE_IDLE == newState;
 
-                postEvent(new MainTabListScrollEvent(dragging,settling,idle));
+                postEvent(new MainTabListScrollEvent(dragging, settling, idle));
             }
         });
 

@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.scott.su.common.adapter.BaseRecyclerViewAdapter;
@@ -57,14 +58,14 @@ public class MainTabSongListAdapter
             binding.layoutRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCallback().onItemClick(v, entity, position);
+                    getCallback().onItemClick(v, binding.ivCover, entity, position);
                 }
             });
 
             binding.viewMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCallback().onMoreClick(v, entity, position);
+                    getCallback().onMoreClick(v, binding.ivCover, entity, position);
                 }
             });
 
@@ -84,12 +85,12 @@ public class MainTabSongListAdapter
         if (mCallback == null) {
             mCallback = new Callback() {
                 @Override
-                public void onItemClick(View view, LocalSongEntity entity, int position) {
+                public void onItemClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
 
                 }
 
                 @Override
-                public void onMoreClick(View view, LocalSongEntity entity, int position) {
+                public void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
 
                 }
             };
@@ -98,9 +99,9 @@ public class MainTabSongListAdapter
     }
 
     public interface Callback {
-        void onItemClick(View view, LocalSongEntity entity, int position);
+        void onItemClick(View itemView, ImageView cover, LocalSongEntity entity, int position);
 
-        void onMoreClick(View view, LocalSongEntity entity, int position);
+        void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position);
     }
 
 }

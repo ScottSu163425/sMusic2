@@ -25,6 +25,10 @@
             android:name=".modules.main.MainActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".modules.play.MusicPlayActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

@@ -66,7 +66,7 @@
 
             <FrameLayout
                 android:id="@+id/view_more"
-                android:layout_width="@dimen/height_button_s"
+                android:layout_width="@dimen/height_button_xs"
                 android:layout_height="@dimen/height_button_s"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

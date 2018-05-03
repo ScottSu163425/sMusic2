@@ -1,5 +1,6 @@
 package com.scott.su.smusic2.modules.main;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,8 +11,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
@@ -100,7 +103,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 showSnackbar(mBinding.fabMain, "Click FAB.");
-                hideFab(v);
             }
         });
 
@@ -121,22 +123,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showFab(@NonNull View fab) {
-        Log.e("===>","showFab");
-
         fab.animate()
-                .setDuration(R.integer.duration_anim_m)
+//                .setDuration(R.integer.duration_anim_s)
+                .setDuration(getResources().getInteger(R.integer.duration_anim_s))
                 .translationY(0)
-                .setInterpolator(new AccelerateInterpolator())
+                .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
 
     private void hideFab(@NonNull View fab) {
-        Log.e("===>","hideFab");
-
         fab.animate()
-                .setDuration(R.integer.duration_anim_m)
-                .translationY(fab.getBottom() * 1.5f)
-                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(getResources().getInteger(R.integer.duration_anim_s))
+                .translationY(fab.getBottom())
+                .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
     }
 

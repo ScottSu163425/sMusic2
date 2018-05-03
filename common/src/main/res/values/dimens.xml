@@ -29,6 +29,7 @@
     <dimen name="height_button_l">56dp</dimen>
     <dimen name="height_button_m">48dp</dimen>
     <dimen name="height_button_s">36dp</dimen>
+    <dimen name="height_button_xs">24dp</dimen>
 
     <dimen name="padding_l">32dp</dimen>
     <dimen name="padding_m">24dp</dimen>
@@ -51,9 +52,5 @@
     <dimen name="text_size_subhead">16sp</dimen>
     <dimen name="text_size_title">20sp</dimen>
 
-    <integer name="duration_anim_l">375</integer>
-    <integer name="duration_anim_m">225</integer>
-    <integer name="duration_anim_s">195</integer>
-    <string name="app_name">library</string>
 
 </resources>

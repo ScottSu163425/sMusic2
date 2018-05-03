@@ -185,12 +185,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 
-    protected void showSnackbar(String text) {
-        showSnackbar(getContentView(), text);
+    protected void showSnackbar(@NonNull String text) {
+        showSnackbar(getContentView(), text,null,null);
     }
 
-    protected void showSnackbar(@NonNull View parent, String text) {
-        Snackbar.make(parent, text, Snackbar.LENGTH_SHORT).show();
+    protected void showSnackbar(@NonNull View parent, @NonNull String text) {
+        showSnackbar(parent, text,null,null);
+    }
+
+    protected void showSnackbar(@NonNull View parent, @NonNull String text, @Nullable String action,
+                                @Nullable View.OnClickListener actionClickListener) {
+        Snackbar snackbar = Snackbar.make(parent, text, Snackbar.LENGTH_SHORT);
+
+        if (!TextUtils.isEmpty(action) && actionClickListener != null) {
+            snackbar.setAction(action, actionClickListener);
+        }
+
+        snackbar.show();
     }
 
     protected void showLoadingDialog() {

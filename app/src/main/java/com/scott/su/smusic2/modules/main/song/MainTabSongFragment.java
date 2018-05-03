@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.data.entity.MainTabListDragEvent;
+import com.scott.su.smusic2.data.entity.MainTabListScrollEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
 
 import java.util.List;
@@ -71,8 +70,10 @@ public class MainTabSongFragment extends BaseFragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 boolean dragging = RecyclerView.SCROLL_STATE_DRAGGING == newState;
+                boolean settling = RecyclerView.SCROLL_STATE_SETTLING == newState;
+                boolean idle = RecyclerView.SCROLL_STATE_IDLE == newState;
 
-                postEvent(new MainTabListDragEvent(dragging));
+                postEvent(new MainTabListScrollEvent(dragging,settling,idle));
             }
         });
 

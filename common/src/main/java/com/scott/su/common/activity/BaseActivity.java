@@ -186,11 +186,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void showSnackbar(@NonNull String text) {
-        showSnackbar(getContentView(), text,null,null);
+        showSnackbar(getContentView(), text, null, null);
     }
 
     protected void showSnackbar(@NonNull View parent, @NonNull String text) {
-        showSnackbar(parent, text,null,null);
+        showSnackbar(parent, text, null, null);
+    }
+
+    protected void showSnackbar(@NonNull String text, @Nullable String action,
+                                @Nullable View.OnClickListener actionClickListener) {
+        showSnackbar(getContentView(), text, action, actionClickListener);
     }
 
     protected void showSnackbar(@NonNull View parent, @NonNull String text, @Nullable String action,

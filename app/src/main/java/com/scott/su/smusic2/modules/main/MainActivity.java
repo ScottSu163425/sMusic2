@@ -4,27 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
-import com.scott.su.smusic2.data.entity.MainTabListScrollEvent;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,19 +89,6 @@ public class MainActivity extends BaseActivity {
         mBinding.vpMain.setOffscreenPageLimit(mListTabContentFragment.size());
         mBinding.vpMain.setAdapter(mViewPagerAdapter);
         mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
-
-        mBinding.fabMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSnackbar(mBinding.fabMain, "Click FAB.");
-            }
-        });
-
-    }
-
-    @Override
-    protected boolean subscribeEvents() {
-        return true;
     }
 
     @Override
@@ -121,39 +101,14 @@ public class MainActivity extends BaseActivity {
         showExit();
     }
 
-    @Subscribe
-    public void onEventMainTabListDragging(MainTabListScrollEvent event) {
-        if (event.isIdle()) {
-            showFab(mBinding.fabMain);
-        } else {
-            hideFab(mBinding.fabMain);
-        }
-    }
-
     private void showExit() {
-        showSnackbar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
+        showSnackbar(getString(R.string.tip_exit), getString(R.string.confirm),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         finish();
                     }
                 });
-    }
-
-    private void showFab(@NonNull View fab) {
-        fab.animate()
-                .setDuration(getResources().getInteger(R.integer.duration_anim_s))
-                .translationY(0)
-                .setInterpolator(new DecelerateInterpolator())
-                .start();
-    }
-
-    private void hideFab(@NonNull View fab) {
-        fab.animate()
-                .setDuration(getResources().getInteger(R.integer.duration_anim_s))
-                .translationY(fab.getBottom())
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
     }
 
 

@@ -68,17 +68,6 @@
                 app:behavior_overlapTop="@dimen/height_header_overlap_main"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="@dimen/padding_s"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/ic_play_arrow_white"
-                app:fabSize="normal"
-                app:rippleColor="@color/ripple_fab"/>
-
         </android.support.design.widget.CoordinatorLayout>
 
         <FrameLayout

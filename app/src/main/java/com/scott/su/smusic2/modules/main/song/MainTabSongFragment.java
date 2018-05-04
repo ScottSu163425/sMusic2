@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.data.entity.MainTabListScrollEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
@@ -68,19 +67,6 @@ public class MainTabSongFragment extends BaseFragment {
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mBinding.rv.setAdapter(mSongListAdapter);
-        mBinding.rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                boolean dragging = RecyclerView.SCROLL_STATE_DRAGGING == newState;
-                boolean settling = RecyclerView.SCROLL_STATE_SETTLING == newState;
-                boolean idle = RecyclerView.SCROLL_STATE_IDLE == newState;
-
-                postEvent(new MainTabListScrollEvent(dragging, settling, idle));
-            }
-        });
-
 
         mViewModel = ViewModelProviders.of(this).get(MainTabSongViewModel.class);
         mViewModel.getLiveDataSongList().observe(this, new Observer<List<LocalSongEntity>>() {

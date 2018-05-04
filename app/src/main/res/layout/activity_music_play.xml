@@ -124,7 +124,8 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginLeft="@dimen/padding_s"
-                            android:src="@drawable/ic_repeat_black"/>
+                            android:src="@drawable/ic_repeat_black"
+                            android:tint="@color/tint_grey_black"/>
 
                         <Space
                             android:layout_width="0dp"
@@ -133,8 +134,8 @@
 
                         <FrameLayout
                             android:id="@+id/view_skip_previous"
-                            android:layout_width="@dimen/height_button_m"
-                            android:layout_height="@dimen/height_button_m"
+                            android:layout_width="@dimen/height_button_s"
+                            android:layout_height="@dimen/height_button_s"
                             android:layout_marginRight="@dimen/padding_xs"
                             android:clickable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless">
@@ -148,18 +149,19 @@
 
                         <android.support.design.widget.FloatingActionButton
                             android:id="@+id/fab_play"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_margin="@dimen/padding_xs"
                             android:src="@drawable/ic_play_arrow_white"
                             app:backgroundTint="@color/colorPrimary"
-                            app:fabSize="normal"/>
+                            app:fabSize="normal"
+                            app:rippleColor="@color/ripple_fab"/>
 
                         <FrameLayout
                             android:id="@+id/view_skip_next"
-                            android:layout_width="@dimen/height_button_m"
-                            android:layout_height="@dimen/height_button_m"
+                            android:layout_width="@dimen/height_button_s"
+                            android:layout_height="@dimen/height_button_s"
                             android:layout_marginLeft="@dimen/padding_xs"
                             android:clickable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless">
@@ -189,41 +191,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingLeft="@dimen/padding_s"
-                        >
+                        android:paddingLeft="@dimen/padding_s">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_alignTop="@+id/view_queue_music"
+                            android:paddingTop="@dimen/padding_s"
                             android:text="专辑:"
                             android:textColor="@color/textPrimary"
-                            android:textSize="@dimen/text_size_body"/>
+                            android:textSize="@dimen/text_size_caption"/>
 
                         <TextView
                             android:id="@+id/tv_album"
                             android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/view_queue_music"
                             android:layout_weight="1"
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:paddingLeft="@dimen/padding_xs"
+                            android:paddingTop="@dimen/padding_s"
                             android:singleLine="true"
                             android:text="依然范特西"
                             android:textColor="@color/textPrimary"
-                            android:textSize="@dimen/text_size_body"/>
+                            android:textSize="@dimen/text_size_caption"/>
 
                         <FrameLayout
                             android:id="@+id/view_queue_music"
                             android:layout_width="@dimen/height_button_m"
-                            android:layout_gravity="center_vertical"
                             android:layout_height="@dimen/height_button_m"
-                            android:clickable="true"
-                            android:layout_marginRight="@dimen/padding_xs"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginBottom="@dimen/padding_xs"
+                            android:layout_marginRight="@dimen/padding_xs"
+                            android:clickable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless">
 
                             <ImageView

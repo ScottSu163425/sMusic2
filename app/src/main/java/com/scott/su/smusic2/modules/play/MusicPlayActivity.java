@@ -61,7 +61,12 @@ public class MusicPlayActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
+        mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
     }
 
 

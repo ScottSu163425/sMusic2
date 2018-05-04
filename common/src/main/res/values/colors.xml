@@ -268,6 +268,9 @@
     <color name="background">#ededed</color>
     <color name="backgroundContent">#f9f9f9</color>
     <color name="dividerLine">#1f000000</color>
+    <color name="disabled">#aaaaaa</color>
 
+
+    <color name="ripple_fab">#ffffff</color>
 
 </resources>

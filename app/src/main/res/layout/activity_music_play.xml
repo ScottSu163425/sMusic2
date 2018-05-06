@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pic_default_header_main"
+                    android:src="@drawable/ic_cover_default_song_bill"
                     android:transitionName="@string/transition_name_cover"/>
 
                 <android.support.v7.widget.Toolbar
@@ -44,131 +44,69 @@
 
             </FrameLayout>
 
-            <android.support.v7.widget.CardView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/backgroundContent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/layout_controller_music_play"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/md_indigo_800"
+                    android:background="@color/colorPrimary"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:background="#20000000"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/tv_time_current"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:paddingBottom="1dp"
-                            android:paddingLeft="@dimen/padding_s"
-                            android:paddingTop="1dp"
+                            android:paddingBottom="2dp"
+                            android:paddingLeft="@dimen/padding_xs"
+                            android:paddingTop="2dp"
                             android:text="00:00"
-                            android:textColor="@color/textPrimary"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/text_size_caption"/>
-
-                        <SeekBar
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="15dp"
-                            android:layout_weight="1"
-                            android:progress="100"/>
 
                         <TextView
                             android:id="@+id/tv_time_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|right"
-                            android:paddingBottom="1dp"
-                            android:paddingRight="@dimen/padding_s"
-                            android:paddingTop="1dp"
+                            android:paddingBottom="2dp"
+                            android:paddingRight="@dimen/padding_xs"
+                            android:paddingTop="2dp"
                             android:text="05:31"
-                            android:textColor="@color/textPrimary"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/text_size_caption"/>
 
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:paddingLeft="@dimen/padding_s">
-
-                            <TextView
-                                android:id="@+id/tv_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:paddingTop="@dimen/padding_s"
-                                android:singleLine="true"
-                                android:text="听妈妈的话"
-                                android:textColor="@color/textPrimary"
-                                android:textSize="@dimen/text_size_title"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:id="@+id/tv_artist"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:paddingTop="@dimen/padding_xxs"
-                                android:singleLine="true"
-                                android:text="周杰伦"
-                                android:textColor="@color/textPrimary"
-                                android:textSize="@dimen/text_size_body"/>
-                        </LinearLayout>
-
-                        <FrameLayout
-                            android:id="@+id/view_more"
-                            android:layout_width="@dimen/height_button_m"
-                            android:layout_height="@dimen/height_button_m"
-                            android:layout_alignParentRight="true"
-                            android:layout_margin="@dimen/padding_xs"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_more_vert_black"/>
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_s"
-                        android:layout_marginTop="@dimen/padding_s"
+                        android:layout_marginBottom="@dimen/padding_m"
+                        android:layout_marginTop="@dimen/padding_m"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/iv_repeat"
+                            android:id="@+id/iv_repeat_mode"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginLeft="@dimen/padding_s"
                             android:src="@drawable/ic_repeat_black"
-                            android:tint="@color/tint_grey_black"/>
+                            android:tint="@color/white"/>
 
                         <Space
                             android:layout_width="0dp"
@@ -193,14 +131,14 @@
 
                         <android.support.design.widget.FloatingActionButton
                             android:id="@+id/fab_play"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
                             android:layout_centerInParent="true"
                             android:layout_margin="@dimen/padding_xs"
-                            android:src="@drawable/ic_play_arrow_white"
+                            android:src="@drawable/ic_play_arrow_black"
                             app:backgroundTint="@color/white"
                             app:fabSize="normal"
-                            app:rippleColor="@color/ripple_fab"/>
+                            app:rippleColor="@color/colorPrimary"/>
 
                         <FrameLayout
                             android:id="@+id/view_skip_next"
@@ -223,17 +161,30 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"/>
 
+
                         <ImageView
-                            android:id="@+id/iv_shuffle"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:layout_gravity="center"
                             android:layout_marginRight="@dimen/padding_s"
-                            android:src="@drawable/ic_shuffle_black"/>
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_queue_music_black"
+                            android:tint="@color/white"/>
 
                     </LinearLayout>
 
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="@dimen/padding_m"
+                        android:layout_marginRight="@dimen/padding_m"
+                        app:cardBackgroundColor="@color/backgroundContent">
+
+                    </android.support.v7.widget.CardView>
+
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </FrameLayout>
 
         </LinearLayout>
 

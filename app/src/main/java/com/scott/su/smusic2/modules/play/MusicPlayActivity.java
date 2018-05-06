@@ -4,9 +4,11 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.View;
 
@@ -60,6 +62,11 @@ public class MusicPlayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
+
+
+        mBinding.fabPlay.setRippleColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+        mBinding.layoutControllerMusicPlay.setBackgroundColor(mBinding.fabPlay.getRippleColor());
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override

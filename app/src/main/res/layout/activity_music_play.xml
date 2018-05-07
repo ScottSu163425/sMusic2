@@ -51,7 +51,7 @@
                 android:id="@+id/layout_music_play_panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/md_green_600"
+                android:background="@color/colorPrimary"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical">
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingBottom="2dp"
-                        android:paddingLeft="@dimen/padding_xs"
+                        android:paddingLeft="@dimen/padding_s"
                         android:paddingTop="2dp"
                         android:text="00:00"
                         android:textColor="@color/white"
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|right"
                         android:paddingBottom="2dp"
-                        android:paddingRight="@dimen/padding_xs"
+                        android:paddingRight="@dimen/padding_s"
                         android:paddingTop="2dp"
                         android:text="05:31"
                         android:textColor="@color/white"
@@ -139,7 +139,7 @@
                         android:src="@drawable/ic_play_arrow_black"
                         app:backgroundTint="@color/white"
                         app:fabSize="normal"
-                        app:rippleColor="@color/colorPrimary"/>
+                        app:rippleColor="@color/md_grey_300"/>
 
                     <FrameLayout
                         android:id="@+id/view_skip_next"
@@ -164,6 +164,7 @@
 
 
                     <ImageView
+                        android:id="@+id/view_play_queue"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"

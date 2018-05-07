@@ -60,6 +60,8 @@ public class MusicPlayActivity extends BaseActivity {
 
     private ActivityMusicPlayBinding mBinding;
 
+    private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,16 +69,23 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
 
-        final BottomSheetBehavior<CardView> bottomSheetBehavior = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
-        bottomSheetBehavior.setHideable(false);
+        mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
+        mBehaviorPlayQueue.setHideable(false);
 
         mBinding.viewSpace.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        bottomSheetBehavior.setPeekHeight(mBinding.viewSpace.getHeight());
+                        mBehaviorPlayQueue.setPeekHeight(mBinding.viewSpace.getHeight());
                     }
                 });
+
+        mBinding.viewPlayQueue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expendPlayQueue();
+            }
+        });
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +93,25 @@ public class MusicPlayActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
+            collapsePlayQueue();
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+
+    private void collapsePlayQueue() {
+        mBehaviorPlayQueue.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void expendPlayQueue() {
+        mBehaviorPlayQueue.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
 

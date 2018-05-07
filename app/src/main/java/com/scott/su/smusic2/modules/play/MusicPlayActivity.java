@@ -8,9 +8,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.util.ActivityStarter;
@@ -64,9 +67,16 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
 
-        mBinding.fabPlay.setRippleColor(ContextCompat.getColor(this, R.color.colorAccent));
+        final BottomSheetBehavior<CardView> bottomSheetBehavior = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
+        bottomSheetBehavior.setHideable(false);
 
-        mBinding.layoutControllerMusicPlay.setBackgroundColor(mBinding.fabPlay.getRippleColor());
+        mBinding.viewSpace.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        bottomSheetBehavior.setPeekHeight(mBinding.viewSpace.getHeight());
+                    }
+                });
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override

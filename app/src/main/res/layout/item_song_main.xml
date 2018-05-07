@@ -67,7 +67,7 @@
 
             <FrameLayout
                 android:id="@+id/view_more"
-                android:layout_width="@dimen/height_button_xs"
+                android:layout_width="@dimen/height_button_s"
                 android:layout_height="@dimen/height_button_s"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -75,7 +75,7 @@
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <ImageView
-                    android:layout_width="@dimen/height_item_xxs"
+                    android:layout_width="@dimen/height_item_xs"
                     android:layout_height="@dimen/height_item_xs"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_more_vert_black"

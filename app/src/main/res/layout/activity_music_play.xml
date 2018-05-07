@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingBottom="2dp"
-                        android:paddingLeft="@dimen/padding_s"
+                        android:paddingLeft="@dimen/padding_m"
                         android:paddingTop="2dp"
                         android:text="00:00"
                         android:textColor="@color/white"
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|right"
                         android:paddingBottom="2dp"
-                        android:paddingRight="@dimen/padding_s"
+                        android:paddingRight="@dimen/padding_m"
                         android:paddingTop="2dp"
                         android:text="05:31"
                         android:textColor="@color/white"
@@ -91,18 +91,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="40dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/padding_l"
-                    android:layout_marginTop="@dimen/padding_l"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/iv_repeat_mode"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginLeft="@dimen/padding_s"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="@dimen/padding_xl"
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_repeat_black"
@@ -122,8 +122,8 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless">
 
                         <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_skip_previous_black"
                             android:tint="@color/white"/>
@@ -150,8 +150,8 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless">
 
                         <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_skip_next_black"
                             android:tint="@color/white"/>
@@ -162,13 +162,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
-
                     <ImageView
                         android:id="@+id/view_play_queue"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/padding_s"
+                        android:layout_marginRight="@dimen/padding_xl"
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_queue_music_black"
@@ -191,10 +190,91 @@
             android:layout_marginLeft="@dimen/padding_s"
             android:layout_marginRight="@dimen/padding_s"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="10dp"
+            app:behavior_peekHeight="100dp"
             app:cardBackgroundColor="@color/backgroundContent"
-            app:elevation="@dimen/padding_xs"
-            app:layout_behavior="@string/bottom_sheet_behavior"/>
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/anchor"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="@dimen/padding_m"
+                            android:src="@drawable/ic_volume_up_black"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="听妈妈的话"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_subhead"/>
+
+                            <TextView
+                                android:id="@+id/tv_artist"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/padding_xxs"
+                                android:text="周杰伦"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="@dimen/text_size_caption"/>
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/view_more"
+                            android:layout_width="@dimen/height_button_s"
+                            android:layout_height="@dimen/height_button_s"
+                            android:layout_marginRight="@dimen/padding_xs"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                            <ImageView
+                                android:layout_width="@dimen/height_item_xs"
+                                android:layout_height="@dimen/height_item_xs"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_more_vert_black"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_divider_line"
+                        android:background="@color/dividerLine"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_play_queue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </android.support.design.widget.CoordinatorLayout>
 

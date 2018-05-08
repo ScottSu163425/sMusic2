@@ -1,24 +1,42 @@
 package com.scott.su.smusic2.modules.play;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
+import android.transition.Transition;
+import android.transition.TransitionListenerAdapter;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.interfaces.Judgment;
+import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.util.ActivityStarter;
+import com.scott.su.common.util.ListUtil;
+import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
@@ -59,9 +77,11 @@ public class MusicPlayActivity extends BaseActivity {
         return intent;
     }
 
+    private List<LocalSongEntity> mSongList;
+    private LocalSongEntity mSongPlaying;
 
     private ActivityMusicPlayBinding mBinding;
-
+    private MusicPlayCoverPageAdapter mCoverPageAdapter;
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
 
     @Override
@@ -69,6 +89,99 @@ public class MusicPlayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
+
+        //设置状态栏颜色
+        StatusBarUtil.setTranslucentForCoordinatorLayout(getActivity(),40);
+
+        mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
+        mSongPlaying = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
+
+        ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
+
+        updatePanelBackgroundColor(mSongPlaying.getAlbumCoverPath());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getEnterTransition()
+                    .addListener(new Transition.TransitionListener() {
+                        @Override
+                        public void onTransitionStart(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            mBinding.ivCover.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onTransitionCancel(Transition transition) {
+                            mBinding.ivCover.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onTransitionPause(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionResume(Transition transition) {
+
+                        }
+                    });
+        } else {
+            mBinding.ivCover.setVisibility(View.GONE);
+        }
+
+        mBinding.ivCover.setVisibility(View.GONE);
+
+        mCoverPageAdapter = new MusicPlayCoverPageAdapter(getSupportFragmentManager());
+
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0, n = mSongList.size(); i < n; i++) {
+            LocalSongEntity song = mSongList.get(i);
+            MusicPlayCoverFragment fragment = MusicPlayCoverFragment.newInstance(song);
+            fragments.add(fragment);
+        }
+
+        mCoverPageAdapter.setFragments(fragments);
+        mBinding.vpSongCover.setAdapter(mCoverPageAdapter);
+        mBinding.vpSongCover.setOffscreenPageLimit(fragments.size());
+        mBinding.vpSongCover.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //应该在播放引擎监听回调处更新;
+                mSongPlaying = mSongList.get(position);
+
+                updatePanelBackgroundColor(mSongPlaying.getAlbumCoverPath());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mBinding.vpSongCover.setCurrentItem(ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
+            @Override
+            public boolean test(LocalSongEntity obj) {
+                return mSongPlaying.getSongId() == obj.getSongId();
+            }
+        }), false);
+
+        mBinding.toolbar.setTitle("");
+        setSupportActionBar(mBinding.toolbar);
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
 
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
@@ -108,6 +221,8 @@ public class MusicPlayActivity extends BaseActivity {
 
             }
         });
+
+
     }
 
     @Override
@@ -120,14 +235,68 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
+    /**
+     * 收起播放列表布局
+     */
     private void collapsePlayQueue() {
         mBehaviorPlayQueue.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
+    /**
+     * 展开播放列表布局
+     */
     private void expendPlayQueue() {
         mBehaviorPlayQueue.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    private void updatePanelBackgroundColor(@Nullable String coverPath) {
+        if (TextUtils.isEmpty(coverPath)) {
+            revealPanelBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            return;
+        }
+
+        Palette.from(BitmapFactory.decodeFile(coverPath))
+                .generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(@NonNull Palette palette) {
+                        int colorDefault = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+                        int color = palette.getMutedColor(colorDefault);
+
+                        revealPanelBackgroundColor(color);
+                    }
+                });
+    }
+
+    /**
+     * 更新背景色
+     *
+     * @param color
+     */
+    private void revealPanelBackgroundColor(final int color) {
+        final View revealStarter = mBinding.fabPlay;
+
+        int centerX = (revealStarter.getLeft() + revealStarter.getRight()) / 2;
+        int centerY = (revealStarter.getTop() + revealStarter.getBottom()) / 2;
+
+        //初次设置
+        mBinding.viewBackgroundUpper.setBackgroundColor(color);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Animator reveal = ViewAnimationUtils.createCircularReveal(mBinding.viewBackgroundUpper,
+                    centerX, centerY, 0, mBinding.viewBackgroundUpper.getWidth());
+
+            reveal.setDuration(600);
+            reveal.setInterpolator(new DecelerateInterpolator());
+            reveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mBinding.viewBackgroundUnder.setBackgroundColor(color);
+                }
+            });
+            reveal.start();
+        }
+
+    }
 
 }

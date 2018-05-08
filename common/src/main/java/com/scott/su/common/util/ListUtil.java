@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtil {
+    private static final int POSITION_NONE = -1;
 
 
     public static <E> boolean isExit(List<E> list, Judgment<E> judgment) {
-        return !filter(list, judgment).isEmpty();
+//        return !filter(list, judgment).isEmpty();
+        return getPositionIntList(list, judgment) != POSITION_NONE;
     }
 
     /**
@@ -35,6 +37,27 @@ public class ListUtil {
         }
 
         return listMatched;
+    }
+
+    /**
+     * @param list
+     * @param judgment
+     * @param <E>
+     * @return
+     */
+    public static <E> int getPositionIntList(List<E> list, Judgment<E> judgment) {
+        if (list == null || list.isEmpty()) {
+            return POSITION_NONE;
+        }
+
+        for (int i = 0, n = list.size(); i < n; i++) {
+            E item = list.get(i);
+            if (judgment.test(item)) {
+                return i;
+            }
+        }
+
+        return POSITION_NONE;
     }
 
 }

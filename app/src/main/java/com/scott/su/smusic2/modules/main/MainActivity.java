@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
@@ -56,6 +57,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        StatusBarUtil.setTranslucentForDrawerLayout(getActivity(),mBinding.drawerLayout,40);
 
         mBinding.toolbar.setTitle(R.string.app_name);
         setSupportActionBar(mBinding.toolbar);

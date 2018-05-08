@@ -12,6 +12,7 @@
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             android:background="@color/background"
             tools:context="com.scott.su.smusic2.modules.entrance.SplashActivity">
 
@@ -25,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_header_main"
                     android:clipToPadding="false"
+                    android:fitsSystemWindows="true"
                     app:contentScrim="@color/colorPrimary"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                     app:titleEnabled="false">
@@ -41,6 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
+                        android:fitsSystemWindows="true"
                         android:minHeight="@dimen/height_toolbar"
                         app:navigationIcon="?attr/homeAsUpIndicator"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -75,7 +78,8 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:fitsSystemWindows="true"/>
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

@@ -217,7 +217,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/padding_s"
             android:layout_marginRight="@dimen/padding_s"
-            android:fitsSystemWindows="true"
             app:behavior_hideable="false"
             app:behavior_peekHeight="100dp"
             app:cardBackgroundColor="@color/backgroundContent"

@@ -58,8 +58,6 @@ public class MainActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        StatusBarUtil.setTranslucentForDrawerLayout(getActivity(),mBinding.drawerLayout,40);
-
         mBinding.toolbar.setTitle(R.string.app_name);
         setSupportActionBar(mBinding.toolbar);
 

@@ -37,7 +37,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_cover_default_song_bill"
+                        android:src="@drawable/pic_default_cover_album"
                         android:transitionName="@string/transition_name_cover"/>
 
                     <android.support.v7.widget.Toolbar

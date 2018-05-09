@@ -5,11 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -22,8 +24,6 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
@@ -96,7 +96,7 @@ public class MusicPlayActivity extends BaseActivity {
 
         ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
 
-        updatePanelBackgroundColor(mSongPlaying.getAlbumCoverPath());
+        updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getEnterTransition()
@@ -130,7 +130,7 @@ public class MusicPlayActivity extends BaseActivity {
             mBinding.ivCover.setVisibility(View.GONE);
         }
 
-        mBinding.ivCover.setVisibility(View.GONE);
+//        mBinding.ivCover.setVisibility(View.GONE);
 
         mCoverPageAdapter = new MusicPlayCoverPageAdapter(getSupportFragmentManager());
 
@@ -156,7 +156,7 @@ public class MusicPlayActivity extends BaseActivity {
                 mSongPlaying = mSongList.get(position);
                 stopPanelReveal();
 
-                updatePanelBackgroundColor(mSongPlaying.getAlbumCoverPath());
+                updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
             }
 
             @Override
@@ -185,13 +185,12 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
 
-        mBinding.viewSpace.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mBehaviorPlayQueue.setPeekHeight(mBinding.viewSpace.getHeight());
-                    }
-                });
+        mBinding.viewSpace.post(new Runnable() {
+            @Override
+            public void run() {
+                mBehaviorPlayQueue.setPeekHeight(mBinding.viewSpace.getHeight());
+            }
+        });
 
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -247,18 +246,32 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
-    private void updatePanelBackgroundColor(@Nullable String coverPath) {
-        if (TextUtils.isEmpty(coverPath)) {
-            revealPanelBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-            return;
-        }
+    /**
+     * 根据歌曲（专辑）封面，修改面板背景色
+     *
+     * @param coverPath
+     */
+    private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
+        final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 
-        Palette.from(BitmapFactory.decodeFile(coverPath))
+        final boolean userDefault = TextUtils.isEmpty(coverPath);
+        final Bitmap bitmap = userDefault ? BitmapFactory.decodeResource(getResources(), R.drawable.pic_default_cover_album)
+                : BitmapFactory.decodeFile(coverPath);
+
+        Palette.from(bitmap)
                 .generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(@NonNull Palette palette) {
-                        int colorDefault = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
-                        int color = palette.getMutedColor(colorDefault);
+                        //获取背景色
+                        int color;
+
+                        Palette.Swatch swatch1 = palette.getMutedSwatch();
+                        Palette.Swatch swatch2 = palette.getVibrantSwatch();
+                        Palette.Swatch swatch3 = palette.getDominantSwatch();
+
+                        color = swatch1 != null ? swatch1.getRgb()
+                                : (swatch2 != null ? swatch2.getRgb()
+                                : (swatch3 != null ? swatch3.getRgb() : colorDefault));
 
                         revealPanelBackgroundColor(color);
                     }
@@ -275,40 +288,53 @@ public class MusicPlayActivity extends BaseActivity {
         final View revealView = mBinding.viewBackgroundUpper;
 
 
-        int centerX = ViewUtil.getXOnScreen(revealStarter) - ViewUtil.getXOnScreen(revealView)
-                + (revealStarter.getWidth() / 2);
-
-        int centerY = ViewUtil.getYOnScreen(revealStarter) - ViewUtil.getYOnScreen(revealView)
-                - (revealStarter.getHeight() / 2) - ViewUtil.getStatusBarHeight(getActivity());
-
-        revealView.setBackgroundColor(color);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
-                    centerY, 0, revealView.getWidth());
-
-            mAnimatorRevealPanel.setDuration(1100);
-            mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
-            mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
+            revealStarter.post(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mBinding.viewBackgroundUnder.setBackgroundColor(color);
-                }
+                public void run() {
+                    final int centerX = ViewUtil.getXOnScreen(revealStarter) - ViewUtil.getXOnScreen(revealView)
+                            + (revealStarter.getWidth() / 2);
 
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    super.onAnimationCancel(animation);
-                    mBinding.viewBackgroundUnder.setBackgroundColor(color);
+                    final int centerY = ViewUtil.getYOnScreen(revealStarter) - ViewUtil.getYOnScreen(revealView)
+                            - (revealStarter.getHeight() / 2) - ViewUtil.getStatusBarHeight(getActivity());
+
+                    mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
+                            centerY, 0, revealView.getWidth());
+
+                    mAnimatorRevealPanel.setDuration(1100);
+                    mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
+                    mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            revealView.setBackgroundColor(color);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            mBinding.viewBackgroundUnder.setBackgroundColor(color);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            super.onAnimationCancel(animation);
+                            mBinding.viewBackgroundUnder.setBackgroundColor(color);
+                        }
+                    });
+                    mAnimatorRevealPanel.start();
                 }
             });
-            mAnimatorRevealPanel.start();
+        } else {
+            revealView.setBackgroundColor(color);
         }
 
     }
 
     private void stopPanelReveal() {
-        if (mAnimatorRevealPanel != null && mAnimatorRevealPanel.isRunning()) {
+        if (mAnimatorRevealPanel != null && mAnimatorRevealPanel.isStarted()) {
             mAnimatorRevealPanel.cancel();
             mAnimatorRevealPanel = null;
         }

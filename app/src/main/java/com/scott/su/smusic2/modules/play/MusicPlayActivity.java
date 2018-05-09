@@ -20,8 +20,8 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.transition.Transition;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
@@ -74,6 +74,7 @@ public class MusicPlayActivity extends BaseActivity {
 
     private List<LocalSongEntity> mSongList;
     private LocalSongEntity mSongPlaying;
+    private LocalSongEntity mSongPlayingInit;
 
     private ActivityMusicPlayBinding mBinding;
     private MusicPlayCoverPageAdapter mCoverPageAdapter;
@@ -92,45 +93,21 @@ public class MusicPlayActivity extends BaseActivity {
         StatusBarUtil.setTranslucentForCoordinatorLayout(getActivity(), 40);
 
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
-        mSongPlaying = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
+        mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
+        mSongPlaying = mSongPlayingInit;
 
         ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
 
         updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getEnterTransition()
-                    .addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            mBinding.ivCover.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
-                            mBinding.ivCover.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
-                    });
-        } else {
-            mBinding.ivCover.setVisibility(View.GONE);
-        }
-
-//        mBinding.ivCover.setVisibility(View.GONE);
+        mBinding.ivCover.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                mBinding.ivCover.setVisibility(View.GONE);
+                mBinding.viewMask.setVisibility(View.GONE);
+                return false;
+            }
+        });
 
         mCoverPageAdapter = new MusicPlayCoverPageAdapter(getSupportFragmentManager());
 
@@ -142,7 +119,7 @@ public class MusicPlayActivity extends BaseActivity {
         }
 
         mCoverPageAdapter.setFragments(fragments);
-        mBinding.vpSongCover.setAdapter(mCoverPageAdapter);
+
         mBinding.vpSongCover.setOffscreenPageLimit(fragments.size());
         mBinding.vpSongCover.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -154,6 +131,7 @@ public class MusicPlayActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 //应该在播放引擎监听回调处更新;
                 mSongPlaying = mSongList.get(position);
+
                 stopPanelReveal();
 
                 updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
@@ -164,13 +142,14 @@ public class MusicPlayActivity extends BaseActivity {
 
             }
         });
-
+        mBinding.vpSongCover.setAdapter(mCoverPageAdapter);
         mBinding.vpSongCover.setCurrentItem(ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
             @Override
             public boolean test(LocalSongEntity obj) {
                 return mSongPlaying.getSongId() == obj.getSongId();
             }
         }), false);
+
 
         mBinding.toolbar.setTitle("");
         setSupportActionBar(mBinding.toolbar);
@@ -227,6 +206,12 @@ public class MusicPlayActivity extends BaseActivity {
         if (BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
             collapsePlayQueue();
             return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //与最初进入界面播放的歌曲相同，则显示sharedElement；
+            boolean isInitSong = mSongPlaying.getSongId() == mSongPlayingInit.getSongId();
+            mBinding.ivCover.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
         }
 
         super.onBackPressed();
@@ -302,7 +287,7 @@ public class MusicPlayActivity extends BaseActivity {
                     mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
                             centerY, 0, revealView.getWidth());
 
-                    mAnimatorRevealPanel.setDuration(1100);
+                    mAnimatorRevealPanel.setDuration(1200);
                     mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
                     mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
 

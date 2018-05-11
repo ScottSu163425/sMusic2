@@ -91,4 +91,19 @@ public class LocalSongEntity implements Serializable{
     public void setAlbumCoverPath(String albumCoverPath) {
         this.albumCoverPath = albumCoverPath;
     }
+
+    @Override
+    public String toString() {
+        return "LocalSongEntity{" +
+                "songId=" + songId +
+                ", albumId=" + albumId +
+                ", duration=" + duration +
+                ", size=" + size +
+                ", title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", album='" + album + '\'' +
+                ", path='" + path + '\'' +
+                ", albumCoverPath='" + albumCoverPath + '\'' +
+                '}';
+    }
 }

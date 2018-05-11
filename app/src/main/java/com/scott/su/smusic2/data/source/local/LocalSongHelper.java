@@ -7,10 +7,15 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 描述:
@@ -18,15 +23,29 @@ import java.util.List;
  * 日期: 2018/4/30
  */
 
-public class LocalSongHelper {
+public class LocalSongHelper implements ILocalSongDataSource {
 
-    /**
-     * 获取本地音乐列表
-     *
-     * @param context
-     * @return
-     */
-    public static List<LocalSongEntity> getLocalSongs(@NonNull Context context) {
+    private static LocalSongHelper sInstance;
+
+
+    public static LocalSongHelper getInstance() {
+        if (sInstance == null) {
+            synchronized (LocalSongHelper.class) {
+                if (sInstance == null) {
+                    sInstance = new LocalSongHelper();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+
+    private LocalSongHelper() {
+
+    }
+
+    @Override
+    public List<LocalSongEntity> getAllSongs(Context context) {
         List<LocalSongEntity> songList = new ArrayList<>();
 
         Cursor cursor = context.getContentResolver()
@@ -88,14 +107,54 @@ public class LocalSongHelper {
         return songList;
     }
 
-    /**
-     * 获取指定专辑封面图片路径
-     *
-     * @param context
-     * @param albumId
-     * @return
-     */
-    public static String getAlbumCoverPathByAlbumId(Context context, long albumId) {
+    @Override
+    public List<LocalAlbumEntity> getAllAlbums(Context context) {
+        List<LocalAlbumEntity> result = new ArrayList<>();
+        List<LocalSongEntity> localSongs = getAllSongs(context);
+        Set<Long> albumIds = new HashSet<>();
+        Map<Long, String> albumTitles = new HashMap<>();
+        Map<Long, String> albumArtists = new HashMap<>();
+        Map<Long, String> albumCoverPaths = new HashMap<>();
+        Map<Long, List<LocalSongEntity>> albumSongs = new HashMap<>();
+
+
+        for (int i = 0, n = localSongs.size(); i < n; i++) {
+            LocalSongEntity song = localSongs.get(i);
+
+            albumIds.add(song.getAlbumId());
+            albumTitles.put(song.getAlbumId(), song.getAlbum());
+            albumArtists.put(song.getAlbumId(), song.getArtist());
+            albumCoverPaths.put(song.getAlbumId(), song.getAlbumCoverPath());
+        }
+
+        for (Long albumId : albumIds) {
+            LocalAlbumEntity album = new LocalAlbumEntity();
+            album.setAlbumId(albumId);
+            album.setTitle(albumTitles.get(albumId));
+            album.setArtist(albumArtists.get(albumId));
+            album.setAlbumCoverPath(albumCoverPaths.get(albumId));
+
+            result.add(album);
+
+            albumSongs.put(albumId, new ArrayList<LocalSongEntity>());
+        }
+
+        for (int i = 0, n = localSongs.size(); i < n; i++) {
+            LocalSongEntity song = localSongs.get(i);
+            long albumId = song.getAlbumId();
+
+            albumSongs.get(albumId).add(song);
+        }
+
+        for (LocalAlbumEntity album : result) {
+            album.setAlbumSongs(albumSongs.get(album.getAlbumId()));
+        }
+
+        return result;
+    }
+
+    @Override
+    public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
         String path = null;
         Cursor cursor = context.getContentResolver().query(
                 Uri.parse("content://media/external/audio/albums/" + albumId),

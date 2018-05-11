@@ -8,7 +8,6 @@ import com.scott.su.common.viewmodel.BaseAndroidViewModel;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.LocalSongDataSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -37,7 +36,7 @@ public class MainTabSongViewModel extends BaseAndroidViewModel {
         Observable.create(new ObservableOnSubscribe<List<LocalSongEntity>>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<List<LocalSongEntity>> emitter) throws Exception {
-                emitter.onNext(LocalSongDataSource.getInstance().getAll(getContext()));
+                emitter.onNext(LocalSongDataSource.getInstance().getAllSongs(getContext()));
                 emitter.onComplete();
             }
         })

@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.source.local.LocalSongHelper;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.e("===>", LocalSongHelper.getInstance().getAllAlbums(this).toString());
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 

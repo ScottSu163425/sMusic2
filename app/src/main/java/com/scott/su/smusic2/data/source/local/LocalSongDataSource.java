@@ -2,6 +2,7 @@ package com.scott.su.smusic2.data.source.local;
 
 import android.content.Context;
 
+import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.util.List;
@@ -32,8 +33,18 @@ public class LocalSongDataSource implements ILocalSongDataSource {
     }
 
     @Override
-    public List<LocalSongEntity> getAll(Context context) {
-        return LocalSongHelper.getLocalSongs(context);
+    public List<LocalSongEntity> getAllSongs(Context context) {
+        return LocalSongHelper.getInstance().getAllSongs(context);
+    }
+
+    @Override
+    public List<LocalAlbumEntity> getAllAlbums(Context context) {
+        return LocalSongHelper.getInstance().getAllAlbums(context);
+    }
+
+    @Override
+    public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
+        return LocalSongHelper.getInstance().getAlbumCoverPathByAlbumId(context, albumId);
     }
 
 }

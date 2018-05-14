@@ -19,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -79,6 +80,8 @@ public class MusicPlayActivity extends BaseActivity {
     private ActivityMusicPlayBinding mBinding;
     private MusicPlayCoverPageAdapter mCoverPageAdapter;
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
+
+    private MusicPlayQueueListAdapter mPlayQueueListAdapter;
 
 
     private Animator mAnimatorRevealPanel;
@@ -199,6 +202,10 @@ public class MusicPlayActivity extends BaseActivity {
         });
 
 
+        mPlayQueueListAdapter = new MusicPlayQueueListAdapter(getActivity());
+        mPlayQueueListAdapter.setData(mSongList);
+        mBinding.rvPlayQueue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
     }
 
     @Override

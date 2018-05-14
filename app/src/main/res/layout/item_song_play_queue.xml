@@ -6,6 +6,11 @@
         <variable
             name="entity"
             type="com.scott.su.smusic2.data.entity.LocalSongEntity"/>
+
+        <variable
+            name="position"
+            type="Integer"/>
+
     </data>
 
     <FrameLayout
@@ -22,23 +27,22 @@
             android:layout_height="wrap_content"
             android:clipChildren="false">
 
-            <ImageView
-                android:id="@+id/iv_cover"
+            <TextView
+                android:id="@+id/tv_number"
                 android:layout_width="@dimen/height_cover_item_song"
                 android:layout_height="@dimen/height_cover_item_song"
-                android:layout_marginBottom="@dimen/padding_xs"
-                android:layout_marginLeft="@dimen/padding_xs"
-                android:layout_marginTop="@dimen/padding_xs"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_name_cover"
-                tools:src="@drawable/ic_default_cover_song"/>
+                android:gravity="center"
+                android:padding="@dimen/padding_s"
+                android:text="@{String.valueOf(position+1)}"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/text_size_subhead"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/view_more"
-                android:layout_toRightOf="@+id/iv_cover"
+                android:layout_toRightOf="@+id/tv_number"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/padding_xs">
 

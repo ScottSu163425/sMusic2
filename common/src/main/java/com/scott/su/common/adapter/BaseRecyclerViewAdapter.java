@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.scott.su.common.interfaces.Judgment;
 
@@ -27,6 +28,12 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
         return mContext;
     }
 
+
+    protected abstract VH onCreateVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+
+    protected abstract void onBindVH(E entity, @NonNull VH holder, int position);
+
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -39,6 +46,17 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
         super.onDetachedFromRecyclerView(recyclerView);
 
         this.mRecyclerView = null;
+    }
+
+    @NonNull
+    @Override
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return onCreateVH(getLayoutInflater(), parent, viewType);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VH holder, int position) {
+        onBindVH(getData(position), holder, position);
     }
 
     @Override

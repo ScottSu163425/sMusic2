@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <service android:name=".modules.play.MusicPlayService"/>
+
         <activity android:name=".modules.entrance.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

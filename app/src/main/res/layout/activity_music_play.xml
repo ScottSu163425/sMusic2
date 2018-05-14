@@ -243,7 +243,7 @@
                             android:id="@+id/anchor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_margin="@dimen/padding_m"
+                            android:layout_margin="@dimen/padding_s"
                             android:src="@drawable/ic_volume_up_black"/>
 
                         <LinearLayout
@@ -256,7 +256,6 @@
                                 android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="听妈妈的话"
                                 android:textColor="@color/textPrimary"
                                 android:textSize="@dimen/text_size_subhead"/>
 
@@ -265,7 +264,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingTop="@dimen/padding_xxs"
-                                android:text="周杰伦"
                                 android:textColor="@color/textSecondary"
                                 android:textSize="@dimen/text_size_caption"/>
                         </LinearLayout>
@@ -287,10 +285,10 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_divider_line"
-                        android:background="@color/dividerLine"/>
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/height_divider_line"-->
+                    <!--android:background="@color/dividerLine"/>-->
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_play_queue"

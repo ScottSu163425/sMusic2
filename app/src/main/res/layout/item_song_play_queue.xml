@@ -89,7 +89,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_divider_line_s"
-                android:layout_below="@+id/iv_cover"
+                android:layout_below="@+id/tv_number"
                 android:background="@color/dividerLine"/>
         </RelativeLayout>
 

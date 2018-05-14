@@ -170,9 +170,12 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSpace.post(new Runnable() {
             @Override
             public void run() {
+                //动态设置高度，使播放按钮布局居中;
                 mBehaviorPlayQueue.setPeekHeight(mBinding.viewSpace.getHeight());
             }
         });
+
+        mBinding.rvPlayQueue.setAlpha(0);
 
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -182,8 +185,7 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                float factor = slideOffset / bottomSheet.getHeight();
-                Log.e("===>onSlide：", String.valueOf(slideOffset));
+                mBinding.rvPlayQueue.setAlpha(slideOffset);
             }
         });
 

@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
@@ -167,11 +169,17 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
 
-        mBinding.viewSpace.post(new Runnable() {
+        mBinding.layoutMusicPlayButtons.post(new Runnable() {
             @Override
             public void run() {
                 //动态设置高度，使播放按钮布局居中;
-                mBehaviorPlayQueue.setPeekHeight(mBinding.viewSpace.getHeight());
+                int spaceVert = (mBinding.viewBackgroundUpper.getHeight()
+                        - mBinding.layoutMusicPlayProgress.getHeight()
+                        - mBinding.layoutMusicPlayButtons.getHeight()
+                        - mBehaviorPlayQueue.getPeekHeight()) / 2;
+
+                mBinding.viewSpaceTop.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, spaceVert));
+                mBinding.viewSpaceBottom.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, spaceVert));
             }
         });
 

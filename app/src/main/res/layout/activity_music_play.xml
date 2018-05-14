@@ -82,6 +82,7 @@
                     android:orientation="vertical">
 
                     <FrameLayout
+                        android:id="@+id/layout_music_play_progress"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:background="#15000000"
@@ -115,11 +116,15 @@
 
                     </FrameLayout>
 
+                    <View
+                        android:id="@+id/view_space_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"/>
+
                     <LinearLayout
+                        android:id="@+id/layout_music_play_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="36dp"
-                        android:layout_marginTop="46dp"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:gravity="center_vertical"
@@ -203,9 +208,9 @@
                     </LinearLayout>
 
                     <View
-                        android:id="@+id/view_space"
+                        android:id="@+id/view_space_bottom"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="10dp"/>
                 </LinearLayout>
             </FrameLayout>
 
@@ -218,7 +223,7 @@
             android:layout_marginLeft="@dimen/padding_s"
             android:layout_marginRight="@dimen/padding_s"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="80dp"
             app:cardBackgroundColor="@color/backgroundContent"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -234,7 +239,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:clipChildren="false"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">

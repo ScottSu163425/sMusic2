@@ -37,6 +37,9 @@ import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
+import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +138,7 @@ public class MusicPlayActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 //应该在播放引擎监听回调处更新;
                 mSongPlaying = mSongList.get(position);
-                updateCurrentPlayingSong(mSongPlaying);
+                updateCurrentPlaying(mSongPlaying);
             }
 
             @Override
@@ -234,7 +237,7 @@ public class MusicPlayActivity extends BaseActivity {
      * 更新当前播放歌曲信息
      * @param currentPlayingSong
      */
-    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong) {
+    private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
 
@@ -350,5 +353,7 @@ public class MusicPlayActivity extends BaseActivity {
             mAnimatorRevealPanel = null;
         }
     }
+
+
 
 }

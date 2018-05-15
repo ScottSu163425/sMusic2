@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +22,8 @@ import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +60,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.e("===>", LocalSongHelper.getInstance().getAllAlbums(this).toString());
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
@@ -97,6 +98,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean subscribeEvents() {
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         if (mBinding.drawerLayout.isDrawerOpen(Gravity.START)) {
             mBinding.drawerLayout.closeDrawer(Gravity.START);
@@ -104,6 +110,33 @@ public class MainActivity extends BaseActivity {
         }
 
         showExit();
+    }
+
+    @Subscribe
+    public void onEventMainTabListScroll(MainTabListScrollEvent event) {
+        if (event.isIdle()) {
+            showCurrentPlayingCard();
+        } else {
+            hideCurrentPlayingCard();
+        }
+    }
+
+    private void showCurrentPlayingCard() {
+        mBinding.cardCurrentPlaying
+                .animate()
+                .setDuration(600)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .translationY(0)
+                .start();
+    }
+
+    private void hideCurrentPlayingCard() {
+        mBinding.cardCurrentPlaying
+                .animate()
+                .setDuration(600)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .translationY(mBinding.cardCurrentPlaying.getBottom())
+                .start();
     }
 
     private void showExit() {

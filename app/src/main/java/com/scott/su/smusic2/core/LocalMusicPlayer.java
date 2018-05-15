@@ -1,6 +1,7 @@
 package com.scott.su.smusic2.core;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 
 /**
  * 描述: 本地音乐播放实现类
@@ -10,10 +11,13 @@ import android.content.Context;
 
 public class LocalMusicPlayer {
     private Context mContext;
+    private MediaPlayer mMediaPlayer;
 
 
     public LocalMusicPlayer(Context context) {
         mContext = context;
+
+        mMediaPlayer=new MediaPlayer();
     }
 
     public void play() {

@@ -22,10 +22,9 @@ public class MusicPlayController implements IMusicPlayController {
     public static final String KEY_EXTRA_PLAY_QUEUE = "KEY_EXTRA_PLAY_QUEUE";
     public static final String KEY_EXTRA_CURRENT_PLAYING = "KEY_EXTRA_CURRENT_PLAYING";
 
-    public static final int COMMAND_CODE_MUSIC_PLAY = 1;
-    public static final int COMMAND_CODE_MUSIC_PAUSE = 2;
-    public static final int COMMAND_CODE_MUSIC_SKIP_TO_NEXT = 3;
-    public static final int COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS = 4;
+    public static final int COMMAND_CODE_MUSIC_PLAY_PAUSE = 1;
+    public static final int COMMAND_CODE_MUSIC_SKIP_TO_NEXT = 2;
+    public static final int COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS = 3;
 
 
     private static MusicPlayController sInstance;
@@ -48,13 +47,8 @@ public class MusicPlayController implements IMusicPlayController {
     }
 
     @Override
-    public void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying) {
-        sendCommend(context, COMMAND_CODE_MUSIC_PLAY, playQueue, currentPlaying);
-    }
-
-    @Override
-    public void pause(Context context) {
-        sendCommend(context, COMMAND_CODE_MUSIC_PAUSE, null, null);
+    public void playPause(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying) {
+        sendCommend(context, COMMAND_CODE_MUSIC_PLAY_PAUSE, playQueue, currentPlaying);
     }
 
     @Override

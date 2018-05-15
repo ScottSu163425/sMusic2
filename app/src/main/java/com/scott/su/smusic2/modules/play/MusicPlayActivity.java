@@ -105,7 +105,7 @@ public class MusicPlayActivity extends BaseActivity {
 
         ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
 
-        updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
+        updateCurrentPlaying(mSongPlaying);
 
         mBinding.ivCover.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -198,7 +198,7 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 final float factorIn = slideOffset;
-                final float factorOut = 1-slideOffset;
+                final float factorOut = 1 - slideOffset;
 
                 mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
                 mBinding.ivClosePlayQueue.setVisibility(View.VISIBLE);
@@ -331,6 +331,8 @@ public class MusicPlayActivity extends BaseActivity {
                                 : (swatch3 != null ? swatch3.getRgb() : colorDefault));
 
                         revealPanelBackgroundColor(color);
+
+                        updateStatusBarColor(color);
                     }
                 });
     }
@@ -388,6 +390,10 @@ public class MusicPlayActivity extends BaseActivity {
             revealView.setBackgroundColor(color);
         }
 
+    }
+
+    private void updateStatusBarColor(int color) {
+        StatusBarUtil.setColor(getActivity(), color);
     }
 
     private void stopPanelReveal() {

@@ -13,9 +13,7 @@ import java.util.List;
  */
 
 public interface IMusicPlayController {
-    void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying);
-
-    void pause(Context context);
+    void playPause(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying);
 
     void skipToPrevious(Context context);
 

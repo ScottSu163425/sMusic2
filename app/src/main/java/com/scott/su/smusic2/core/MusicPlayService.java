@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class MusicPlayService extends Service {
     private MusicPlayCommandReceiver mCommandReceiver;
-    private LocalMusicPlayer mMusicPlayCore;
+    private LocalMusicPlayer mMusicPlayer;
 
 
     @Nullable
@@ -34,7 +34,7 @@ public class MusicPlayService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        mMusicPlayCore = new LocalMusicPlayer(getApplicationContext());
+        mMusicPlayer = new LocalMusicPlayer(getApplicationContext());
 
         registerCommandReceiver();
     }
@@ -79,19 +79,17 @@ public class MusicPlayService extends Service {
         public void onReceive(Context context, Intent intent) {
             int commandCode = intent.getIntExtra(MusicPlayController.KEY_EXTRA_COMMAND_CODE, 0);
 
-            if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_PLAY) {
+            if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_PLAY_PAUSE) {
                 ArrayList<LocalSongEntity> playQueue
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_PLAY_QUEUE);
 
                 LocalSongEntity currentPlaying = (LocalSongEntity) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_CURRENT_PLAYING);
 
-                mMusicPlayCore.play();
-            } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_PAUSE) {
-                mMusicPlayCore.pause();
+                mMusicPlayer.setPlaySongs(playQueue,currentPlaying);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS) {
-                mMusicPlayCore.skipToPrevious();
+                mMusicPlayer.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_NEXT) {
-                mMusicPlayCore.skipToNext();
+                mMusicPlayer.skipToNext();
             }
 
         }

@@ -136,7 +136,6 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                //应该在播放引擎监听回调处更新;
                 mSongPlaying = mSongList.get(position);
                 updateCurrentPlaying(mSongPlaying);
             }
@@ -188,7 +187,7 @@ public class MusicPlayActivity extends BaseActivity {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     mBinding.cardCurrentPlaying.setCardElevation(0);
                     mBinding.rvPlayQueue.setAlpha(0);
-                    mBinding.rvPlayQueue.setTranslationY(0);
+                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
                 }
 
             }

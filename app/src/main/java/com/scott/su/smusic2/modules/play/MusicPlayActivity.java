@@ -97,7 +97,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
         //设置状态栏颜色
-        StatusBarUtil.setTranslucentForCoordinatorLayout(getActivity(), 40);
+//        StatusBarUtil.setTranslucentForCoordinatorLayout(getActivity(), 40);
 
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
@@ -192,7 +192,9 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                mBinding.cardCurrentPlaying.setCardElevation(slideOffset * 16);
                 mBinding.rvPlayQueue.setAlpha(slideOffset);
+                mBinding.rvPlayQueue.setTranslationY((1 - slideOffset) * -360);
             }
         });
 
@@ -202,6 +204,13 @@ public class MusicPlayActivity extends BaseActivity {
                 expendPlayQueue();
             }
         });
+        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                togglePlayQueue();
+            }
+        });
+
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +244,7 @@ public class MusicPlayActivity extends BaseActivity {
 
     /**
      * 更新当前播放歌曲信息
+     *
      * @param currentPlayingSong
      */
     private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
@@ -242,6 +252,14 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
 
         updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
+    }
+
+    private void togglePlayQueue() {
+        if (BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
+            collapsePlayQueue();
+        } else if (BottomSheetBehavior.STATE_COLLAPSED == mBehaviorPlayQueue.getState()) {
+            expendPlayQueue();
+        }
     }
 
     /**
@@ -353,7 +371,6 @@ public class MusicPlayActivity extends BaseActivity {
             mAnimatorRevealPanel = null;
         }
     }
-
 
 
 }

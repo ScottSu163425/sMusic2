@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.common;
+package com.scott.su.smusic2.core;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.modules.play.engine.IMusicPlayCore;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  * 日期: 2018/5/14
  */
 
-public class MusicPlayController implements IMusicPlayCore {
+public class MusicPlayController implements IMusicPlayController {
     public static final String ACTION_MUSIC_PLAY_CONTROL = "ACTION_MUSIC_PLAY_CONTROL";
     public static final String KEY_EXTRA_COMMAND_CODE = "KEY_EXTRA_COMMAND_CODE";
     public static final String KEY_EXTRA_PLAY_QUEUE = "KEY_EXTRA_PLAY_QUEUE";

@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.play.engine;
+package com.scott.su.smusic2.core;
 
 import android.content.Context;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * 日期: 2018/5/14
  */
 
-public interface IMusicPlayCore {
+public interface IMusicPlayController {
     void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying);
 
     void pause(Context context);

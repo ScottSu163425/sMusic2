@@ -182,8 +182,6 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mBinding.rvPlayQueue.setAlpha(0);
-
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {

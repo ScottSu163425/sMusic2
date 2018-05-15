@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.play.engine;
+package com.scott.su.smusic2.core;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.scott.su.smusic2.common.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 
 public class MusicPlayService extends Service {
     private MusicPlayCommandReceiver mCommandReceiver;
-    private MusicPlayCore mMusicPlayCore;
+    private LocalMusicPlayer mMusicPlayCore;
 
 
     @Nullable
@@ -35,7 +34,7 @@ public class MusicPlayService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        mMusicPlayCore = new MusicPlayCore();
+        mMusicPlayCore = new LocalMusicPlayer(getApplicationContext());
 
         registerCommandReceiver();
     }
@@ -86,13 +85,13 @@ public class MusicPlayService extends Service {
 
                 LocalSongEntity currentPlaying = (LocalSongEntity) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_CURRENT_PLAYING);
 
-                mMusicPlayCore.play(context, playQueue, currentPlaying);
+                mMusicPlayCore.play();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_PAUSE) {
-                mMusicPlayCore.pause(context);
+                mMusicPlayCore.pause();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS) {
-                mMusicPlayCore.skipToPrevious(context);
+                mMusicPlayCore.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_NEXT) {
-                mMusicPlayCore.skipToNext(context);
+                mMusicPlayCore.skipToNext();
             }
 
         }

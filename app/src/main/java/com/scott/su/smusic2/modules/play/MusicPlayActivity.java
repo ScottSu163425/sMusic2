@@ -185,6 +185,9 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
+                    mBinding.ivClosePlayQueue.setVisibility(View.GONE);
+
                     mBinding.cardCurrentPlaying.setCardElevation(0);
                     mBinding.rvPlayQueue.setAlpha(0);
                     mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
@@ -194,9 +197,30 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                mBinding.cardCurrentPlaying.setCardElevation(slideOffset * 12);
-                mBinding.rvPlayQueue.setAlpha(slideOffset);
-                mBinding.rvPlayQueue.setTranslationY((1 - slideOffset) * -360);
+                final float factorIn = slideOffset;
+                final float factorOut = 1-slideOffset;
+
+                mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
+                mBinding.ivClosePlayQueue.setVisibility(View.VISIBLE);
+
+                mBinding.ivPlayIcon.setAlpha(factorOut);
+                mBinding.ivPlayIcon.setScaleX(factorOut);
+                mBinding.ivPlayIcon.setScaleY(factorOut);
+
+                mBinding.ivClosePlayQueue.setAlpha(factorIn);
+                mBinding.ivClosePlayQueue.setScaleX(factorIn);
+                mBinding.ivClosePlayQueue.setScaleY(factorIn);
+
+                mBinding.cardCurrentPlaying.setCardElevation(factorIn * 12);
+                mBinding.rvPlayQueue.setAlpha(factorIn);
+                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
+            }
+        });
+
+        mBinding.ivClosePlayQueue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                collapsePlayQueue();
             }
         });
 

@@ -185,12 +185,17 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mBinding.cardCurrentPlaying.setCardElevation(0);
+                    mBinding.rvPlayQueue.setAlpha(0);
+                    mBinding.rvPlayQueue.setTranslationY(0);
+                }
 
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                mBinding.cardCurrentPlaying.setCardElevation(slideOffset * 16);
+                mBinding.cardCurrentPlaying.setCardElevation(slideOffset * 12);
                 mBinding.rvPlayQueue.setAlpha(slideOffset);
                 mBinding.rvPlayQueue.setTranslationY((1 - slideOffset) * -360);
             }
@@ -202,13 +207,12 @@ public class MusicPlayActivity extends BaseActivity {
                 expendPlayQueue();
             }
         });
-        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                togglePlayQueue();
-            }
-        });
-
+//        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                togglePlayQueue();
+//            }
+//        });
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +220,6 @@ public class MusicPlayActivity extends BaseActivity {
 
             }
         });
-
 
         mPlayQueueListAdapter = new MusicPlayQueueListAdapter(getActivity());
         mPlayQueueListAdapter.setData(mSongList);
@@ -235,6 +238,7 @@ public class MusicPlayActivity extends BaseActivity {
             //与最初进入界面播放的歌曲相同，则显示sharedElement；
             boolean isInitSong = mSongPlaying.getSongId() == mSongPlayingInit.getSongId();
             mBinding.ivCover.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
+            mBinding.vpSongCover.setVisibility(isInitSong ? View.GONE : View.VISIBLE);
         }
 
         super.onBackPressed();

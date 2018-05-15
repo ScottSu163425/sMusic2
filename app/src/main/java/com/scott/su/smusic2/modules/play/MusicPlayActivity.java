@@ -136,10 +136,7 @@ public class MusicPlayActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 //应该在播放引擎监听回调处更新;
                 mSongPlaying = mSongList.get(position);
-
-                stopPanelReveal();
-
-                updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
+                setUpCurrentPlayingSong(mSongPlaying);
             }
 
             @Override
@@ -234,6 +231,13 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    private void setUpCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong) {
+        mBinding.tvTitle.setText(currentPlayingSong.getTitle());
+        mBinding.tvArtist.setText(currentPlayingSong.getArtist());
+
+        updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
+    }
+
     /**
      * 收起播放列表布局
      */
@@ -254,6 +258,8 @@ public class MusicPlayActivity extends BaseActivity {
      * @param coverPath
      */
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
+        stopPanelReveal();
+
         final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 
         final boolean userDefault = TextUtils.isEmpty(coverPath);

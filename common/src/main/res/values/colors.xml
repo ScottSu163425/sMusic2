@@ -266,7 +266,7 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="background">#ededed</color>
-    <color name="backgroundContent">#f9f9f9</color>
+    <color name="backgroundContent">#fcfcfc</color>
     <color name="dividerLine">#1f000000</color>
     <color name="disabled">#aaaaaa</color>
 

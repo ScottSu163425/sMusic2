@@ -223,7 +223,7 @@
             android:layout_marginLeft="@dimen/padding_s"
             android:layout_marginRight="@dimen/padding_s"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="80dp"
+            app:behavior_peekHeight="@dimen/height_peek_play_queue"
             app:cardBackgroundColor="@color/backgroundContent"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -237,58 +237,65 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:clipChildren="false"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/anchor"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_margin="@dimen/padding_s"
-                            android:src="@drawable/ic_volume_up_black"/>
+                        android:layout_height="@dimen/height_peek_play_queue"
+                        app:cardBackgroundColor="@color/backgroundContent"
+                        app:cardCornerRadius="0dp">
 
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/textPrimary"
-                                android:textSize="@dimen/text_size_subhead"/>
-
-                            <TextView
-                                android:id="@+id/tv_artist"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="@dimen/padding_xxs"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="@dimen/text_size_caption"/>
-                        </LinearLayout>
-
-                        <FrameLayout
-                            android:id="@+id/view_more"
-                            android:layout_width="@dimen/height_button_s"
-                            android:layout_height="@dimen/height_button_s"
-                            android:layout_marginRight="@dimen/padding_xs"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless">
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_peek_play_queue"
+                            android:clipChildren="false"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="@dimen/height_item_xs"
-                                android:layout_height="@dimen/height_item_xs"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_more_vert_black"/>
-                        </FrameLayout>
+                                android:id="@+id/anchor"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_margin="@dimen/padding_s"
+                                android:src="@drawable/ic_volume_up_black"/>
 
-                    </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/textPrimary"
+                                    android:textSize="@dimen/text_size_subhead"/>
+
+                                <TextView
+                                    android:id="@+id/tv_artist"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="@dimen/padding_xxs"
+                                    android:textColor="@color/textSecondary"
+                                    android:textSize="@dimen/text_size_caption"/>
+                            </LinearLayout>
+
+                            <FrameLayout
+                                android:id="@+id/view_more"
+                                android:layout_width="@dimen/height_button_s"
+                                android:layout_height="@dimen/height_button_s"
+                                android:layout_marginRight="@dimen/padding_xs"
+                                android:clickable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                                <ImageView
+                                    android:layout_width="@dimen/height_item_xs"
+                                    android:layout_height="@dimen/height_item_xs"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_more_vert_black"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
                     <!--<View-->
                     <!--android:layout_width="match_parent"-->

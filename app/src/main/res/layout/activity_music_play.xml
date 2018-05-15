@@ -59,9 +59,10 @@
                 </FrameLayout>
             </android.support.percent.PercentFrameLayout>
 
-            <FrameLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:cardCornerRadius="0dp">
 
                 <View
                     android:id="@+id/view_background_under"
@@ -212,7 +213,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="10dp"/>
                 </LinearLayout>
-            </FrameLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
@@ -267,6 +268,9 @@
                                     android:id="@+id/tv_title"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:singleLine="true"
                                     android:textColor="@color/textPrimary"
                                     android:textSize="@dimen/text_size_subhead"/>
 
@@ -274,7 +278,10 @@
                                     android:id="@+id/tv_artist"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:paddingTop="@dimen/padding_xxs"
+                                    android:singleLine="true"
                                     android:textColor="@color/textSecondary"
                                     android:textSize="@dimen/text_size_caption"/>
                             </LinearLayout>

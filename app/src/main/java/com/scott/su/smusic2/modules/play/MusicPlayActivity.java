@@ -21,7 +21,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -136,7 +135,7 @@ public class MusicPlayActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 //应该在播放引擎监听回调处更新;
                 mSongPlaying = mSongList.get(position);
-                setUpCurrentPlayingSong(mSongPlaying);
+                updateCurrentPlayingSong(mSongPlaying);
             }
 
             @Override
@@ -231,7 +230,11 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void setUpCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong) {
+    /**
+     * 更新当前播放歌曲信息
+     * @param currentPlayingSong
+     */
+    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong) {
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
 

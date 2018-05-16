@@ -91,9 +91,6 @@
                         android:id="@+id/iv_cover"
                         android:layout_width="@dimen/height_cover_item_song"
                         android:layout_height="@dimen/height_cover_item_song"
-                        android:layout_marginBottom="@dimen/padding_xs"
-                        android:layout_marginLeft="@dimen/padding_xs"
-                        android:layout_marginTop="@dimen/padding_xs"
                         android:scaleType="centerCrop"
                         android:transitionName="@string/transition_name_cover"
                         android:src="@drawable/pic_default_cover_album"/>

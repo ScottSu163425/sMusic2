@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.scott.su.smusic2.data.entity.LocalAlbumEntity"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_cover_item_album"
+        android:layout_marginBottom="@dimen/padding_s"
+        android:layout_marginLeft="@dimen/padding_s"
+        android:layout_marginRight="@dimen/padding_s"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/backgroundContent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="@dimen/height_cover_item_album"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic_default_cover_album"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_s"
+                android:paddingRight="@dimen/padding_s">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{entity.title}"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_title"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/padding_xs"/>
+
+                <TextView
+                    android:id="@+id/tv_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{entity.artist}"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_caption"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

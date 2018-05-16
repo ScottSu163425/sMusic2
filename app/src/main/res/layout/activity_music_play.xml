@@ -248,7 +248,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_peek_play_queue"
+                            android:layout_height="wrap_content"
                             android:clipChildren="false"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">

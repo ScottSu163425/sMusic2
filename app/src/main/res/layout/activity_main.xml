@@ -96,7 +96,7 @@
                         android:layout_marginTop="@dimen/padding_xs"
                         android:scaleType="centerCrop"
                         android:transitionName="@string/transition_name_cover"
-                        tools:src="@drawable/ic_default_cover_song"/>
+                        android:src="@drawable/pic_default_cover_album"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -106,7 +106,7 @@
                         android:paddingLeft="@dimen/padding_xs">
 
                         <TextView
-                            android:id="@+id/tv_name"
+                            android:id="@+id/tv_title_current_playing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="1"

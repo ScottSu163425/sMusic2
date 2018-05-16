@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -14,7 +15,9 @@ import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.LocalSongHelper;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
@@ -147,6 +150,18 @@ public class MainActivity extends BaseActivity {
                         finish();
                     }
                 });
+    }
+
+    /**
+     * 更新当前播放歌曲信息
+     *
+     * @param currentPlayingSong
+     */
+    private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
+        mBinding.tvTitleCurrentPlaying.setText(currentPlayingSong.getTitle());
+        mBinding.tvArtist.setText(currentPlayingSong.getArtist());
+
+        ImageLoader.load(getActivity(), currentPlayingSong.getAlbumCoverPath(), mBinding.ivCover);
     }
 
 

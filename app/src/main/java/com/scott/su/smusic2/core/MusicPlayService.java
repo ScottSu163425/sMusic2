@@ -85,7 +85,7 @@ public class MusicPlayService extends Service {
 
                 LocalSongEntity currentPlaying = (LocalSongEntity) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_CURRENT_PLAYING);
 
-                mMusicPlayer.setPlaySongs(playQueue,currentPlaying);
+                mMusicPlayer.setPlaySongs(playQueue);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS) {
                 mMusicPlayer.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_NEXT) {

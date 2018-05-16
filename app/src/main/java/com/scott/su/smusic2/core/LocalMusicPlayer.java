@@ -3,6 +3,8 @@ package com.scott.su.smusic2.core;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
@@ -25,14 +27,37 @@ public class LocalMusicPlayer {
         mContext = context;
 
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+
+            }
+        });
+
+        mMediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mediaPlayer, int i, int i1) {
+                return false;
+            }
+        });
     }
 
-    public void setPlaySongs(@NonNull List<LocalSongEntity> playQueue, @NonNull LocalSongEntity currentPlayingSong) {
+    public void setPlaySongs(@NonNull List<LocalSongEntity> playQueue) {
         this.mPlayQueue = playQueue;
-        this.mCurrentPlayingSong = currentPlayingSong;
     }
 
-    public void playPause(){
+    public void playPause(@Nullable LocalSongEntity currentPlayingSong) {
+        if (currentPlayingSong == null) {
+            currentPlayingSong = mPlayQueue.get(0);
+        }
+
+        if (mCurrentPlayingSong == null) {
+            mCurrentPlayingSong = currentPlayingSong;
+
+            restart();
+        } else {
+
+        }
 
     }
 
@@ -48,10 +73,13 @@ public class LocalMusicPlayer {
 
     }
 
-    private void pause() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-        }
+    public void pause() {
+        mMediaPlayer.pause();
     }
+
+    public void resume() {
+        mMediaPlayer.start();
+    }
+
 
 }

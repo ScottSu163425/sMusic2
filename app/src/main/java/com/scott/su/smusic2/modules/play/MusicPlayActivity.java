@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
@@ -98,14 +99,12 @@ public class MusicPlayActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
-        //设置状态栏颜色
-//        StatusBarUtil.setTranslucentForCoordinatorLayout(getActivity(), 40);
-
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
         mSongPlaying = mSongPlayingInit;
 
         ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
+
 
         updateCurrentPlaying(mSongPlaying);
 
@@ -165,6 +164,23 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
+        mBinding.sbProgress
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(progress,null));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        // TODO: 2018/5/17
+                    }
+                });
 
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
@@ -265,6 +281,9 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
         mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(0, null));
         mBinding.tvTimeTotal.setText(TimeUtil.getHhmmssFromMills(currentPlayingSong.getDuration(), null));
+
+        mBinding.sbProgress.setMax((int) currentPlayingSong.getDuration());
+        mBinding.sbProgress.setProgress(0);
 
         TransitionManager.beginDelayedTransition(mBinding.cardCurrentPlaying);
 

@@ -83,9 +83,16 @@
                     <FrameLayout
                         android:id="@+id/layout_music_play_progress"
                         android:layout_width="match_parent"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/height_seekbar_music_play"
                         android:background="#15000000"
                         android:gravity="center_vertical">
+
+                        <SeekBar
+                            android:id="@+id/sb_progress"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:progressDrawable="@drawable/progress_seekbar_music_play"
+                            android:thumb="@drawable/thumb_seekbar_music_play" />
 
                         <TextView
                             android:id="@+id/tv_time_current"
@@ -96,9 +103,8 @@
                             android:paddingBottom="2dp"
                             android:paddingLeft="@dimen/padding_s"
                             android:paddingTop="2dp"
-                            android:text="00:00"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_caption"/>
+                            android:textSize="10sp"/>
 
                         <TextView
                             android:id="@+id/tv_time_total"
@@ -109,9 +115,8 @@
                             android:paddingBottom="2dp"
                             android:paddingRight="@dimen/padding_s"
                             android:paddingTop="2dp"
-                            android:text="05:31"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_caption"/>
+                            android:textSize="10sp"/>
 
                     </FrameLayout>
 
@@ -126,8 +131,8 @@
                             android:id="@+id/layout_music_play_buttons"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipChildren="false"
                             android:layout_gravity="center_vertical"
+                            android:clipChildren="false"
                             android:clipToPadding="false"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">

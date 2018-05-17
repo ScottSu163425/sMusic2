@@ -78,8 +78,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
                     android:orientation="vertical">
 
                     <FrameLayout
@@ -117,101 +115,105 @@
 
                     </FrameLayout>
 
-                    <View
-                        android:id="@+id/view_space_top"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="10dp"/>
-
-                    <LinearLayout
-                        android:id="@+id/layout_music_play_buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:clipToPadding="false">
 
-                        <ImageView
-                            android:id="@+id/iv_repeat_mode"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_marginLeft="@dimen/padding_m"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_repeat_black"
-                            android:tint="@color/white"/>
-
-                        <Space
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:id="@+id/layout_music_play_buttons"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
-
-                        <FrameLayout
-                            android:id="@+id/view_skip_previous"
-                            android:layout_width="@dimen/height_button_s"
-                            android:layout_height="@dimen/height_button_s"
-                            android:layout_marginRight="@dimen/padding_xs"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless">
+                            android:clipChildren="false"
+                            android:layout_gravity="center_vertical"
+                            android:clipToPadding="false"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_skip_previous_black"
+                                android:id="@+id/iv_repeat_mode"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_marginLeft="@dimen/padding_m"
+                                android:clickable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless"
+                                android:src="@drawable/ic_repeat_black"
                                 android:tint="@color/white"/>
-                        </FrameLayout>
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/fab_play"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="@dimen/padding_xs"
-                            android:layout_marginRight="@dimen/padding_xs"
-                            android:src="@drawable/ic_play_arrow_black"
-                            app:backgroundTint="@color/white"
-                            app:fabSize="normal"
-                            app:rippleColor="@color/md_grey_300"/>
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
 
-                        <FrameLayout
-                            android:id="@+id/view_skip_next"
-                            android:layout_width="@dimen/height_button_s"
-                            android:layout_height="@dimen/height_button_s"
-                            android:layout_marginLeft="@dimen/padding_xs"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless">
+                            <FrameLayout
+                                android:id="@+id/view_skip_previous"
+                                android:layout_width="@dimen/height_button_s"
+                                android:layout_height="@dimen/height_button_s"
+                                android:layout_marginRight="@dimen/padding_xs"
+                                android:clickable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_skip_previous_black"
+                                    android:tint="@color/white"/>
+                            </FrameLayout>
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/fab_play"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="@dimen/padding_xs"
+                                android:layout_marginRight="@dimen/padding_xs"
+                                android:src="@drawable/ic_play_arrow_black"
+                                app:backgroundTint="@color/white"
+                                app:fabSize="normal"
+                                app:rippleColor="@color/md_grey_300"/>
+
+                            <FrameLayout
+                                android:id="@+id/view_skip_next"
+                                android:layout_width="@dimen/height_button_s"
+                                android:layout_height="@dimen/height_button_s"
+                                android:layout_marginLeft="@dimen/padding_xs"
+                                android:clickable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_skip_next_black"
+                                    android:tint="@color/white"/>
+                            </FrameLayout>
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:id="@+id/view_play_queue"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_skip_next_black"
+                                android:layout_marginRight="@dimen/padding_m"
+                                android:clickable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless"
+                                android:src="@drawable/ic_queue_music_black"
                                 android:tint="@color/white"/>
-                        </FrameLayout>
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                        </LinearLayout>
+                    </FrameLayout>
 
-                        <ImageView
-                            android:id="@+id/view_play_queue"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/padding_m"
-                            android:clickable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_queue_music_black"
-                            android:tint="@color/white"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/view_space_bottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"/>
+                    <Space
+                        android:id="@+id/space"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/height_peek_play_queue"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -284,12 +286,12 @@
 
                                 <TextView
                                     android:id="@+id/tv_title"
-                                    android:paddingLeft="@dimen/height_button_s"
-                                    android:paddingRight="@dimen/height_button_s"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
                                     android:maxLines="1"
+                                    android:paddingLeft="@dimen/height_button_s"
+                                    android:paddingRight="@dimen/height_button_s"
                                     android:singleLine="true"
                                     android:textColor="@color/textPrimary"
                                     android:textSize="@dimen/text_size_title"/>
@@ -299,9 +301,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:paddingLeft="@dimen/height_button_s"
                                     android:paddingRight="@dimen/height_button_s"
-                                    android:maxLines="1"
                                     android:paddingTop="@dimen/padding_xxs"
                                     android:singleLine="true"
                                     android:textColor="@color/textPrimary"

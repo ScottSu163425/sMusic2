@@ -34,6 +34,7 @@ import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.util.ActivityStarter;
 import com.scott.su.common.util.ListUtil;
+import com.scott.su.common.util.TimeUtil;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -168,20 +169,6 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
 
-        mBinding.layoutMusicPlayButtons.post(new Runnable() {
-            @Override
-            public void run() {
-                //动态设置高度，使播放按钮布局居中;
-                int spaceVert = (mBinding.viewBackgroundUpper.getHeight()
-                        - mBinding.layoutMusicPlayProgress.getHeight()
-                        - mBinding.layoutMusicPlayButtons.getHeight()
-                        - mBehaviorPlayQueue.getPeekHeight()) / 2;
-
-                mBinding.viewSpaceTop.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, spaceVert));
-                mBinding.viewSpaceBottom.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, spaceVert));
-            }
-        });
-
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -276,6 +263,8 @@ public class MusicPlayActivity extends BaseActivity {
     private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
+        mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(0, null));
+        mBinding.tvTimeTotal.setText(TimeUtil.getHhmmssFromMills(currentPlayingSong.getDuration(), null));
 
         TransitionManager.beginDelayedTransition(mBinding.cardCurrentPlaying);
 

@@ -92,7 +92,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:progressDrawable="@drawable/progress_seekbar_music_play"
-                            android:thumb="@drawable/thumb_seekbar_music_play" />
+                            android:thumb="@drawable/thumb_seekbar_music_play"/>
 
                         <TextView
                             android:id="@+id/tv_time_current"
@@ -216,7 +216,6 @@
                     </FrameLayout>
 
                     <Space
-                        android:id="@+id/space"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/height_peek_play_queue"/>
                 </LinearLayout>
@@ -282,38 +281,44 @@
                                     android:src="@drawable/ic_volume_up_black"/>
                             </FrameLayout>
 
-                            <LinearLayout
+                            <Space
+                                android:id="@+id/space"
+                                android:layout_width="1px"
+                                android:layout_height="1px"
+                                android:layout_centerInParent="true"/>
+
+                            <TextView
+                                android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical">
+                                android:layout_above="@+id/space"
+                                android:layout_centerHorizontal="true"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:paddingLeft="@dimen/height_button_s"
+                                android:paddingRight="@dimen/height_button_s"
+                                android:singleLine="true"
+                                android:text="周杰棍"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_title"/>
 
-                                <TextView
-                                    android:id="@+id/tv_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:paddingLeft="@dimen/height_button_s"
-                                    android:paddingRight="@dimen/height_button_s"
-                                    android:singleLine="true"
-                                    android:textColor="@color/textPrimary"
-                                    android:textSize="@dimen/text_size_title"/>
-
-                                <TextView
-                                    android:id="@+id/tv_artist"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:paddingLeft="@dimen/height_button_s"
-                                    android:paddingRight="@dimen/height_button_s"
-                                    android:paddingTop="@dimen/padding_xxs"
-                                    android:singleLine="true"
-                                    android:textColor="@color/textPrimary"
-                                    android:textSize="@dimen/text_size_caption"/>
-                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_artist"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/space"
+                                android:layout_centerHorizontal="true"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:paddingLeft="@dimen/height_button_s"
+                                android:paddingRight="@dimen/height_button_s"
+                                android:paddingTop="@dimen/padding_xxs"
+                                android:singleLine="true"
+                                android:text="双杰伦"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_caption"/>
 
                             <FrameLayout
                                 android:id="@+id/view_more"

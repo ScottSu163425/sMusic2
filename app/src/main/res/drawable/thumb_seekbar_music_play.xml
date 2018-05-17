@@ -4,10 +4,10 @@
 
     <solid android:color="@color/backgroundContent"/>
 
-    <corners android:radius="2dp"/>
+    <corners android:radius="1dp"/>
 
     <size
-        android:width="5dp"
+        android:width="3dp"
         android:height="@dimen/height_seekbar_music_play"/>
 
 </shape>

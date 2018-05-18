@@ -3,12 +3,18 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="entity"
             type="com.scott.su.smusic2.data.entity.LocalSongEntity"/>
 
         <variable
             name="position"
+            type="Integer"/>
+
+        <variable
+            name="positionSingleSelected"
             type="Integer"/>
 
     </data>
@@ -27,22 +33,38 @@
             android:layout_height="wrap_content"
             android:clipChildren="false">
 
-            <TextView
-                android:id="@+id/tv_number"
+            <FrameLayout
+                android:id="@+id/layout_cover"
                 android:layout_width="@dimen/height_cover_item_song"
-                android:layout_height="@dimen/height_cover_item_song"
-                android:gravity="center"
-                android:padding="@dimen/padding_s"
-                android:text="@{String.valueOf(position+1)}"
-                android:textColor="@color/textPrimary"
-                android:textSize="@dimen/text_size_subhead"/>
+                android:layout_height="@dimen/height_cover_item_song">
+
+                <ImageView
+                    android:id="@+id/iv_play"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_volume_up_black"
+                    android:visibility="@{position==positionSingleSelected?View.VISIBLE:View.GONE}"/>
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_s"
+                    android:text="@{String.valueOf(position+1)}"
+                    android:visibility="@{position==positionSingleSelected?View.GONE:View.VISIBLE}"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_subhead"/>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/view_more"
-                android:layout_toRightOf="@+id/tv_number"
+                android:layout_toRightOf="@+id/layout_cover"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/padding_xs">
 

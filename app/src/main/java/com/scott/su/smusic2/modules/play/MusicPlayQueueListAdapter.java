@@ -48,6 +48,7 @@ public class MusicPlayQueueListAdapter
         @Override
         public void bind(final LocalSongEntity entity, final int position) {
             binding.setPosition(position);
+            binding.setPositionSingleSelected(getSingleSelectedPosition());
             binding.setEntity(entity);
 
             binding.layoutRoot.setOnClickListener(new View.OnClickListener() {

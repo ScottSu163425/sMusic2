@@ -103,11 +103,6 @@ public class MusicPlayActivity extends BaseActivity {
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
         mSongPlaying = mSongPlayingInit;
 
-        ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
-
-
-        updateCurrentPlaying(mSongPlaying);
-
         mBinding.ivCover.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -130,6 +125,8 @@ public class MusicPlayActivity extends BaseActivity {
 
         mBinding.vpSongCover.setOffscreenPageLimit(fragments.size());
         mBinding.vpSongCover.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            boolean firstTimeSelect = true;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -137,8 +134,13 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mSongPlaying = mSongList.get(position);
-                updateCurrentPlaying(mSongPlaying);
+                //过滤第一次默认回调:updateCurrentPlaying中有调用歌曲列表相关方法，未初始化将抛空指针；
+                if (firstTimeSelect) {
+                    firstTimeSelect = false;
+                    return;
+                }
+
+                updateCurrentPlaying(mSongList.get(position));
             }
 
             @Override
@@ -164,27 +166,25 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mBinding.sbProgress
-                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(progress,null));
-                    }
+        mBinding.sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(progress, null));
+            }
 
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-                    }
+            }
 
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        // TODO: 2018/5/17
-                    }
-                });
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO: 2018/5/17
+            }
+        });
 
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
-
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -237,12 +237,6 @@ public class MusicPlayActivity extends BaseActivity {
                 expendPlayQueue();
             }
         });
-//        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                togglePlayQueue();
-//            }
-//        });
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,9 +246,23 @@ public class MusicPlayActivity extends BaseActivity {
         });
 
         mPlayQueueListAdapter = new MusicPlayQueueListAdapter(getActivity());
+        mPlayQueueListAdapter.setCallback(new MusicPlayQueueListAdapter.Callback() {
+            @Override
+            public void onItemClick(View itemView, LocalSongEntity entity, int position) {
+                updateCurrentPlaying(entity);
+            }
+
+            @Override
+            public void onMoreClick(View itemView, LocalSongEntity entity, int position) {
+
+            }
+        });
         mPlayQueueListAdapter.setData(mSongList);
         mBinding.rvPlayQueue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
+
+
+        updateCurrentPlaying(mSongPlaying);
     }
 
     @Override
@@ -280,6 +288,20 @@ public class MusicPlayActivity extends BaseActivity {
      * @param currentPlayingSong
      */
     private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
+        mSongPlaying = currentPlayingSong;
+
+        ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
+
+        int positionCurrentPlaying = ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
+            @Override
+            public boolean test(LocalSongEntity obj) {
+                return obj.getSongId() == mSongPlaying.getSongId();
+            }
+        });
+
+        mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, false);
+        mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);
+
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
         mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(0, null));

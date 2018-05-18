@@ -20,6 +20,9 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     private RecyclerView mRecyclerView;
     private LayoutInflater mLayoutInflater;
 
+    private int mSingleSelectedPosition=POSITION_NONE;
+
+
     public BaseRecyclerViewAdapter(Context context) {
         mContext = context;
     }
@@ -297,4 +300,24 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
         }
         return mLayoutInflater;
     }
+
+    public int getSingleSelectedPosition() {
+        return mSingleSelectedPosition;
+    }
+
+    public void setSingleSelectedPosition(int singleSelectedPosition) {
+        if(mSingleSelectedPosition==singleSelectedPosition){
+            return;
+        }
+
+        if(mSingleSelectedPosition!=POSITION_NONE){
+            notifyItemChanged(mSingleSelectedPosition);
+        }
+
+        mSingleSelectedPosition = singleSelectedPosition;
+
+        notifyItemChanged(mSingleSelectedPosition);
+    }
+
+
 }

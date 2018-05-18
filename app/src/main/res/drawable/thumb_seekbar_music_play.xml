@@ -7,7 +7,7 @@
     <corners android:radius="1dp"/>
 
     <size
-        android:width="3dp"
+        android:width="3.5dp"
         android:height="@dimen/height_seekbar_music_play"/>
 
 </shape>

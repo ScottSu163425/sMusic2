@@ -195,6 +195,7 @@ public class MusicPlayActivity extends BaseActivity {
                     mBinding.cardCurrentPlaying.setCardElevation(0);
                     mBinding.rvPlayQueue.setAlpha(0);
                     mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
+                    mBinding.viewMaskContent.setVisibility(View.GONE);
                 }
 
             }
@@ -204,9 +205,11 @@ public class MusicPlayActivity extends BaseActivity {
                 final float factorIn = slideOffset;
                 final float factorOut = 1 - slideOffset;
 
+                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
                 mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
                 mBinding.ivClosePlayQueue.setVisibility(View.VISIBLE);
 
+                mBinding.viewMaskContent.setAlpha(factorIn);
                 mBinding.ivPlayIcon.setAlpha(factorOut);
                 mBinding.ivPlayIcon.setScaleX(factorOut);
                 mBinding.ivPlayIcon.setScaleY(factorOut);

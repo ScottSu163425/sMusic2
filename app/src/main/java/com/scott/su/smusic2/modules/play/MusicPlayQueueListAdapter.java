@@ -50,20 +50,7 @@ public class MusicPlayQueueListAdapter
             binding.setPosition(position);
             binding.setPositionSingleSelected(getSingleSelectedPosition());
             binding.setEntity(entity);
-
-            binding.layoutRoot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getCallback().onItemClick(v, entity, position);
-                }
-            });
-
-            binding.viewMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getCallback().onMoreClick(v, entity, position);
-                }
-            });
+            binding.setCallback(getCallback());
 
             binding.executePendingBindings();
         }

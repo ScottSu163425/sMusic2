@@ -17,16 +17,20 @@
             name="positionSingleSelected"
             type="Integer"/>
 
+        <variable
+            name="callback"
+            type="com.scott.su.smusic2.modules.play.MusicPlayQueueListAdapter.Callback"/>
+
     </data>
 
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/backgroundContent"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(view)->callback.onItemClick(view,entity,position)}">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,9 +58,9 @@
                     android:gravity="center"
                     android:padding="@dimen/padding_s"
                     android:text="@{String.valueOf(position+1)}"
-                    android:visibility="@{position==positionSingleSelected?View.GONE:View.VISIBLE}"
                     android:textColor="@color/textPrimary"
-                    android:textSize="@dimen/text_size_subhead"/>
+                    android:textSize="@dimen/text_size_subhead"
+                    android:visibility="@{position==positionSingleSelected?View.GONE:View.VISIBLE}"/>
             </FrameLayout>
 
             <LinearLayout
@@ -98,7 +102,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_xs"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{(view)->callback.onMoreClick(view,entity,position)}">
 
                 <ImageView
                     android:layout_width="@dimen/height_item_xs"
@@ -111,7 +116,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_divider_line_s"
-                android:layout_below="@+id/tv_number"
+                android:layout_below="@+id/layout_cover"
                 android:background="@color/dividerLine"/>
         </RelativeLayout>
 

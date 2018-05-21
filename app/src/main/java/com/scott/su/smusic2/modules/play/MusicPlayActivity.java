@@ -395,9 +395,9 @@ public class MusicPlayActivity extends BaseActivity {
                             - (revealStarter.getHeight() / 2) - ViewUtil.getStatusBarHeight(getActivity());
 
                     mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
-                            centerY, 0, revealView.getWidth());
+                            centerY, 0, (float) Math.hypot(revealView.getWidth(), revealView.getHeight()));
 
-                    mAnimatorRevealPanel.setDuration(1200);
+                    mAnimatorRevealPanel.setDuration(1300);
                     mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
                     mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
 

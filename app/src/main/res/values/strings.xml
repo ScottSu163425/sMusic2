@@ -8,4 +8,5 @@
     <string name="drawer_close">Drawer close</string>
     <string name="tip_exit">退出应用?</string>
     <string name="transition_name_cover">cover</string>
+    <string name="action_search">搜索</string>
 </resources>

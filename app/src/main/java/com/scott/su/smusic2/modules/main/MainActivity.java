@@ -11,6 +11,8 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
@@ -101,7 +103,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean subscribeEvents() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (R.id.action_search == id) {
+            showToast("search");
+        }
         return true;
     }
 
@@ -113,6 +127,11 @@ public class MainActivity extends BaseActivity {
         }
 
         showExit();
+    }
+
+    @Override
+    protected boolean subscribeEvents() {
+        return true;
     }
 
     @Subscribe

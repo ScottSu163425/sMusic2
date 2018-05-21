@@ -65,5 +65,6 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     compile 'com.jaeger.statusbarutil:library:1.5.1'
 //    compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    compile 'jp.wasabeef:recyclerview-animators:2.3.0'
 
 }

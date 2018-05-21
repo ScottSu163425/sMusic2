@@ -20,6 +20,8 @@ import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 
 import java.util.List;
 
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+
 /**
  * 描述:
  * 作者: Su
@@ -61,7 +63,7 @@ public class MainTabAlbumFragment extends BaseFragment {
         });
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mBinding.rv.setAdapter(mAlbumListAdapter);
+        mBinding.rv.setAdapter(new SlideInBottomAnimationAdapter(mAlbumListAdapter));
         mBinding.rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

@@ -6,4 +6,8 @@
         android:icon="@drawable/ic_search_white"
         android:title="@string/action_search"
         app:showAsAction="always"/>
+
+    <item
+        android:title="@string/action_search"
+        app:showAsAction="never"/>
 </menu>

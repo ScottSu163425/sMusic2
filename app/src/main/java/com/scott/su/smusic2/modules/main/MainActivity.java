@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
         mTabFragmentCollection = MainTabCollectionFragment.newInstance();
         mTabFragmentAlbum = MainTabAlbumFragment.newInstance();
 
-        mListTabContentFragment.add(mTabFragmentRecommend);
+//        mListTabContentFragment.add(mTabFragmentRecommend);
         mListTabContentFragment.add(mTabFragmentSong);
         mListTabContentFragment.add(mTabFragmentCollection);
         mListTabContentFragment.add(mTabFragmentAlbum);
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
         mViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mViewPagerAdapter.setFragments(mListTabContentFragment);
         mViewPagerAdapter.setTitles(new String[]{
-                getString(R.string.tab_main_recommend),
+//                getString(R.string.tab_main_recommend),
                 getString(R.string.tab_main_song),
                 getString(R.string.tab_main_collection),
                 getString(R.string.tab_main_album)});

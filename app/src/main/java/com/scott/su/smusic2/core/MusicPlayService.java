@@ -35,6 +35,32 @@ public class MusicPlayService extends Service {
         super.onCreate();
 
         mMusicPlayer = new LocalMusicPlayer(getApplicationContext());
+        mMusicPlayer.setCallback(new LocalMusicPlayer.Callback() {
+            @Override
+            public void onStart(LocalSongEntity song) {
+
+            }
+
+            @Override
+            public void onTik(LocalSongEntity song, int position, int duration) {
+
+            }
+
+            @Override
+            public void onPause(LocalSongEntity song, int position) {
+
+            }
+
+            @Override
+            public void onResume(LocalSongEntity song, int position) {
+
+            }
+
+            @Override
+            public void onComplete(LocalSongEntity song) {
+
+            }
+        });
 
         registerCommandReceiver();
     }
@@ -86,6 +112,7 @@ public class MusicPlayService extends Service {
                 LocalSongEntity currentPlaying = (LocalSongEntity) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_CURRENT_PLAYING);
 
                 mMusicPlayer.setPlaySongs(playQueue);
+                mMusicPlayer.playPause(currentPlaying);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS) {
                 mMusicPlayer.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_NEXT) {

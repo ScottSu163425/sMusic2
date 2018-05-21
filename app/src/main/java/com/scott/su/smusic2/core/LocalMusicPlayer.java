@@ -8,6 +8,7 @@ import android.support.annotation.Size;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,7 +31,16 @@ public class LocalMusicPlayer {
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                getCallback().onComplete(mCurrentPlayingSong);
+            }
+        });
 
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mMediaPlayer.start();
+                getCallback().onStart(mCurrentPlayingSong);
+                startProgressTimer();
             }
         });
 
@@ -61,6 +71,10 @@ public class LocalMusicPlayer {
 
     }
 
+    public boolean isPlaying() {
+        return mMediaPlayer.isPlaying();
+    }
+
     public void skipToPrevious() {
 
     }
@@ -70,6 +84,19 @@ public class LocalMusicPlayer {
     }
 
     private void restart() {
+        try {
+            mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
+            mMediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startProgressTimer() {
+
+    }
+
+    private void stopProgressTimer() {
 
     }
 
@@ -81,5 +108,55 @@ public class LocalMusicPlayer {
         mMediaPlayer.start();
     }
 
+
+    private Callback mCallback;
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
+    }
+
+    private Callback getCallback() {
+        if (mCallback == null) {
+            mCallback = new Callback() {
+                @Override
+                public void onStart(LocalSongEntity song) {
+
+                }
+
+                @Override
+                public void onTik(LocalSongEntity song, int position, int duration) {
+
+                }
+
+                @Override
+                public void onPause(LocalSongEntity song, int position) {
+
+                }
+
+                @Override
+                public void onResume(LocalSongEntity song, int position) {
+
+                }
+
+                @Override
+                public void onComplete(LocalSongEntity song) {
+
+                }
+            };
+        }
+        return mCallback;
+    }
+
+    public interface Callback {
+        void onStart(LocalSongEntity song);
+
+        void onTik(LocalSongEntity song, int position, int duration);
+
+        void onPause(LocalSongEntity song, int position);
+
+        void onResume(LocalSongEntity song, int position);
+
+        void onComplete(LocalSongEntity song);
+    }
 
 }

@@ -151,15 +151,15 @@ public class LocalMusicPlayer {
         startProgressTimer();
     }
 
-    private Callback mCallback;
+    private MusicPlayCallback mCallback;
 
-    public void setCallback(Callback callback) {
+    public void setCallback(MusicPlayCallback callback) {
         this.mCallback = callback;
     }
 
-    private Callback getCallback() {
+    private MusicPlayCallback getCallback() {
         if (mCallback == null) {
-            mCallback = new Callback() {
+            mCallback = new MusicPlayCallback() {
                 @Override
                 public void onStart(LocalSongEntity song) {
 
@@ -189,17 +189,7 @@ public class LocalMusicPlayer {
         return mCallback;
     }
 
-    public interface Callback {
-        void onStart(LocalSongEntity song);
 
-        void onTik(LocalSongEntity song, int position, int duration);
-
-        void onPause(LocalSongEntity song, int position);
-
-        void onResume(LocalSongEntity song, int position);
-
-        void onComplete(LocalSongEntity song);
-    }
 
 
 }

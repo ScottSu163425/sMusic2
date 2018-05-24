@@ -190,6 +190,22 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
+        mBinding.viewSkipPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2018/5/24 根据播放循环模式，生成上一首歌曲，并获取其在播放列表坐标，
+                // TODO: 2018/5/24 将ViewPager翻至该页；
+//                mBinding.vpSongCover.setCurrentItem(,true);
+            }
+        });
+
+        mBinding.viewSkipNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //同Skip Prev
+            }
+        });
+
         mBinding.sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

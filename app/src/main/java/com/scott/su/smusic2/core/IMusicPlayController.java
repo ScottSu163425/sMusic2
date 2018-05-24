@@ -18,4 +18,8 @@ public interface IMusicPlayController {
     void skipToPrevious(Context context);
 
     void skipToNext(Context context);
+
+    void seekTo(Context context, int position);
+
+
 }

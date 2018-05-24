@@ -2,6 +2,7 @@ package com.scott.su.smusic2.core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -21,10 +22,12 @@ public class MusicPlayController implements IMusicPlayController {
     public static final String KEY_EXTRA_COMMAND_CODE = "KEY_EXTRA_COMMAND_CODE";
     public static final String KEY_EXTRA_PLAY_QUEUE = "KEY_EXTRA_PLAY_QUEUE";
     public static final String KEY_EXTRA_CURRENT_PLAYING = "KEY_EXTRA_CURRENT_PLAYING";
+    public static final String KEY_EXTRA_POSITION_SEEK_TO = "KEY_EXTRA_POSITION_SEEK_TO";
 
-    public static final int COMMAND_CODE_MUSIC_PLAY_PAUSE = 1;
-    public static final int COMMAND_CODE_MUSIC_SKIP_TO_NEXT = 2;
-    public static final int COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS = 3;
+    public static final int COMMAND_CODE_PLAY_PAUSE = 1;
+    public static final int COMMAND_CODE_SKIP_TO_NEXT = 2;
+    public static final int COMMAND_CODE_SKIP_TO_PREVIOUS = 3;
+    public static final int COMMAND_CODE_SEEK = 4;
 
 
     private static MusicPlayController sInstance;
@@ -47,41 +50,46 @@ public class MusicPlayController implements IMusicPlayController {
     }
 
     @Override
-    public void playPause(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying) {
-        sendCommend(context, COMMAND_CODE_MUSIC_PLAY_PAUSE, playQueue, currentPlaying);
+    public void playPause(Context context, @NonNull List<LocalSongEntity> playQueue, @NonNull LocalSongEntity currentPlaying) {
+        Intent extraData = new Intent();
+        extraData.putExtra(KEY_EXTRA_PLAY_QUEUE, (Serializable) playQueue);
+        extraData.putExtra(KEY_EXTRA_CURRENT_PLAYING, currentPlaying);
+
+        sendCommend(context, COMMAND_CODE_PLAY_PAUSE, extraData);
     }
 
     @Override
     public void skipToPrevious(Context context) {
-        sendCommend(context, COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS, null, null);
+        sendCommend(context, COMMAND_CODE_SKIP_TO_PREVIOUS, null);
     }
 
     @Override
     public void skipToNext(Context context) {
-        sendCommend(context, COMMAND_CODE_MUSIC_SKIP_TO_NEXT, null, null);
+        sendCommend(context, COMMAND_CODE_SKIP_TO_NEXT, null);
     }
 
+    @Override
+    public void seekTo(Context context, int position) {
+        Intent extraData = new Intent();
+        extraData.putExtra(KEY_EXTRA_POSITION_SEEK_TO, position);
 
-    private static void sendCommend(Context context, int command,
-                                    @Nullable List<LocalSongEntity> playQueue,
-                                    @Nullable LocalSongEntity currentPlaying) {
+        sendCommend(context, COMMAND_CODE_SEEK, extraData);
+    }
 
-        context.startService(new Intent(context,MusicPlayService.class));
-
+    private static void sendCommend(Context context, int command, @Nullable Intent extraData) {
+        //启动音乐播放服务
+        context.startService(new Intent(context, MusicPlayService.class));
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
-        Intent intent = new Intent(ACTION_MUSIC_PLAY_CONTROL);
-        intent.putExtra(KEY_EXTRA_COMMAND_CODE, command);
-
-        if (playQueue != null) {
-            intent.putExtra(KEY_EXTRA_PLAY_QUEUE, (Serializable) playQueue);
+        if (extraData == null) {
+            extraData = new Intent();
         }
 
-        if (currentPlaying != null) {
-            intent.putExtra(KEY_EXTRA_CURRENT_PLAYING, currentPlaying);
-        }
+        extraData.setAction(ACTION_MUSIC_PLAY_CONTROL);
+        extraData.putExtra(KEY_EXTRA_COMMAND_CODE, command);
 
-        manager.sendBroadcast(intent);
+        //发送指令本地广播
+        manager.sendBroadcast(extraData);
     }
 
 

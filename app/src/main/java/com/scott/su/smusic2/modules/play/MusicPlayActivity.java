@@ -179,6 +179,9 @@ public class MusicPlayActivity extends BaseActivity {
 
     }
 
+    /**
+     * 初始化播放控制相关
+     */
     private void initPlayControl() {
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +204,7 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO: 2018/5/17
+                MusicPlayController.getInstance().seekTo(getActivity(), seekBar.getProgress());
             }
         });
     }

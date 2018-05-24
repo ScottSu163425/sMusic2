@@ -102,6 +102,18 @@ public class LocalMusicPlayer {
 
     }
 
+    public void seekTo(int position) {
+        if (position < 0 || position > getCurrentDuration()) {
+            return;
+        }
+
+        mMediaPlayer.seekTo(position);
+
+        if (!isPlaying()) {
+            resume();
+        }
+    }
+
     public int getCurrentPosition() {
         if (isPlaying()) {
             return mMediaPlayer.getCurrentPosition();

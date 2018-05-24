@@ -105,7 +105,7 @@ public class MusicPlayService extends Service {
         public void onReceive(Context context, Intent intent) {
             int commandCode = intent.getIntExtra(MusicPlayController.KEY_EXTRA_COMMAND_CODE, 0);
 
-            if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_PLAY_PAUSE) {
+            if (commandCode == MusicPlayController.COMMAND_CODE_PLAY_PAUSE) {
                 ArrayList<LocalSongEntity> playQueue
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayController.KEY_EXTRA_PLAY_QUEUE);
 
@@ -113,10 +113,13 @@ public class MusicPlayService extends Service {
 
                 mMusicPlayer.setPlaySongs(playQueue);
                 mMusicPlayer.playPause(currentPlaying);
-            } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_PREVIOUS) {
+            } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_PREVIOUS) {
                 mMusicPlayer.skipToPrevious();
-            } else if (commandCode == MusicPlayController.COMMAND_CODE_MUSIC_SKIP_TO_NEXT) {
+            } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_NEXT) {
                 mMusicPlayer.skipToNext();
+            } else if (commandCode == MusicPlayController.COMMAND_CODE_SEEK) {
+                int positionSeekTo = intent.getIntExtra(MusicPlayController.KEY_EXTRA_POSITION_SEEK_TO, 0);
+                mMusicPlayer.seekTo(positionSeekTo);
             }
 
         }

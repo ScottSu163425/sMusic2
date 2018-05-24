@@ -73,11 +73,14 @@ public class LocalMusicPlayer {
             currentPlayingSong = mPlayQueue.get(0);
         }
 
-        if (mCurrentPlayingSong == null) {
-            mCurrentPlayingSong = currentPlayingSong;
+        if (mCurrentPlayingSong == null
+                || currentPlayingSong.getSongId() != mCurrentPlayingSong.getSongId()) {
 
+            //切歌
+            mCurrentPlayingSong = currentPlayingSong;
             restart();
         } else {
+            //暂停、播放
             if (isPlaying()) {
                 pause();
             } else {
@@ -188,8 +191,6 @@ public class LocalMusicPlayer {
         }
         return mCallback;
     }
-
-
 
 
 }

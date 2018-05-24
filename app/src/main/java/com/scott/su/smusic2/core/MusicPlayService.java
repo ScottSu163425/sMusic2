@@ -35,7 +35,7 @@ public class MusicPlayService extends Service {
         super.onCreate();
 
         mMusicPlayer = new LocalMusicPlayer(getApplicationContext());
-        mMusicPlayer.setCallback(new LocalMusicPlayer.Callback() {
+        mMusicPlayer.setCallback(new MusicPlayCallback() {
             @Override
             public void onStart(LocalSongEntity song) {
 

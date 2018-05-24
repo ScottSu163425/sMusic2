@@ -65,6 +65,9 @@ public class MusicPlayController implements IMusicPlayController {
     private static void sendCommend(Context context, int command,
                                     @Nullable List<LocalSongEntity> playQueue,
                                     @Nullable LocalSongEntity currentPlaying) {
+
+        context.startService(new Intent(context,MusicPlayService.class));
+
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
         Intent intent = new Intent(ACTION_MUSIC_PLAY_CONTROL);

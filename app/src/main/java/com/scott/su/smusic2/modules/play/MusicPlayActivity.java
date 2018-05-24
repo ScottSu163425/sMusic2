@@ -25,8 +25,6 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.jaeger.library.StatusBarUtil;
@@ -38,17 +36,15 @@ import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
-import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 描述: 音乐播放详情
+ * 描述: 音乐播放详情界面
  * 作者: Su
  * 日期: 2018/5/3
  */
@@ -87,7 +83,6 @@ public class MusicPlayActivity extends BaseActivity {
     private ActivityMusicPlayBinding mBinding;
     private MusicPlayCoverPageAdapter mCoverPageAdapter;
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
-
     private MusicPlayQueueListAdapter mPlayQueueListAdapter;
 
 
@@ -97,12 +92,38 @@ public class MusicPlayActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
-
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
         mSongPlaying = mSongPlayingInit;
 
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
+
+        initTitle();
+        initCoverPager();
+        initPlayControl();
+        initPlayQueue();
+
+        updateCurrentPlayingSong(mSongPlaying, true);
+    }
+
+    /**
+     * 初始化标题栏
+     */
+    private void initTitle() {
+        mBinding.toolbar.setTitle("");
+        setSupportActionBar(mBinding.toolbar);
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    /**
+     * 初始化封面相关
+     */
+    private void initCoverPager() {
         mBinding.ivCover.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -140,7 +161,7 @@ public class MusicPlayActivity extends BaseActivity {
                     return;
                 }
 
-                updateCurrentPlaying(mSongList.get(position));
+                updateCurrentPlayingSong(mSongList.get(position), false);
             }
 
             @Override
@@ -156,13 +177,13 @@ public class MusicPlayActivity extends BaseActivity {
             }
         }), false);
 
+    }
 
-        mBinding.toolbar.setTitle("");
-        setSupportActionBar(mBinding.toolbar);
-        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    private void initPlayControl() {
+        mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
             }
         });
 
@@ -182,7 +203,12 @@ public class MusicPlayActivity extends BaseActivity {
                 // TODO: 2018/5/17
             }
         });
+    }
 
+    /**
+     * 初始化播放列表相关
+     */
+    private void initPlayQueue() {
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -238,18 +264,11 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         mPlayQueueListAdapter = new MusicPlayQueueListAdapter(getActivity());
         mPlayQueueListAdapter.setCallback(new MusicPlayQueueListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, LocalSongEntity entity, int position) {
-                updateCurrentPlaying(entity);
+                updateCurrentPlayingSong(entity, false);
             }
 
             @Override
@@ -260,9 +279,6 @@ public class MusicPlayActivity extends BaseActivity {
         mPlayQueueListAdapter.setData(mSongList);
         mBinding.rvPlayQueue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
-
-
-        updateCurrentPlaying(mSongPlaying);
     }
 
     @Override
@@ -282,20 +298,31 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean isEntering) {
+        mSongPlaying = currentPlayingSong;
+
+        if (isEntering) {
+            MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
+        } else {
+            MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
+        }
+
+        updateCurrentPlayingSongInfo(currentPlayingSong);
+    }
+
+
     /**
      * 更新当前播放歌曲信息
      *
      * @param currentPlayingSong
      */
-    private void updateCurrentPlaying(@NonNull LocalSongEntity currentPlayingSong) {
-        mSongPlaying = currentPlayingSong;
-
-        ImageLoader.load(getActivity(), mSongPlaying.getAlbumCoverPath(), mBinding.ivCover);
+    private void updateCurrentPlayingSongInfo(@NonNull final LocalSongEntity currentPlayingSong) {
+        ImageLoader.load(getActivity(), currentPlayingSong.getAlbumCoverPath(), mBinding.ivCover);
 
         int positionCurrentPlaying = ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
             @Override
             public boolean test(LocalSongEntity obj) {
-                return obj.getSongId() == mSongPlaying.getSongId();
+                return obj.getSongId() == currentPlayingSong.getSongId();
             }
         });
 
@@ -312,7 +339,7 @@ public class MusicPlayActivity extends BaseActivity {
 
         TransitionManager.beginDelayedTransition(mBinding.cardCurrentPlaying);
 
-        updatePanelBackgroundColorByCover(mSongPlaying.getAlbumCoverPath());
+        updatePanelBackgroundColorByCover(currentPlayingSong.getAlbumCoverPath());
     }
 
     private void togglePlayQueue() {

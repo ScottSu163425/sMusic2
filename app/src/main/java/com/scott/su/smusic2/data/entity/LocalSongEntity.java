@@ -106,4 +106,5 @@ public class LocalSongEntity implements Serializable{
                 ", albumCoverPath='" + albumCoverPath + '\'' +
                 '}';
     }
-}
+
+ }

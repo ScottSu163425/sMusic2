@@ -413,22 +413,23 @@ public class MusicPlayActivity extends BaseActivity {
         final View revealStarter = mBinding.fabPlay;
         final View revealView = mBinding.viewBackgroundUpper;
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             revealStarter.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void run() {
                     final int centerX = ViewUtil.getXOnScreen(revealStarter) - ViewUtil.getXOnScreen(revealView)
-                            + (revealStarter.getWidth() / 2);
+                            + (revealStarter.getMeasuredWidth() / 2);
 
                     final int centerY = ViewUtil.getYOnScreen(revealStarter) - ViewUtil.getYOnScreen(revealView)
-                            - (revealStarter.getHeight() / 2) - ViewUtil.getStatusBarHeight(getActivity());
+                            + (revealStarter.getMeasuredHeight() / 2);
+
+                    final int radiusStart = revealStarter.getMeasuredWidth() / 2;
 
                     mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
-                            centerY, 0, (float) Math.hypot(revealView.getWidth(), revealView.getHeight()));
+                            centerY, radiusStart, (float) Math.hypot(revealView.getMeasuredWidth(), revealView.getMeasuredHeight()));
 
-                    mAnimatorRevealPanel.setDuration(1300);
+                    mAnimatorRevealPanel.setDuration(1200);
                     mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
                     mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
 

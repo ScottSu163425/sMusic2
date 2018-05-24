@@ -23,7 +23,7 @@ public class ViewUtil {
         int[] location = new int[2];
 //        view.getLocationInWindow(location);
         view.getLocationOnScreen(location);
-        return location[0];
+        return location[1];
     }
 
     public static int getStatusBarHeight(Context context) {

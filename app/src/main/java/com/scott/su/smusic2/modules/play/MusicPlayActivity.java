@@ -103,7 +103,7 @@ public class MusicPlayActivity extends BaseActivity {
         initPlayControl();
         initPlayQueue();
 
-        updateCurrentPlayingSong(mSongPlaying, true);
+        updateCurrentPlayingSong(mSongPlaying, false);
     }
 
     /**
@@ -186,7 +186,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
+                MusicPlayController.getInstance().playPause(getActivity());
             }
         });
 
@@ -196,6 +196,8 @@ public class MusicPlayActivity extends BaseActivity {
                 // TODO: 2018/5/24 根据播放循环模式，生成上一首歌曲，并获取其在播放列表坐标，
                 // TODO: 2018/5/24 将ViewPager翻至该页；
 //                mBinding.vpSongCover.setCurrentItem(,true);
+
+                MusicPlayController.getInstance().skipToPrevious(getActivity());
             }
         });
 
@@ -203,6 +205,8 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //同Skip Prev
+
+                MusicPlayController.getInstance().skipToNext(getActivity());
             }
         });
 
@@ -318,13 +322,13 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean isEntering) {
+    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean playPause) {
         mSongPlaying = currentPlayingSong;
 
-        if (isEntering) {
-            MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
+        if (playPause) {
+            MusicPlayController.getInstance().playPause(getActivity());
         } else {
-            MusicPlayController.getInstance().playPause(getActivity(), mSongList, mSongPlaying);
+            MusicPlayController.getInstance().play(getActivity(), mSongList, mSongPlaying);
         }
 
         updateCurrentPlayingSongInfo(currentPlayingSong);

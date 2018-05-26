@@ -2,16 +2,15 @@ package com.scott.su.smusic2.core;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.Size;
+import android.util.Log;
 
+import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +20,11 @@ import java.util.List;
  */
 
 public class LocalMusicPlayer {
+    private static final String TAG = "===>LocalMusicPlayer";
     private Context mContext;
     private MediaPlayer mMediaPlayer;
     private MusicPlayProgressTimer mProgressTimer;
-    private List<LocalSongEntity> mPlayQueue;
+    private List<LocalSongEntity> mPlayQueue = new ArrayList<>();
     private LocalSongEntity mCurrentPlayingSong;
 
 
@@ -35,13 +35,18 @@ public class LocalMusicPlayer {
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                Log.e(TAG, "onCompletion");
                 getCallback().onComplete(mCurrentPlayingSong);
+
+                skipToNext();
             }
         });
 
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                Log.e(TAG, "onPrepared");
+
                 mMediaPlayer.start();
                 getCallback().onStart(mCurrentPlayingSong);
                 startProgressTimer();
@@ -68,67 +73,106 @@ public class LocalMusicPlayer {
         this.mPlayQueue = playQueue;
     }
 
-    public void playPause(@Nullable LocalSongEntity currentPlayingSong) {
-        if (currentPlayingSong == null) {
-            currentPlayingSong = mPlayQueue.get(0);
+    public void play(@Nullable LocalSongEntity song) {
+        if (isPlayQueueEmpty()) {
+            return;
         }
 
-        if (mCurrentPlayingSong == null
-                || currentPlayingSong.getSongId() != mCurrentPlayingSong.getSongId()) {
+        if (song == null) {
+            song = mPlayQueue.get(0);
+        }
 
-            //切歌
-            mCurrentPlayingSong = currentPlayingSong;
+        //初次播放
+        if (isPlayingSongEmpty()) {
+            mCurrentPlayingSong = song;
             restart();
+            return;
+        }
+
+        if (mCurrentPlayingSong.getSongId() == song.getSongId()) {
+            resume();
+            return;
+        }
+
+        //切歌
+        mCurrentPlayingSong = song;
+        restart();
+    }
+
+    /**
+     * 切换播放中的音乐暂停状态
+     */
+    public void playPause() {
+        if (!canControlCurrentPlayingSong()) {
+            return;
+        }
+
+        //暂停、播放
+        if (isPlaying()) {
+            pause();
         } else {
-            //暂停、播放
-            if (isPlaying()) {
-                pause();
-            } else {
-                resume();
-            }
+            resume();
+        }
+    }
+
+    public void pause() {
+        if (!canControlCurrentPlayingSong()) {
+            return;
+        }
+
+        if (isPlaying()) {
+            mMediaPlayer.pause();
+            getCallback().onPause(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
+            stopProgressTimer();
         }
 
     }
 
-    public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+    public void resume() {
+        if (!canControlCurrentPlayingSong()) {
+            return;
+        }
+
+        if (!isPlaying()) {
+            mMediaPlayer.start();
+            getCallback().onResume(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
+            startProgressTimer();
+        }
     }
 
     public void skipToPrevious() {
+        if (isPlayQueueEmpty()) {
+            return;
+        }
 
+        mCurrentPlayingSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
+        restart();
     }
 
     public void skipToNext() {
+        if (isPlayQueueEmpty()) {
+            return;
+        }
 
+        mCurrentPlayingSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
+        restart();
     }
 
     public void seekTo(int position) {
+        if (!canControlCurrentPlayingSong()) {
+            return;
+        }
+
         if (position < 0 || position > getCurrentDuration()) {
             return;
         }
 
         mMediaPlayer.seekTo(position);
 
-        if (!isPlaying()) {
-            resume();
-        }
+        resume();
     }
 
-    public int getCurrentPosition() {
-        if (isPlaying()) {
-            return mMediaPlayer.getCurrentPosition();
-        }
-        return 0;
-    }
-
-    public int getCurrentDuration() {
-        if (isPlaying()) {
-            return mMediaPlayer.getDuration();
-        }
-        return 0;
-    }
-
-    private void restart() {
+    public void restart() {
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
@@ -138,32 +182,51 @@ public class LocalMusicPlayer {
         }
     }
 
+    public void stop() {
+        pause();
+
+        mMediaPlayer.stop();
+    }
+
+    public int getCurrentPosition() {
+        return mMediaPlayer.getCurrentPosition();
+    }
+
+    public int getCurrentDuration() {
+        return mMediaPlayer.getDuration();
+    }
+
+    public boolean isPlaying() {
+        return mMediaPlayer.isPlaying();
+    }
+
+    public boolean isPlayQueueEmpty() {
+        return mPlayQueue == null
+                || mPlayQueue.isEmpty();
+    }
+
+    public boolean isPlayingSongEmpty() {
+        return mCurrentPlayingSong == null
+                || getCurrentDuration() <= 0;
+    }
+
+    /**
+     * 是否能操作当前播放中的歌曲
+     *
+     * @return
+     */
+    private boolean canControlCurrentPlayingSong() {
+        return !isPlayQueueEmpty()
+                && !isPlayingSongEmpty();
+    }
+
     private void startProgressTimer() {
+        stopProgressTimer();
         mProgressTimer.start();
     }
 
     private void stopProgressTimer() {
         mProgressTimer.stop();
-    }
-
-    public void pause() {
-        if (!isPlaying()) {
-            return;
-        }
-
-        mMediaPlayer.pause();
-        getCallback().onPause(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
-        stopProgressTimer();
-    }
-
-    public void resume() {
-        if (isPlaying()) {
-            return;
-        }
-
-        mMediaPlayer.start();
-        getCallback().onResume(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
-        startProgressTimer();
     }
 
     private MusicPlayCallback mCallback;

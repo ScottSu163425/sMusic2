@@ -2,6 +2,8 @@ package com.scott.su.smusic2;
 
 import android.app.Application;
 
+import com.scott.su.smusic2.core.MusicPlayController;
+
 /**
  * 描述:
  * 作者: Su
@@ -15,6 +17,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        MusicPlayController.getInstance().launch(getApplicationContext());
     }
 
 }

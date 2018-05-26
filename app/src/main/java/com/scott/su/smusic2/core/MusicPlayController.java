@@ -2,7 +2,6 @@ package com.scott.su.smusic2.core;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -24,10 +23,12 @@ public class MusicPlayController implements IMusicPlayController {
     public static final String KEY_EXTRA_CURRENT_PLAYING = "KEY_EXTRA_CURRENT_PLAYING";
     public static final String KEY_EXTRA_POSITION_SEEK_TO = "KEY_EXTRA_POSITION_SEEK_TO";
 
+    public static final int COMMAND_CODE_PLAY = 0;
     public static final int COMMAND_CODE_PLAY_PAUSE = 1;
     public static final int COMMAND_CODE_SKIP_TO_NEXT = 2;
     public static final int COMMAND_CODE_SKIP_TO_PREVIOUS = 3;
     public static final int COMMAND_CODE_SEEK = 4;
+    public static final int COMMAND_CODE_STOP = 5;
 
 
     private static MusicPlayController sInstance;
@@ -49,13 +50,23 @@ public class MusicPlayController implements IMusicPlayController {
 
     }
 
+    public void launch(Context context) {
+        //启动音乐播放服务
+        context.startService(new Intent(context, MusicPlayService.class));
+    }
+
     @Override
-    public void playPause(Context context, @NonNull List<LocalSongEntity> playQueue, @NonNull LocalSongEntity currentPlaying) {
+    public void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying) {
         Intent extraData = new Intent();
         extraData.putExtra(KEY_EXTRA_PLAY_QUEUE, (Serializable) playQueue);
         extraData.putExtra(KEY_EXTRA_CURRENT_PLAYING, currentPlaying);
 
-        sendCommend(context, COMMAND_CODE_PLAY_PAUSE, extraData);
+        sendCommend(context, COMMAND_CODE_PLAY, extraData);
+    }
+
+    @Override
+    public void playPause(Context context) {
+        sendCommend(context, COMMAND_CODE_PLAY_PAUSE, null);
     }
 
     @Override
@@ -74,6 +85,11 @@ public class MusicPlayController implements IMusicPlayController {
         extraData.putExtra(KEY_EXTRA_POSITION_SEEK_TO, position);
 
         sendCommend(context, COMMAND_CODE_SEEK, extraData);
+    }
+
+    @Override
+    public void stop(Context context) {
+        sendCommend(context, COMMAND_CODE_STOP, null);
     }
 
     private static void sendCommend(Context context, int command, @Nullable Intent extraData) {

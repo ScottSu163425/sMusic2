@@ -19,6 +19,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.LocalSongHelper;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
@@ -166,6 +167,7 @@ public class MainActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        MusicPlayController.getInstance().stop(getActivity());
                         finish();
                     }
                 });

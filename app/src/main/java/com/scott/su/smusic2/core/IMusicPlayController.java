@@ -13,13 +13,17 @@ import java.util.List;
  */
 
 public interface IMusicPlayController {
-    void playPause(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying);
+    void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying);
+
+    void playPause(Context context);
 
     void skipToPrevious(Context context);
 
     void skipToNext(Context context);
 
     void seekTo(Context context, int position);
+
+    void stop(Context context);
 
 
 }

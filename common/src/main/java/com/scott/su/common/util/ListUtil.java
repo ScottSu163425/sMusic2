@@ -104,7 +104,45 @@ public class ListUtil {
     }
 
     /**
+     * 取出指定列表中指定元素的上一个元素
+     *
+     * @param list
+     * @param currentEntity 为空时，返回列表首元素
+     * @param <E>
+     * @return null如果list为null或不包含任何元素
+     */
+    public static <E> E getPrevLoop(@NonNull List<E> list, @Nullable E currentEntity) {
+        if (list == null) {
+            return null;
+        }
+
+        int size = list.size();
+
+        if (size == 0) {
+            return null;
+        }
+
+        if (size == 1) {
+            return list.get(0);
+        }
+
+        if (currentEntity == null || !list.contains(currentEntity)) {
+            return list.get(0);
+        }
+
+        final int indexCurrent = list.indexOf(currentEntity);
+        int indexPrev = indexCurrent - 1;
+
+        if (indexPrev == -1) {
+            indexPrev = size - 1;
+        }
+
+        return list.get(indexPrev);
+    }
+
+    /**
      * 取出指定列表中指定元素的随机下一个元素
+     *
      * @param list
      * @param entityExcluded
      * @param <E>

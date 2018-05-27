@@ -14,7 +14,7 @@ public class MusicPlayProgressTimer {
     private HandlerThread mHandlerThread;
     private Handler mHandler;
     private Runnable mRunnable;
-
+    private boolean mTicking;
 
     public MusicPlayProgressTimer() {
         mHandlerThread = new HandlerThread("ProgressTimer");
@@ -26,6 +26,7 @@ public class MusicPlayProgressTimer {
         stop();
         mRunnable = new MyTimerRunnable();
         mHandler.post(mRunnable);
+        mTicking = true;
     }
 
     public void stop() {
@@ -33,6 +34,7 @@ public class MusicPlayProgressTimer {
             mHandler.removeCallbacks(mRunnable);
             mRunnable = null;
         }
+        mTicking = false;
     }
 
     public void release() {
@@ -66,7 +68,9 @@ public class MusicPlayProgressTimer {
 
         @Override
         public void run() {
-            getCallback().onTik();
+            if(mTicking){
+                getCallback().onTik();
+            }
             mHandler.postDelayed(this, DELAY);
         }
     }

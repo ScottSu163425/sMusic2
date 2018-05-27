@@ -447,6 +447,7 @@ public class MusicPlayActivity extends BaseActivity {
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
 //        stopPanelReveal();
 
+
         final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 
         final boolean userDefault = TextUtils.isEmpty(coverPath);

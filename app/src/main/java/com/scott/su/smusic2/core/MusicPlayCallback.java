@@ -2,6 +2,8 @@ package com.scott.su.smusic2.core;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
+import java.util.List;
+
 /**
  * 描述:
  * 作者: su
@@ -9,14 +11,15 @@ import com.scott.su.smusic2.data.entity.LocalSongEntity;
  */
 
 public interface MusicPlayCallback {
-    void onStart(LocalSongEntity song);
 
-    void onTik(LocalSongEntity song, int position, int duration);
+    void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue);
 
-    void onPause(LocalSongEntity song, int position);
+    void onTik(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration);
 
-    void onResume(LocalSongEntity song, int position);
+    void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration);
 
-    void onComplete(LocalSongEntity song);
+    void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration);
+
+    void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue);
 
 }

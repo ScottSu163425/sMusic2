@@ -36,6 +36,8 @@ import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.core.MusicPlayCallback;
+import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
@@ -81,9 +83,11 @@ public class MusicPlayActivity extends BaseActivity {
     private LocalSongEntity mSongPlayingInit;
 
     private ActivityMusicPlayBinding mBinding;
+    private MusicPlayCallback mMusicPlayCallback;
     private MusicPlayCoverPageAdapter mCoverPageAdapter;
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
     private MusicPlayQueueListAdapter mPlayQueueListAdapter;
+    private boolean mDraggingSeekBar;
 
 
     private Animator mAnimatorRevealPanel;
@@ -101,6 +105,7 @@ public class MusicPlayActivity extends BaseActivity {
         initTitle();
         initCoverPager();
         initPlayControl();
+        initPlayCallback();
         initPlayQueue();
 
         updateCurrentPlayingSong(mSongPlaying, false);
@@ -213,17 +218,18 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(progress, null));
+                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(progress, ":"));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                mDraggingSeekBar = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO: 2018/5/17
+                mDraggingSeekBar = false;
+
                 MusicPlayController.getInstance().seekTo(getActivity(), seekBar.getProgress());
             }
         });
@@ -305,6 +311,45 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
     }
 
+    private void initPlayCallback() {
+        mMusicPlayCallback = new MusicPlayCallback() {
+            @Override
+            public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
+                updateCurrentPlayingSongInfo(song);
+
+                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
+            }
+
+            @Override
+            public void onTik(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
+                if (mDraggingSeekBar) {
+                    return;
+                }
+
+                mBinding.sbProgress.setProgress(position);
+                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(position, ":"));
+                mBinding.tvTimeTotal.setText(TimeUtil.getMMssFromMills(duration, ":"));
+            }
+
+            @Override
+            public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
+                mBinding.fabPlay.setImageResource(R.drawable.ic_play_arrow_black);
+            }
+
+            @Override
+            public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
+                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
+            }
+
+            @Override
+            public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
+
+            }
+        };
+
+        MusicPlayCallbackBus.getInstance().registerCallback(mMusicPlayCallback);
+    }
+
     @Override
     public void onBackPressed() {
         if (BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
@@ -322,6 +367,13 @@ public class MusicPlayActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
+    }
+
     private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean playPause) {
         mSongPlaying = currentPlayingSong;
 
@@ -333,7 +385,6 @@ public class MusicPlayActivity extends BaseActivity {
 
         updateCurrentPlayingSongInfo(currentPlayingSong);
     }
-
 
     /**
      * 更新当前播放歌曲信息
@@ -394,7 +445,7 @@ public class MusicPlayActivity extends BaseActivity {
      * @param coverPath
      */
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
-        stopPanelReveal();
+//        stopPanelReveal();
 
         final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 

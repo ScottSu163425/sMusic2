@@ -66,6 +66,7 @@ public class MusicPlayProgressTimer {
 
         @Override
         public void run() {
+            getCallback().onTik();
             mHandler.postDelayed(this, DELAY);
         }
     }

@@ -36,7 +36,7 @@ public class LocalMusicPlayer {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 Log.e(TAG, "onCompletion");
-                getCallback().onComplete(mCurrentPlayingSong);
+                getCallback().onComplete(mCurrentPlayingSong, mPlayQueue);
 
                 skipToNext();
             }
@@ -48,7 +48,7 @@ public class LocalMusicPlayer {
                 Log.e(TAG, "onPrepared");
 
                 mMediaPlayer.start();
-                getCallback().onStart(mCurrentPlayingSong);
+                getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
                 startProgressTimer();
             }
         });
@@ -64,13 +64,21 @@ public class LocalMusicPlayer {
         mProgressTimer.setCallback(new MusicPlayProgressTimer.Callback() {
             @Override
             public void onTik() {
-                getCallback().onTik(mCurrentPlayingSong, getCurrentPosition(), getCurrentDuration());
+                getCallback().onTik(mCurrentPlayingSong, mPlayQueue, getCurrentPosition(), getCurrentDuration());
             }
         });
     }
 
     public void setPlaySongs(@NonNull List<LocalSongEntity> playQueue) {
         this.mPlayQueue = playQueue;
+    }
+
+    public List<LocalSongEntity> getPlayQueue() {
+        return mPlayQueue;
+    }
+
+    public LocalSongEntity getCurrentPlayingSong() {
+        return mCurrentPlayingSong;
     }
 
     public void play(@Nullable LocalSongEntity song) {
@@ -122,7 +130,7 @@ public class LocalMusicPlayer {
 
         if (isPlaying()) {
             mMediaPlayer.pause();
-            getCallback().onPause(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
+            getCallback().onPause(mCurrentPlayingSong, mPlayQueue, getCurrentPosition(),getCurrentDuration());
             stopProgressTimer();
         }
 
@@ -135,7 +143,7 @@ public class LocalMusicPlayer {
 
         if (!isPlaying()) {
             mMediaPlayer.start();
-            getCallback().onResume(mCurrentPlayingSong, mMediaPlayer.getCurrentPosition());
+            getCallback().onResume(mCurrentPlayingSong, mPlayQueue,getCurrentPosition(),getCurrentDuration());
             startProgressTimer();
         }
     }
@@ -238,28 +246,29 @@ public class LocalMusicPlayer {
     private MusicPlayCallback getCallback() {
         if (mCallback == null) {
             mCallback = new MusicPlayCallback() {
+
                 @Override
-                public void onStart(LocalSongEntity song) {
+                public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
 
                 }
 
                 @Override
-                public void onTik(LocalSongEntity song, int position, int duration) {
+                public void onTik(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
 
                 }
 
                 @Override
-                public void onPause(LocalSongEntity song, int position) {
+                public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
 
                 }
 
                 @Override
-                public void onResume(LocalSongEntity song, int position) {
+                public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
 
                 }
 
                 @Override
-                public void onComplete(LocalSongEntity song) {
+                public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
 
                 }
             };

@@ -2,6 +2,7 @@ package com.scott.su.smusic2;
 
 import android.app.Application;
 
+import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 
 /**
@@ -17,7 +18,15 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MusicPlayController.getInstance().launch(getApplicationContext());
+        MusicPlayController.launch(getApplicationContext());
+        MusicPlayCallbackBus.init(getApplicationContext());
+    }
+
+    @Override
+    public void onTerminate() {
+        MusicPlayCallbackBus.release(getApplicationContext());
+
+        super.onTerminate();
     }
 
 }

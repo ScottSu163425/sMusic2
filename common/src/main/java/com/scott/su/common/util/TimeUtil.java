@@ -168,6 +168,23 @@ public class TimeUtil {
     }
 
     /**
+     * 毫秒转MM:SS字符串
+     *
+     * @param mills
+     * @param divider 自定义分隔符
+     * @return
+     */
+    public static String getMMssFromMills(long mills, @Nullable String divider) {
+        long[] hms = getHmsFromMills(mills);
+        String strM = toDoubleDigits(hms[1]);
+        String strS = toDoubleDigits(hms[2]);
+
+        String div = TextUtils.isEmpty(divider) ? DIVIDER_HHMMSS : divider;
+
+        return strM + div + strS;
+    }
+
+    /**
      * 秒转HH:MM:SS字符串
      *
      * @param seconds
@@ -175,7 +192,7 @@ public class TimeUtil {
      * @return
      */
     public static String getHhmmssFromSeconds(long seconds, @Nullable String divider) {
-        return getHhmmssFromMills(seconds * MILLISECONDS_OF_SECOND,divider);
+        return getHhmmssFromMills(seconds * MILLISECONDS_OF_SECOND, divider);
     }
 
     private static String toDoubleDigits(long num) {

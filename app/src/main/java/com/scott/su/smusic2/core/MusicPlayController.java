@@ -10,6 +10,11 @@ import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import java.io.Serializable;
 import java.util.List;
 
+import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_COMMAND_CODE;
+import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG;
+import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE;
+import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_POSITION_SEEK_TO;
+
 /**
  * 描述: 音乐播放指令控制器
  * 作者: su
@@ -18,17 +23,15 @@ import java.util.List;
 
 public class MusicPlayController implements IMusicPlayController {
     public static final String ACTION_MUSIC_PLAY_CONTROL = "ACTION_MUSIC_PLAY_CONTROL";
-    public static final String KEY_EXTRA_COMMAND_CODE = "KEY_EXTRA_COMMAND_CODE";
-    public static final String KEY_EXTRA_PLAY_QUEUE = "KEY_EXTRA_PLAY_QUEUE";
-    public static final String KEY_EXTRA_CURRENT_PLAYING = "KEY_EXTRA_CURRENT_PLAYING";
-    public static final String KEY_EXTRA_POSITION_SEEK_TO = "KEY_EXTRA_POSITION_SEEK_TO";
 
-    public static final int COMMAND_CODE_PLAY = 0;
-    public static final int COMMAND_CODE_PLAY_PAUSE = 1;
-    public static final int COMMAND_CODE_SKIP_TO_NEXT = 2;
-    public static final int COMMAND_CODE_SKIP_TO_PREVIOUS = 3;
-    public static final int COMMAND_CODE_SEEK = 4;
-    public static final int COMMAND_CODE_STOP = 5;
+    public static final int COMMAND_CODE_NONE = 0;
+    public static final int COMMAND_CODE_UPDATE_CURRENT_PLAYING_SONG_INFO = COMMAND_CODE_NONE + 1;
+    public static final int COMMAND_CODE_PLAY = COMMAND_CODE_NONE + 2;
+    public static final int COMMAND_CODE_PLAY_PAUSE = COMMAND_CODE_NONE + 3;
+    public static final int COMMAND_CODE_SKIP_TO_NEXT = COMMAND_CODE_NONE + 4;
+    public static final int COMMAND_CODE_SKIP_TO_PREVIOUS = COMMAND_CODE_NONE + 5;
+    public static final int COMMAND_CODE_SEEK = COMMAND_CODE_NONE + 6;
+    public static final int COMMAND_CODE_STOP = COMMAND_CODE_NONE + 7;
 
 
     private static MusicPlayController sInstance;
@@ -45,21 +48,25 @@ public class MusicPlayController implements IMusicPlayController {
         return sInstance;
     }
 
+    public static void launch(Context context) {
+        //启动音乐播放服务
+        context.startService(new Intent(context, MusicPlayService.class));
+    }
 
     private MusicPlayController() {
 
     }
 
-    public void launch(Context context) {
-        //启动音乐播放服务
-        context.startService(new Intent(context, MusicPlayService.class));
+    @Override
+    public void updateCurrentPlayingInfo(Context context) {
+        sendCommend(context, COMMAND_CODE_UPDATE_CURRENT_PLAYING_SONG_INFO, null);
     }
 
     @Override
     public void play(Context context, List<LocalSongEntity> playQueue, LocalSongEntity currentPlaying) {
         Intent extraData = new Intent();
         extraData.putExtra(KEY_EXTRA_PLAY_QUEUE, (Serializable) playQueue);
-        extraData.putExtra(KEY_EXTRA_CURRENT_PLAYING, currentPlaying);
+        extraData.putExtra(KEY_EXTRA_CURRENT_PLAYING_SONG, currentPlaying);
 
         sendCommend(context, COMMAND_CODE_PLAY, extraData);
     }

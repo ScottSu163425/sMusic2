@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 日期: 2018/4/29
  */
 
-public class LocalSongEntity implements Serializable{
+public class LocalSongEntity implements Serializable {
     private long songId;
     private long albumId;
     private long duration;
@@ -107,4 +107,13 @@ public class LocalSongEntity implements Serializable{
                 '}';
     }
 
- }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LocalSongEntity) {
+            return getSongId() == ((LocalSongEntity) obj).getSongId();
+        }
+
+        return false;
+    }
+
+}

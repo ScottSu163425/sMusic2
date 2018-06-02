@@ -265,5 +265,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private static long sLastClickTime;
+
+    public static boolean isFastDoubleClick() {
+        long currentClickTime = System.currentTimeMillis();
+
+        if ((currentClickTime - sLastClickTime) < 1000) {
+            return true;
+        }
+
+        sLastClickTime = currentClickTime;
+        return false;
+    }
+
 
 }

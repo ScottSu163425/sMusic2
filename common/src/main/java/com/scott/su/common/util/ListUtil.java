@@ -16,7 +16,7 @@ public class ListUtil {
     private ListUtil() {
     }
 
-    public static <E> boolean isExit(List<E> list, Judgment<E> judgment) {
+    public static <E> boolean isInList(List<E> list, Judgment<E> judgment) {
 //        return !filter(list, judgment).isEmpty();
         return getPositionIntList(list, judgment) != POSITION_NONE;
     }
@@ -74,8 +74,8 @@ public class ListUtil {
      * @param <E>
      * @return null如果list为null或不包含任何元素
      */
-    public static <E> E getNextLoop(@NonNull List<E> list, @Nullable E currentEntity) {
-        if (list == null) {
+    public static <E> E getNextLoop(@NonNull List<E> list, @NonNull final E currentEntity) {
+        if (list == null || currentEntity == null) {
             return null;
         }
 
@@ -85,12 +85,15 @@ public class ListUtil {
             return null;
         }
 
-        if (size == 1) {
-            return list.get(0);
-        }
+        boolean isExist = isInList(list, new Judgment<E>() {
+            @Override
+            public boolean test(E obj) {
+                return obj.equals(currentEntity);
+            }
+        });
 
-        if (currentEntity == null || !list.contains(currentEntity)) {
-            return list.get(0);
+        if (!isExist) {
+            return null;
         }
 
         final int indexCurrent = list.indexOf(currentEntity);
@@ -111,8 +114,8 @@ public class ListUtil {
      * @param <E>
      * @return null如果list为null或不包含任何元素
      */
-    public static <E> E getPrevLoop(@NonNull List<E> list, @Nullable E currentEntity) {
-        if (list == null) {
+    public static <E> E getPrevLoop(@NonNull List<E> list, @Nullable final E currentEntity) {
+        if (list == null || currentEntity == null) {
             return null;
         }
 
@@ -122,18 +125,21 @@ public class ListUtil {
             return null;
         }
 
-        if (size == 1) {
-            return list.get(0);
-        }
+        boolean isExist = isInList(list, new Judgment<E>() {
+            @Override
+            public boolean test(E obj) {
+                return obj.equals(currentEntity);
+            }
+        });
 
-        if (currentEntity == null || !list.contains(currentEntity)) {
-            return list.get(0);
+        if (!isExist) {
+            return null;
         }
 
         final int indexCurrent = list.indexOf(currentEntity);
         int indexPrev = indexCurrent - 1;
 
-        if (indexPrev == -1) {
+        if (indexPrev < 0) {
             indexPrev = size - 1;
         }
 

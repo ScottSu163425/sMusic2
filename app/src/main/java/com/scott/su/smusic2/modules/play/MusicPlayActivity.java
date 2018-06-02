@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,6 +57,8 @@ import java.util.List;
 public class MusicPlayActivity extends BaseActivity {
     private static final String KEY_EXTRA_SONG_LIST = "KEY_EXTRA_SONG_LIST";
     private static final String KEY_EXTRA_SONG = "KEY_EXTRA_SONG";
+
+    private static final int DURATION_REVEAL = 800;
 
 
     public static void start(Context context, ArrayList<LocalSongEntity> songList,
@@ -151,7 +156,7 @@ public class MusicPlayActivity extends BaseActivity {
 
         mBinding.vpSongCover.setOffscreenPageLimit(fragments.size());
         mBinding.vpSongCover.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            boolean firstTimeSelect = true;
+            boolean selectByGesture = false;
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -160,18 +165,17 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                //过滤第一次默认回调:updateCurrentPlaying中有调用歌曲列表相关方法，未初始化将抛空指针；
-                if (firstTimeSelect) {
-                    firstTimeSelect = false;
-                    return;
+                if (selectByGesture) {
+                    updateCurrentPlayingSong(mSongList.get(position), false);
                 }
 
-                updateCurrentPlayingSong(mSongList.get(position), false);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    selectByGesture = true;
+                }
             }
         });
         mBinding.vpSongCover.setAdapter(mCoverPageAdapter);
@@ -191,6 +195,10 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isFastDoubleClick()) {
+                    return;
+                }
+
                 MusicPlayController.getInstance().playPause(getActivity());
             }
         });
@@ -198,9 +206,9 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2018/5/24 根据播放循环模式，生成上一首歌曲，并获取其在播放列表坐标，
-                // TODO: 2018/5/24 将ViewPager翻至该页；
-//                mBinding.vpSongCover.setCurrentItem(,true);
+                if (isFastDoubleClick()) {
+                    return;
+                }
 
                 MusicPlayController.getInstance().skipToPrevious(getActivity());
             }
@@ -209,8 +217,6 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //同Skip Prev
-
                 MusicPlayController.getInstance().skipToNext(getActivity());
             }
         });
@@ -218,7 +224,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(progress, ":"));
+                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(progress, null));
             }
 
             @Override
@@ -326,9 +332,10 @@ public class MusicPlayActivity extends BaseActivity {
                     return;
                 }
 
+                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
                 mBinding.sbProgress.setProgress(position);
-                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(position, ":"));
-                mBinding.tvTimeTotal.setText(TimeUtil.getMMssFromMills(duration, ":"));
+                mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(position, null));
+                mBinding.tvTimeTotal.setText(TimeUtil.getMMssFromMills(duration, null));
             }
 
             @Override
@@ -406,8 +413,8 @@ public class MusicPlayActivity extends BaseActivity {
 
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());
-        mBinding.tvTimeCurrent.setText(TimeUtil.getHhmmssFromMills(0, null));
-        mBinding.tvTimeTotal.setText(TimeUtil.getHhmmssFromMills(currentPlayingSong.getDuration(), null));
+        mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(0, null));
+        mBinding.tvTimeTotal.setText(TimeUtil.getMMssFromMills(currentPlayingSong.getDuration(), null));
 
         mBinding.sbProgress.setMax((int) currentPlayingSong.getDuration());
         mBinding.sbProgress.setProgress(0);
@@ -447,7 +454,6 @@ public class MusicPlayActivity extends BaseActivity {
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
 //        stopPanelReveal();
 
-
         final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 
         final boolean userDefault = TextUtils.isEmpty(coverPath);
@@ -485,7 +491,22 @@ public class MusicPlayActivity extends BaseActivity {
         final View revealStarter = mBinding.fabPlay;
         final View revealView = mBinding.viewBackgroundUpper;
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int colorCurrent = Color.TRANSPARENT;
+
+            Drawable background = revealView.getBackground();
+            if (background instanceof ColorDrawable) {
+                colorCurrent = ((ColorDrawable) background).getColor();
+            }
+
+            if (mAnimatorRevealPanel != null
+                    && mAnimatorRevealPanel.isRunning()
+                    && color == colorCurrent) {
+
+                return;
+            }
+
             revealStarter.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -501,7 +522,8 @@ public class MusicPlayActivity extends BaseActivity {
                     mAnimatorRevealPanel = ViewAnimationUtils.createCircularReveal(revealView, centerX,
                             centerY, radiusStart, (float) Math.hypot(revealView.getMeasuredWidth(), revealView.getMeasuredHeight()));
 
-                    mAnimatorRevealPanel.setDuration(1200);
+                    mAnimatorRevealPanel.setDuration(DURATION_REVEAL);
+
                     mAnimatorRevealPanel.setInterpolator(new FastOutSlowInInterpolator());
                     mAnimatorRevealPanel.addListener(new AnimatorListenerAdapter() {
 

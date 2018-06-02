@@ -42,16 +42,16 @@ public class LocalMusicPlayer {
             }
         });
 
-        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                Log.e(TAG, "onPrepared");
-
-                mMediaPlayer.start();
-                getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
-                startProgressTimer();
-            }
-        });
+//        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                Log.e(TAG, "onPrepared");
+//
+//                mMediaPlayer.start();
+//                getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
+//                startProgressTimer();
+//            }
+//        });
 
         mMediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
@@ -81,29 +81,29 @@ public class LocalMusicPlayer {
         return mCurrentPlayingSong;
     }
 
-    public void play(@Nullable LocalSongEntity song) {
+    public void play(@Nullable LocalSongEntity newSong) {
         if (isPlayQueueEmpty()) {
             return;
         }
 
-        if (song == null) {
-            song = mPlayQueue.get(0);
+        if (newSong == null) {
+            newSong = mPlayQueue.get(0);
         }
 
         //初次播放
         if (isPlayingSongEmpty()) {
-            mCurrentPlayingSong = song;
+            mCurrentPlayingSong = newSong;
             restart();
             return;
         }
 
-        if (mCurrentPlayingSong.getSongId() == song.getSongId()) {
+        if (mCurrentPlayingSong.equals(newSong)) {
             resume();
             return;
         }
 
         //切歌
-        mCurrentPlayingSong = song;
+        mCurrentPlayingSong = newSong;
         restart();
     }
 
@@ -130,7 +130,7 @@ public class LocalMusicPlayer {
 
         if (isPlaying()) {
             mMediaPlayer.pause();
-            getCallback().onPause(mCurrentPlayingSong, mPlayQueue, getCurrentPosition(),getCurrentDuration());
+            getCallback().onPause(mCurrentPlayingSong, mPlayQueue, getCurrentPosition(), getCurrentDuration());
             stopProgressTimer();
         }
 
@@ -143,7 +143,7 @@ public class LocalMusicPlayer {
 
         if (!isPlaying()) {
             mMediaPlayer.start();
-            getCallback().onResume(mCurrentPlayingSong, mPlayQueue,getCurrentPosition(),getCurrentDuration());
+            getCallback().onResume(mCurrentPlayingSong, mPlayQueue, getCurrentPosition(), getCurrentDuration());
             startProgressTimer();
         }
     }
@@ -153,7 +153,12 @@ public class LocalMusicPlayer {
             return;
         }
 
-        mCurrentPlayingSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
+        LocalSongEntity newSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
+        if (newSong == null) {
+            return;
+        }
+
+        mCurrentPlayingSong = newSong;
         restart();
     }
 
@@ -162,7 +167,12 @@ public class LocalMusicPlayer {
             return;
         }
 
-        mCurrentPlayingSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
+        LocalSongEntity newSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
+        if (newSong == null) {
+            return;
+        }
+
+        mCurrentPlayingSong = newSong;
         restart();
     }
 
@@ -184,7 +194,12 @@ public class LocalMusicPlayer {
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
-            mMediaPlayer.prepareAsync();
+//            mMediaPlayer.prepareAsync();//若多次调用，可能产生顺序问题；
+            mMediaPlayer.prepare();//同步方法，保证顺序
+
+            mMediaPlayer.start();
+            getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
+            startProgressTimer();
         } catch (IOException e) {
             e.printStackTrace();
         }

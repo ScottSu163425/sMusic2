@@ -171,7 +171,7 @@ public class TimeUtil {
      * 毫秒转MM:SS字符串
      *
      * @param mills
-     * @param divider 自定义分隔符
+     * @param divider 自定义分隔符 ,默认 ：
      * @return
      */
     public static String getMMssFromMills(long mills, @Nullable String divider) {

@@ -58,6 +58,7 @@ public class MusicPlayService extends Service {
 
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
+                extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_POSITION_CURRENT_PLAYING, position);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_DURATION_CURRENT_PLAYING, duration);
 
@@ -71,6 +72,7 @@ public class MusicPlayService extends Service {
 
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
+                extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_POSITION_CURRENT_PLAYING, position);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_DURATION_CURRENT_PLAYING, duration);
 
@@ -84,6 +86,7 @@ public class MusicPlayService extends Service {
 
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
+                extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_POSITION_CURRENT_PLAYING, position);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_DURATION_CURRENT_PLAYING, duration);
 
@@ -97,6 +100,7 @@ public class MusicPlayService extends Service {
 
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
+                extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
 
                 sendCallbackBroadcast(getApplicationContext(),
                         MusicPlayCallbackBus.EVENT_CODE__ON_COMPLETE, extraData);
@@ -164,7 +168,7 @@ public class MusicPlayService extends Service {
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE);
 
                 mMusicPlayer.setPlaySongs(playQueue);
-                mMusicPlayer.play(currentPlayingSong);
+                mMusicPlayer.restart(currentPlayingSong);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_PLAY_PAUSE) {
                 mMusicPlayer.playPause();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_PREVIOUS) {

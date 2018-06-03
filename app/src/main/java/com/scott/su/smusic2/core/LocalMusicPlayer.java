@@ -1,10 +1,12 @@
 package com.scott.su.smusic2.core;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -42,16 +44,16 @@ public class LocalMusicPlayer {
             }
         });
 
-//        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mp) {
-//                Log.e(TAG, "onPrepared");
-//
-//                mMediaPlayer.start();
-//                getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
-//                startProgressTimer();
-//            }
-//        });
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                Log.e(TAG, "onPrepared");
+
+                mMediaPlayer.start();
+                getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
+                startProgressTimer();
+            }
+        });
 
         mMediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
@@ -81,19 +83,19 @@ public class LocalMusicPlayer {
         return mCurrentPlayingSong;
     }
 
-    public void play(@Nullable LocalSongEntity newSong) {
+    public void restart(@NonNull LocalSongEntity newSong) {
         if (isPlayQueueEmpty()) {
             return;
         }
 
         if (newSong == null) {
-            newSong = mPlayQueue.get(0);
+            return;
         }
 
         //初次播放
         if (isPlayingSongEmpty()) {
             mCurrentPlayingSong = newSong;
-            restart();
+            playNew();
             return;
         }
 
@@ -104,7 +106,7 @@ public class LocalMusicPlayer {
 
         //切歌
         mCurrentPlayingSong = newSong;
-        restart();
+        playNew();
     }
 
     /**
@@ -159,7 +161,7 @@ public class LocalMusicPlayer {
         }
 
         mCurrentPlayingSong = newSong;
-        restart();
+        playNew();
     }
 
     public void skipToNext() {
@@ -173,7 +175,7 @@ public class LocalMusicPlayer {
         }
 
         mCurrentPlayingSong = newSong;
-        restart();
+        playNew();
     }
 
     public void seekTo(int position) {
@@ -188,21 +190,6 @@ public class LocalMusicPlayer {
         mMediaPlayer.seekTo(position);
 
         resume();
-    }
-
-    public void restart() {
-        try {
-            mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
-//            mMediaPlayer.prepareAsync();//若多次调用，可能产生顺序问题；
-            mMediaPlayer.prepare();//同步方法，保证顺序
-
-            mMediaPlayer.start();
-            getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
-            startProgressTimer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void stop() {
@@ -231,6 +218,24 @@ public class LocalMusicPlayer {
     public boolean isPlayingSongEmpty() {
         return mCurrentPlayingSong == null
                 || getCurrentDuration() <= 0;
+    }
+
+    private void playNew() {
+        try {
+            mMediaPlayer.reset();
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
+            mMediaPlayer.prepareAsync();//若多次调用，可能产生顺序问题；
+//            mMediaPlayer.prepare();//同步方法，保证顺序
+
+//            mMediaPlayer.start();
+//            getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
+//            startProgressTimer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(mContext, "restart:" + mCurrentPlayingSong.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     /**

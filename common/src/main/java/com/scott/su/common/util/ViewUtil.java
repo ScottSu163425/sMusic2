@@ -2,7 +2,10 @@ package com.scott.su.common.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
  * 描述:
@@ -35,5 +38,25 @@ public class ViewUtil {
         return result;
     }
 
+    public static int dp2px(Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, context.getResources().getDisplayMetrics());
+    }
+
+    public static int getScreenHeightPx(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels; // 屏幕高度（像素）
+        return height;
+    }
+
+    public static int getScreenWidthPx(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;// 屏幕宽度（像素）
+        return width;
+    }
 
 }

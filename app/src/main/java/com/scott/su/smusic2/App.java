@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
+import com.scott.su.smusic2.data.source.local.AppConfig;
 
 /**
  * 描述:
@@ -17,6 +18,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
+        AppConfig.init(this);
 
         MusicPlayController.launch(getApplicationContext());
         MusicPlayCallbackBus.init(getApplicationContext());

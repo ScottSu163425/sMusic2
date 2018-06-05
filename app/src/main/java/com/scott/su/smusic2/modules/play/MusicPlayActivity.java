@@ -2,6 +2,9 @@ package com.scott.su.smusic2.modules.play;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -43,6 +46,7 @@ import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
 
 import java.util.ArrayList;
@@ -83,6 +87,7 @@ public class MusicPlayActivity extends BaseActivity {
         return intent;
     }
 
+    private MusicPlayViewModel mViewModel;
     private List<LocalSongEntity> mSongList;
     private LocalSongEntity mSongPlaying;
     private LocalSongEntity mSongPlayingInit;
@@ -112,8 +117,39 @@ public class MusicPlayActivity extends BaseActivity {
         initPlayControl();
         initPlayCallback();
         initPlayQueue();
+        initViewModel();
 
         updateCurrentPlayingSong(mSongPlaying, false);
+
+        mViewModel.start();
+    }
+
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(MusicPlayViewModel.class);
+
+        mViewModel.getLiveDataIsRepeatAll()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        showOrHideRepeat(mBinding.ivRepeatAll,aBoolean);
+                    }
+                });
+
+        mViewModel.getLiveDataIsRepeatOne()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        showOrHideRepeat(mBinding.ivRepeatOne,aBoolean);
+                    }
+                });
+
+        mViewModel.getLiveDataIsRepeatShuffle()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        showOrHideRepeat(mBinding.ivRepeatShufflel,aBoolean);
+                    }
+                });
     }
 
     /**
@@ -243,6 +279,14 @@ public class MusicPlayActivity extends BaseActivity {
                 MusicPlayController.getInstance().seekTo(getActivity(), seekBar.getProgress());
             }
         });
+
+        mBinding.viewRepeatMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.toggleRepeatMode();
+            }
+        });
+
     }
 
     /**
@@ -502,7 +546,7 @@ public class MusicPlayActivity extends BaseActivity {
                 colorCurrent = ((ColorDrawable) background).getColor();
             }
 
-            if (color == colorCurrent){
+            if (color == colorCurrent) {
                 return;
             }
 
@@ -566,5 +610,33 @@ public class MusicPlayActivity extends BaseActivity {
         }
     }
 
+    private void showOrHideRepeat(final View view, final boolean show) {
+        view.animate()
+                .alpha(show ? 1.0f : 0)
+                .scaleX(show ? 1.0f : 0.0f)
+                .scaleY(show ? 1.0f : 0.0f)
+                .setDuration(400)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+
+                        if (show) {
+                            view.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        if (!show) {
+                            view.setVisibility(View.GONE);
+                        }
+                    }
+                })
+                .start();
+    }
 
 }

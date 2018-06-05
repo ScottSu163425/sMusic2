@@ -7,6 +7,7 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.entity.PermissionEntity;
 import com.scott.su.common.interfaces.PermissionCallback;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.modules.main.MainActivity;
 
 import java.util.List;
@@ -30,6 +31,15 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        boolean firstTimeLaunch = AppConfig.getInstance().isFirstTimeLaunch();
+
+        if (firstTimeLaunch) {
+
+        }
+
+        AppConfig.getInstance().setFirstTimeLaunch(false);
+
 
         Observable.just("")
                 .delay(2, TimeUnit.SECONDS)

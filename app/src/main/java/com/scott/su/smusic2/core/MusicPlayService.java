@@ -168,6 +168,7 @@ public class MusicPlayService extends Service {
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE);
 
                 mMusicPlayer.setPlaySongs(playQueue);
+
                 mMusicPlayer.restart(currentPlayingSong);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_PLAY_PAUSE) {
                 mMusicPlayer.playPause();

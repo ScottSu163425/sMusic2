@@ -61,7 +61,6 @@ public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding mBinding;
     private List<Fragment> mListTabContentFragment;
-    private MainTabRecommendFragment mTabFragmentRecommend;
     private MainTabSongFragment mTabFragmentSong;
     private MainTabCollectionFragment mTabFragmentCollection;
     private MainTabAlbumFragment mTabFragmentAlbum;
@@ -84,12 +83,10 @@ public class MainActivity extends BaseActivity {
         drawerToggle.syncState();
 
         mListTabContentFragment = new ArrayList<>();
-        mTabFragmentRecommend = MainTabRecommendFragment.newInstance();
         mTabFragmentSong = MainTabSongFragment.newInstance();
         mTabFragmentCollection = MainTabCollectionFragment.newInstance();
         mTabFragmentAlbum = MainTabAlbumFragment.newInstance();
 
-//        mListTabContentFragment.add(mTabFragmentRecommend);
         mListTabContentFragment.add(mTabFragmentSong);
         mListTabContentFragment.add(mTabFragmentCollection);
         mListTabContentFragment.add(mTabFragmentAlbum);

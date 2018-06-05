@@ -234,8 +234,6 @@ public class LocalMusicPlayer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Toast.makeText(mContext, "restart:" + mCurrentPlayingSong.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     /**

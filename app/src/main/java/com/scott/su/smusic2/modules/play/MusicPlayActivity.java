@@ -58,7 +58,7 @@ public class MusicPlayActivity extends BaseActivity {
     private static final String KEY_EXTRA_SONG_LIST = "KEY_EXTRA_SONG_LIST";
     private static final String KEY_EXTRA_SONG = "KEY_EXTRA_SONG";
 
-    private static final int DURATION_REVEAL = 800;
+    private static final int DURATION_REVEAL = 1000;
 
 
     public static void start(Context context, ArrayList<LocalSongEntity> songList,
@@ -217,6 +217,10 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isFastDoubleClick()) {
+                    return;
+                }
+
                 MusicPlayController.getInstance().skipToNext(getActivity());
             }
         });
@@ -452,8 +456,6 @@ public class MusicPlayActivity extends BaseActivity {
      * @param coverPath
      */
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
-//        stopPanelReveal();
-
         final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
 
         final boolean userDefault = TextUtils.isEmpty(coverPath);
@@ -500,12 +502,11 @@ public class MusicPlayActivity extends BaseActivity {
                 colorCurrent = ((ColorDrawable) background).getColor();
             }
 
-            if (mAnimatorRevealPanel != null
-                    && mAnimatorRevealPanel.isRunning()
-                    && color == colorCurrent) {
-
+            if (color == colorCurrent){
                 return;
             }
+
+            stopPanelReveal();
 
             revealStarter.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

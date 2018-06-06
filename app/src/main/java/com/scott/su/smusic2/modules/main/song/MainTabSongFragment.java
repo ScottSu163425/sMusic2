@@ -72,8 +72,8 @@ public class MainTabSongFragment extends BaseFragment {
                                 new PopupMenu.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
-                                        ToastHelper.getInstance(getActivity())
-                                                .showToast(item.getTitle());
+                                        ToastHelper.getInstance()
+                                                .showToast(getActivity(),item.getTitle());
                                         return false;
                                     }
                                 });

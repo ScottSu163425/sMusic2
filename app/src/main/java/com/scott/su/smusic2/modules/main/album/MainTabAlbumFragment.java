@@ -66,18 +66,6 @@ public class MainTabAlbumFragment extends BaseFragment {
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mBinding.rv.setAdapter(new SlideInBottomAnimationAdapter(mAlbumListAdapter));
-        mBinding.rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                boolean idle = newState == RecyclerView.SCROLL_STATE_IDLE;
-                boolean dragging = newState == RecyclerView.SCROLL_STATE_DRAGGING;
-                boolean settling = newState == RecyclerView.SCROLL_STATE_SETTLING;
-
-                EventBus.getDefault().post(new MainTabListScrollEvent(idle, dragging, settling));
-            }
-        });
 
         mViewModel = ViewModelProviders.of(this).get(MainTabAlbumViewModel.class);
         mViewModel.getLiveDataSongList()

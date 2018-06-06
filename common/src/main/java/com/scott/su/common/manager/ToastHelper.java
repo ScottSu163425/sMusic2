@@ -14,29 +14,27 @@ public class ToastHelper {
     private static ToastHelper sInstance;
 
 
-    public static ToastHelper getInstance(@NonNull Context context) {
+    public static ToastHelper getInstance() {
         if (sInstance == null) {
             synchronized (ToastHelper.class) {
                 if (sInstance == null) {
-                    sInstance = new ToastHelper(context);
+                    sInstance = new ToastHelper( );
                 }
             }
         }
         return sInstance;
     }
 
-    private Context mContext;
+    private ToastHelper( ) {
 
-    private ToastHelper(@NonNull Context context) {
-        mContext = context.getApplicationContext();
     }
 
-    public void showToast(CharSequence text) {
-        Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+    public void showToast(@NonNull Context context, CharSequence text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
-    public void showToastLong(CharSequence text) {
-        Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
+    public void showToastLong(@NonNull Context context,CharSequence text) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
 }

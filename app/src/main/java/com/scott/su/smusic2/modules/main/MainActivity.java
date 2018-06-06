@@ -6,37 +6,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.PagerSnapHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.FragmentHelper;
-import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.manager.SnackBarHelper;
 import com.scott.su.common.manager.ToastHelper;
+import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
-import com.scott.su.smusic2.core.MusicPlayCallback;
-import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
-import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.data.source.local.LocalSongHelper;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
-import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
-import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,6 +54,10 @@ public class MainActivity extends BaseActivity {
         return intent;
     }
 
+    private static final int INDEX_TAB_SONG = 0;
+    private static final int INDEX_TAB_COLLECTION = 1;
+    private static final int INDEX_TAB_ALBUM = 2;
+
 
     private ActivityMainBinding mBinding;
     private List<Fragment> mListTabContentFragment;
@@ -70,7 +66,6 @@ public class MainActivity extends BaseActivity {
     private MainTabAlbumFragment mTabFragmentAlbum;
     private MainDrawerMenuFragment mDrawerMenuFragment;
     private MainViewPagerAdapter mViewPagerAdapter;
-    private MusicPlayCallback mMusicPlayCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,14 +73,38 @@ public class MainActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        initTitle();
+        initDrawer();
+        initViewPager();
+
+        mBinding.fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ViewUtil.isFastDoubleClick()) {
+                    return;
+                }
+
+                ToastHelper.getInstance()
+                        .showToast(getActivity(), mBinding.vpMain.getCurrentItem() + "");
+            }
+        });
+
+        EventBus.getDefault().register(this);
+    }
+
+    private void initTitle() {
         mBinding.toolbar.setTitle(R.string.app_name);
         setSupportActionBar(mBinding.toolbar);
+    }
 
+    private void initDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
                 mBinding.toolbar, R.string.drawer_open, R.string.drawer_close);
         mBinding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
 
+    private void initViewPager() {
         mListTabContentFragment = new ArrayList<>();
         mTabFragmentSong = MainTabSongFragment.newInstance();
         mTabFragmentCollection = MainTabCollectionFragment.newInstance();
@@ -106,12 +125,30 @@ public class MainActivity extends BaseActivity {
                 getString(R.string.tab_main_collection),
                 getString(R.string.tab_main_album)});
         mBinding.vpMain.setOffscreenPageLimit(mListTabContentFragment.size());
+        mBinding.vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == INDEX_TAB_SONG) {
+                    showFabForSwitchingPage(R.drawable.ic_play_arrow_white);
+                } else if (position == INDEX_TAB_COLLECTION) {
+                    showFabForSwitchingPage(R.drawable.ic_add_white);
+                } else if (position == INDEX_TAB_ALBUM) {
+                    hideFabForSwitchingPage();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mBinding.vpMain.setAdapter(mViewPagerAdapter);
         mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
-
-        initCurrentPlayingCard();
-
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -126,7 +163,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            ToastHelper.getInstance(getActivity()).showToast("search");
+            ToastHelper.getInstance().showToast(getActivity(),"search");
         }
         return true;
     }
@@ -146,29 +183,23 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
 
         EventBus.getDefault().unregister(this);
-
-        MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
     }
 
     @Subscribe
     public void onEventMainTabListScroll(MainTabListScrollEvent event) {
         if (event.isIdle()) {
-            showCurrentPlayingCard();
+            showFabForScrolling();
         } else {
-            hideCurrentPlayingCard();
+            hideFabForScrolling();
         }
     }
 
-    private void showCurrentPlayingCard() {
-        if (mBinding.cardCurrentPlaying.getVisibility() == View.VISIBLE) {
+    private void showFabForScrolling() {
+        if (mBinding.fabMain.getVisibility() == View.VISIBLE) {
             return;
         }
 
-        if (mCurrentPlayingSong == null) {
-            return;
-        }
-
-        mBinding.cardCurrentPlaying
+        mBinding.fabMain
                 .animate()
                 .setDuration(600)
                 .setInterpolator(new FastOutSlowInInterpolator())
@@ -177,31 +208,96 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         super.onAnimationStart(animation);
-                        mBinding.cardCurrentPlaying.setVisibility(View.VISIBLE);
+                        mBinding.fabMain.setVisibility(View.VISIBLE);
                     }
                 })
                 .start();
     }
 
-    private void hideCurrentPlayingCard() {
-        mBinding.cardCurrentPlaying
+    private void hideFabForScrolling() {
+        if (mBinding.fabMain.getVisibility() != View.VISIBLE) {
+            return;
+        }
+
+        mBinding.fabMain
                 .animate()
                 .setDuration(600)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .translationY(mBinding.cardCurrentPlaying.getBottom())
+                .translationY(mBinding.fabMain.getBottom())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        mBinding.cardCurrentPlaying.setVisibility(View.GONE);
+                        mBinding.fabMain.setVisibility(View.GONE);
                     }
                 })
                 .start();
     }
 
+    private void showFabForSwitchingPage(@DrawableRes final int fabIcon) {
+        final int duration = 400;
+
+        mBinding.fabMain
+                .animate()
+                .setDuration(duration)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .alpha(1.0f)
+                .rotation(mBinding.fabMain.getRotation() + 360)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+
+                        mBinding.fabMain.setVisibility(View.VISIBLE);
+
+                        mBinding.fabMain.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBinding.fabMain.setImageResource(fabIcon);
+                            }
+                        }, duration / 2);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                })
+                .start();
+    }
+
+    private void hideFabForSwitchingPage() {
+        final int duration = 400;
+
+        mBinding.fabMain
+                .animate()
+                .setDuration(duration)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .scaleX(0.2f)
+                .scaleY(0.2f)
+                .alpha(0.0f)
+                .rotation(-360)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mBinding.fabMain.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+    }
+
+
     private void showExit() {
         SnackBarHelper.getInstance()
-                .showSnackBar(mBinding.drawerLayout, getString(R.string.tip_exit), getString(R.string.confirm),
+                .showSnackBar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -210,75 +306,5 @@ public class MainActivity extends BaseActivity {
                             }
                         });
     }
-
-    private LocalSongEntity mCurrentPlayingSong;
-    private List<LocalSongEntity> mCurrentPlayQueue = new ArrayList<>();
-
-    private void initCurrentPlayingCard() {
-        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mCurrentPlayQueue,
-                        mCurrentPlayingSong, new View[]{mBinding.ivCover});
-            }
-        });
-
-        mBinding.ivPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayController.getInstance().playPause(getActivity());
-            }
-        });
-
-        mMusicPlayCallback = new MusicPlayCallback() {
-            @Override
-            public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-                updateCurrentPlaying(song, playQueue);
-                mBinding.ivPlayPause.setImageResource(R.drawable.ic_pause_black);
-            }
-
-            @Override
-            public void onTik(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                updateCurrentPlaying(song, playQueue);
-
-                mBinding.ivPlayPause.setImageResource(R.drawable.ic_pause_black);
-            }
-
-            @Override
-            public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                mBinding.ivPlayPause.setImageResource(R.drawable.ic_play_arrow_black);
-            }
-
-            @Override
-            public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-
-            }
-
-            @Override
-            public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-
-            }
-        };
-
-        MusicPlayCallbackBus.getInstance().registerCallback(mMusicPlayCallback);
-    }
-
-    /**
-     * 更新当前播放歌曲信息
-     *
-     * @param currentPlayingSong
-     */
-    private void updateCurrentPlaying(LocalSongEntity currentPlayingSong, List<LocalSongEntity> playQueue) {
-        showCurrentPlayingCard();
-
-        mCurrentPlayingSong = currentPlayingSong;
-        mCurrentPlayQueue = playQueue;
-
-        mBinding.tvTitleCurrentPlaying.setText(currentPlayingSong.getTitle());
-        mBinding.tvArtist.setText(currentPlayingSong.getArtist());
-
-        ImageLoader.load(getActivity(), currentPlayingSong.getAlbumCoverPath(), mBinding.ivCover);
-    }
-
 
 }

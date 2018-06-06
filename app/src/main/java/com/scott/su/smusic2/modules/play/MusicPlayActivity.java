@@ -375,7 +375,6 @@ public class MusicPlayActivity extends BaseActivity {
                     return;
                 }
 
-                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
                 mBinding.sbProgress.setProgress(position);
                 mBinding.tvTimeCurrent.setText(TimeUtil.getMMssFromMills(position, null));
                 mBinding.tvTimeTotal.setText(TimeUtil.getMMssFromMills(duration, null));
@@ -437,8 +436,8 @@ public class MusicPlayActivity extends BaseActivity {
                         mBinding.fabPlay.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
-                                        : R.drawable.ic_play_arrow_black);
+                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_play_arrow_black
+                                        : R.drawable.ic_pause_black);
                             }
                         }, 200);
 

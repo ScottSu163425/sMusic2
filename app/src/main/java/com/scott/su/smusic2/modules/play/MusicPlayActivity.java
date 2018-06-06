@@ -130,7 +130,7 @@ public class MusicPlayActivity extends BaseActivity {
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        showOrHideRepeat(mBinding.ivRepeatAll,aBoolean);
+                        showOrHideRepeat(mBinding.ivRepeatAll, aBoolean);
                     }
                 });
 
@@ -138,7 +138,7 @@ public class MusicPlayActivity extends BaseActivity {
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        showOrHideRepeat(mBinding.ivRepeatOne,aBoolean);
+                        showOrHideRepeat(mBinding.ivRepeatOne, aBoolean);
                     }
                 });
 
@@ -146,7 +146,7 @@ public class MusicPlayActivity extends BaseActivity {
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        showOrHideRepeat(mBinding.ivRepeatShufflel,aBoolean);
+                        showOrHideRepeat(mBinding.ivRepeatShufflel, aBoolean);
                     }
                 });
     }
@@ -230,10 +230,6 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ViewUtil.isFastDoubleClick()) {
-                    return;
-                }
-
                 MusicPlayController.getInstance().playPause(getActivity());
             }
         });
@@ -370,7 +366,7 @@ public class MusicPlayActivity extends BaseActivity {
             public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
                 updateCurrentPlayingSongInfo(song);
 
-                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
+                togglePlayButtonState(true);
             }
 
             @Override
@@ -387,12 +383,12 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                mBinding.fabPlay.setImageResource(R.drawable.ic_play_arrow_black);
+                togglePlayButtonState(false);
             }
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                mBinding.fabPlay.setImageResource(R.drawable.ic_pause_black);
+                togglePlayButtonState(false);
             }
 
             @Override
@@ -426,6 +422,31 @@ public class MusicPlayActivity extends BaseActivity {
         super.onDestroy();
 
         MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
+    }
+
+    private void togglePlayButtonState(final boolean isPlaying) {
+        mBinding.fabPlay.
+                animate()
+                .setDuration(400)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .rotation(mBinding.fabPlay.getRotation() + 360)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        mBinding.fabPlay.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
+                                        : R.drawable.ic_play_arrow_black);
+                            }
+                        }, 200);
+
+                    }
+                })
+                .start();
+
+
     }
 
     private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean playPause) {

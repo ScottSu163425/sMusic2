@@ -2,7 +2,6 @@ package com.scott.su.smusic2.modules.play;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -37,8 +36,9 @@ import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ImageLoader;
-import com.scott.su.common.util.ActivityStarter;
+import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.util.ListUtil;
+import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
@@ -46,7 +46,6 @@ import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
 
 import java.util.ArrayList;
@@ -231,7 +230,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFastDoubleClick()) {
+                if (ViewUtil.isFastDoubleClick()) {
                     return;
                 }
 
@@ -242,7 +241,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFastDoubleClick()) {
+                if (ViewUtil.isFastDoubleClick()) {
                     return;
                 }
 
@@ -253,7 +252,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFastDoubleClick()) {
+                if (ViewUtil.isFastDoubleClick()) {
                     return;
                 }
 
@@ -556,10 +555,10 @@ public class MusicPlayActivity extends BaseActivity {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void run() {
-                    final int centerX = ViewUtil.getXOnScreen(revealStarter) - ViewUtil.getXOnScreen(revealView)
+                    final int centerX = ScreenUtil.getXOnScreen(revealStarter) - ScreenUtil.getXOnScreen(revealView)
                             + (revealStarter.getMeasuredWidth() / 2);
 
-                    final int centerY = ViewUtil.getYOnScreen(revealStarter) - ViewUtil.getYOnScreen(revealView)
+                    final int centerY = ScreenUtil.getYOnScreen(revealStarter) - ScreenUtil.getYOnScreen(revealView)
                             + (revealStarter.getMeasuredHeight() / 2);
 
                     final int radiusStart = revealStarter.getMeasuredWidth() / 2;

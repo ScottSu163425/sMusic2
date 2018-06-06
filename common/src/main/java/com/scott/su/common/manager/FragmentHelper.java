@@ -1,4 +1,4 @@
-package com.scott.su.common.util;
+package com.scott.su.common.manager;
 
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 
-public class FragmentUtil {
+public class FragmentHelper {
     public static void show(FragmentActivity activity, @IdRes int containerViewId,
                             Fragment fragment, boolean anim) {
         show(activity.getSupportFragmentManager(), containerViewId, fragment, anim);

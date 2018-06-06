@@ -18,6 +18,8 @@ import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabAlbumBinding;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
@@ -73,7 +75,7 @@ public class MainTabAlbumFragment extends BaseFragment {
                 boolean dragging = newState == RecyclerView.SCROLL_STATE_DRAGGING;
                 boolean settling = newState == RecyclerView.SCROLL_STATE_SETTLING;
 
-                postEvent(new MainTabListScrollEvent(idle, dragging, settling));
+                EventBus.getDefault().post(new MainTabListScrollEvent(idle, dragging, settling));
             }
         });
 

@@ -20,7 +20,10 @@ import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.manager.FragmentHelper;
 import com.scott.su.common.manager.ImageLoader;
+import com.scott.su.common.manager.SnackBarHelper;
+import com.scott.su.common.manager.ToastHelper;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
@@ -35,6 +38,7 @@ import com.scott.su.smusic2.modules.main.recommend.MainTabRecommendFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -92,7 +96,7 @@ public class MainActivity extends BaseActivity {
         mListTabContentFragment.add(mTabFragmentAlbum);
 
         mDrawerMenuFragment = MainDrawerMenuFragment.newInstance();
-        showFragment(mDrawerMenuFragment, mBinding.flContainerMenuDrawerMain.getId());
+        FragmentHelper.show(getActivity(), mBinding.flContainerMenuDrawerMain.getId(), mDrawerMenuFragment, false);
 
         mViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mViewPagerAdapter.setFragments(mListTabContentFragment);
@@ -106,6 +110,8 @@ public class MainActivity extends BaseActivity {
         mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
 
         initCurrentPlayingCard();
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -120,7 +126,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            showToast("search");
+            ToastHelper.getInstance(getActivity()).showToast("search");
         }
         return true;
     }
@@ -139,12 +145,9 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
-    }
+        EventBus.getDefault().unregister(this);
 
-    @Override
-    protected boolean subscribeEvents() {
-        return true;
+        MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
     }
 
     @Subscribe
@@ -197,14 +200,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showExit() {
-        showSnackbar(getString(R.string.tip_exit), getString(R.string.confirm),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        MusicPlayController.getInstance().stop(getActivity());
-                        finish();
-                    }
-                });
+        SnackBarHelper.getInstance()
+                .showSnackBar(mBinding.drawerLayout, getString(R.string.tip_exit), getString(R.string.confirm),
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                MusicPlayController.getInstance().stop(getActivity());
+                                finish();
+                            }
+                        });
     }
 
     private LocalSongEntity mCurrentPlayingSong;

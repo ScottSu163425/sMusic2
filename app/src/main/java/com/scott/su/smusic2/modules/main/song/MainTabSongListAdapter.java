@@ -63,7 +63,7 @@ public class MainTabSongListAdapter
             binding.viewMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCallback().onMoreClick(v, binding.ivCover, entity, position);
+                    getCallback().onMoreClick(v, entity, position);
                 }
             });
 
@@ -88,7 +88,7 @@ public class MainTabSongListAdapter
                 }
 
                 @Override
-                public void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
+                public void onMoreClick(View view, LocalSongEntity entity, int position) {
 
                 }
             };
@@ -99,7 +99,7 @@ public class MainTabSongListAdapter
     public interface Callback {
         void onItemClick(View itemView, ImageView cover, LocalSongEntity entity, int position);
 
-        void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position);
+        void onMoreClick(View view, LocalSongEntity entity, int position);
     }
 
 }

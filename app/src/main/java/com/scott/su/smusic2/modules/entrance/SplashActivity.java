@@ -3,10 +3,7 @@ package com.scott.su.smusic2.modules.entrance;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,13 +11,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.entity.PermissionEntity;
 import com.scott.su.common.interfaces.PermissionCallback;
-import com.scott.su.common.util.ViewUtil;
+import com.scott.su.common.manager.PermissionHelper;
+import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.modules.main.MainActivity;
@@ -61,8 +58,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void startBranIn() {
-        mTextViewBrand1.setTranslationX(-ViewUtil.getScreenWidthPx(this) / 3 * 2);
-        mTextViewBrand2.setTranslationX(ViewUtil.getScreenWidthPx(this) / 3 * 2);
+        mTextViewBrand1.setTranslationX(-ScreenUtil.getScreenWidth(this) / 3 * 2);
+        mTextViewBrand2.setTranslationX(ScreenUtil.getScreenWidth(this) / 3 * 2);
         mTextViewBrand1.setAlpha(0);
         mTextViewBrand2.setAlpha(0);
 
@@ -215,17 +212,18 @@ public class SplashActivity extends BaseActivity {
 
         };
 
-        requestPermissions(permissions, new PermissionCallback() {
-            @Override
-            public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
-                launchNextActivity();
-            }
+        PermissionHelper.getInstance()
+                .requestPermissions(getActivity(), permissions, new PermissionCallback() {
+                    @Override
+                    public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
+                        launchNextActivity();
+                    }
 
-            @Override
-            public void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied) {
+                    @Override
+                    public void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied) {
 
-            }
-        });
+                    }
+                });
     }
 
     private void launchNextActivity() {

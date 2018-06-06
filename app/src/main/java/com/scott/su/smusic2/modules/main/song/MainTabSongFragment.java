@@ -6,18 +6,24 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
+import com.scott.su.common.manager.PopupMenuHelper;
+import com.scott.su.common.manager.ToastHelper;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +66,17 @@ public class MainTabSongFragment extends BaseFragment {
             }
 
             @Override
-            public void onMoreClick(View itemView, ImageView cover, LocalSongEntity entity, int position) {
-                showSnackbar("onMoreClick" + entity.getTitle());
+            public void onMoreClick(View view, LocalSongEntity entity, int position) {
+                PopupMenuHelper.getInstance()
+                        .popup(getActivity(), view, new int[]{1, 2, 3}, new String[]{"1", "2", "3"},
+                                new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        ToastHelper.getInstance(getActivity())
+                                                .showToast(item.getTitle());
+                                        return false;
+                                    }
+                                });
             }
         });
 
@@ -76,7 +91,8 @@ public class MainTabSongFragment extends BaseFragment {
                 boolean dragging = newState == RecyclerView.SCROLL_STATE_DRAGGING;
                 boolean settling = newState == RecyclerView.SCROLL_STATE_SETTLING;
 
-                postEvent(new MainTabListScrollEvent(idle, dragging, settling));
+                EventBus.getDefault()
+                        .post(new MainTabListScrollEvent(idle, dragging, settling));
             }
         });
 

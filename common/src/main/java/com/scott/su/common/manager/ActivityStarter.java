@@ -1,4 +1,4 @@
-package com.scott.su.common.util;
+package com.scott.su.common.manager;
 
 import android.app.Activity;
 import android.app.ActivityOptions;

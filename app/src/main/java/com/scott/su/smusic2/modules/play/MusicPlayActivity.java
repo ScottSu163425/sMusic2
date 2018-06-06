@@ -27,6 +27,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -387,7 +388,7 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                togglePlayButtonState(false);
+                togglePlayButtonState(true);
             }
 
             @Override
@@ -436,8 +437,8 @@ public class MusicPlayActivity extends BaseActivity {
                         mBinding.fabPlay.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_play_arrow_black
-                                        : R.drawable.ic_pause_black);
+                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
+                                        : R.drawable.ic_play_arrow_black);
                             }
                         }, 200);
 

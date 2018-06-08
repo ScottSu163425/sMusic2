@@ -425,11 +425,17 @@ public class MusicPlayActivity extends BaseActivity {
     }
 
     private void togglePlayButtonState(final boolean isPlaying) {
+
+        if (mBinding.fabPlay.getTag() != null
+                && (Boolean) mBinding.fabPlay.getTag() == isPlaying) {
+            return;
+        }
+
         mBinding.fabPlay.
                 animate()
                 .setDuration(400)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .rotation(mBinding.fabPlay.getRotation() + 360)
+                .rotation(isPlaying ? -360 : mBinding.fabPlay.getRotation() + 360)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -439,6 +445,8 @@ public class MusicPlayActivity extends BaseActivity {
                             public void run() {
                                 mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
                                         : R.drawable.ic_play_arrow_black);
+
+                                mBinding.fabPlay.setTag(isPlaying);
                             }
                         }, 200);
 

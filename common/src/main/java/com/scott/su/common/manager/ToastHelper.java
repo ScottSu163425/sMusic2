@@ -11,29 +11,15 @@ import android.widget.Toast;
  */
 
 public class ToastHelper {
-    private static ToastHelper sInstance;
-
-
-    public static ToastHelper getInstance() {
-        if (sInstance == null) {
-            synchronized (ToastHelper.class) {
-                if (sInstance == null) {
-                    sInstance = new ToastHelper( );
-                }
-            }
-        }
-        return sInstance;
-    }
-
-    private ToastHelper( ) {
+    private ToastHelper() {
 
     }
 
-    public void showToast(@NonNull Context context, CharSequence text) {
+    public static void showToast(@NonNull Context context, CharSequence text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
-    public void showToastLong(@NonNull Context context,CharSequence text) {
+    public static void showToastLong(@NonNull Context context, CharSequence text) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 

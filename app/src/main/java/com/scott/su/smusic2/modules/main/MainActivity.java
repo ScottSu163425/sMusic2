@@ -84,8 +84,14 @@ public class MainActivity extends BaseActivity {
                     return;
                 }
 
-                ToastHelper.getInstance()
-                        .showToast(getActivity(), mBinding.vpMain.getCurrentItem() + "");
+
+                int index = mBinding.vpMain.getCurrentItem();
+                if (INDEX_TAB_SONG == index) {
+                    playSongRandom();
+                } else if (INDEX_TAB_COLLECTION == index) {
+                    createCollection();
+                }
+
             }
         });
 
@@ -165,7 +171,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            ToastHelper.getInstance().showToast(getActivity(), "search");
+            ToastHelper.showToast(getActivity(), "search");
         }
         return true;
     }
@@ -288,17 +294,23 @@ public class MainActivity extends BaseActivity {
                 .start();
     }
 
-
     private void showExit() {
-        SnackBarHelper.getInstance()
-                .showSnackBar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MusicPlayController.getInstance().stop(getActivity());
-                                finish();
-                            }
-                        });
+        SnackBarHelper.showSnackBar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MusicPlayController.getInstance().stop(getActivity());
+                        finish();
+                    }
+                });
+    }
+
+    private void playSongRandom() {
+
+    }
+
+    private void createCollection() {
+        ToastHelper.showToast(getActivity(), "创建收藏");
     }
 
 }

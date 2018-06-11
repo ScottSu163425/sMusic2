@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.scott.su.common.adapter.BaseRecyclerViewAdapter;
 import com.scott.su.common.adapter.BaseRecyclerViewHolder;
 import com.scott.su.common.manager.ImageLoader;
+import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ItemSongMainBinding;
@@ -37,6 +38,14 @@ public class MainTabSongListAdapter
     @Override
     protected void onBindVH(LocalSongEntity entity, @NonNull VH holder, int position) {
         holder.bind(entity, position);
+    }
+
+    public void playSongRandom() {
+        if (isEmpty()) {
+            return;
+        }
+
+        LocalSongEntity songEntity = ListUtil.getNextRandom(getData(), null);
     }
 
     class VH extends BaseRecyclerViewHolder<LocalSongEntity> {

@@ -14,27 +14,12 @@ import android.view.View;
  */
 
 public class PopupMenuHelper {
-    private static PopupMenuHelper sInstance;
-
-
-    public static PopupMenuHelper getInstance() {
-        if (sInstance == null) {
-            synchronized (PopupMenuHelper.class) {
-                if (sInstance == null) {
-                    sInstance = new PopupMenuHelper();
-                }
-            }
-        }
-        return sInstance;
-    }
-
-
     private PopupMenuHelper() {
 
     }
 
 
-    public void popup(@NonNull Activity activity, @NonNull View anchor, @NonNull int[] itemIds,
+    public static void popup(@NonNull Activity activity, @NonNull View anchor, @NonNull int[] itemIds,
                       @NonNull String[] itemTitles, @NonNull PopupMenu.OnMenuItemClickListener listener) {
         PopupMenu popupMenu = new PopupMenu(activity, anchor);
 

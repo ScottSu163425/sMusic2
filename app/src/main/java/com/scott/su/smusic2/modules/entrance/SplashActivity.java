@@ -212,18 +212,17 @@ public class SplashActivity extends BaseActivity {
 
         };
 
-        PermissionHelper.getInstance()
-                .requestPermissions(getActivity(), permissions, new PermissionCallback() {
-                    @Override
-                    public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
-                        launchNextActivity();
-                    }
+        PermissionHelper.requestPermissions(getActivity(), permissions, new PermissionCallback() {
+            @Override
+            public void onPermissionGranted(List<PermissionEntity> permissions, boolean allGranted) {
+                launchNextActivity();
+            }
 
-                    @Override
-                    public void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied) {
+            @Override
+            public void onPermissionDenied(List<PermissionEntity> permissions, boolean allDenied) {
 
-                    }
-                });
+            }
+        });
     }
 
     private void launchNextActivity() {

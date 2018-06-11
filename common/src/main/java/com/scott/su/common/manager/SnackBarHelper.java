@@ -13,30 +13,16 @@ import android.view.View;
  */
 
 public class SnackBarHelper {
-    private static SnackBarHelper sInstance;
-
-
-    public static SnackBarHelper getInstance(){
-        if (sInstance == null)    {
-            synchronized (SnackBarHelper.class){
-                if ( sInstance == null) {
-                    sInstance = new SnackBarHelper();
-                }
-            }
-        }
-        return sInstance;
-    }
-
 
     private SnackBarHelper(){
 
     }
 
-    public void showSnackBar(@NonNull View parent, @NonNull CharSequence text) {
+    public static void showSnackBar(@NonNull View parent, @NonNull CharSequence text) {
         showSnackBar(parent, text,null,null);
     }
 
-    public void showSnackBar(@NonNull View parent, @NonNull CharSequence text, @Nullable CharSequence action,
+    public static void showSnackBar(@NonNull View parent, @NonNull CharSequence text, @Nullable CharSequence action,
                                 @Nullable View.OnClickListener actionClickListener) {
         Snackbar snackbar = Snackbar.make(parent, text, Snackbar.LENGTH_SHORT);
 

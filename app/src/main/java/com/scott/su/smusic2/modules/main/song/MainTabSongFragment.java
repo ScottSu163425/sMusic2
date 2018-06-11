@@ -21,9 +21,11 @@ import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
+import com.scott.su.smusic2.modules.main.PlaySongRandomEvent;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,16 +69,14 @@ public class MainTabSongFragment extends BaseFragment {
 
             @Override
             public void onMoreClick(View view, LocalSongEntity entity, int position) {
-                PopupMenuHelper.getInstance()
-                        .popup(getActivity(), view, new int[]{1, 2, 3}, new String[]{"1", "2", "3"},
-                                new PopupMenu.OnMenuItemClickListener() {
-                                    @Override
-                                    public boolean onMenuItemClick(MenuItem item) {
-                                        ToastHelper.getInstance()
-                                                .showToast(getActivity(),item.getTitle());
-                                        return false;
-                                    }
-                                });
+                PopupMenuHelper.popup(getActivity(), view, new int[]{1, 2, 3}, new String[]{"1", "2", "3"},
+                        new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                ToastHelper.showToast(getActivity(), item.getTitle());
+                                return false;
+                            }
+                        });
             }
         });
 
@@ -105,6 +105,19 @@ public class MainTabSongFragment extends BaseFragment {
         });
 
         mViewModel.start();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventPlaySongRandom(PlaySongRandomEvent event){
+        mSongListAdapter.playSongRandom();
     }
 
 }

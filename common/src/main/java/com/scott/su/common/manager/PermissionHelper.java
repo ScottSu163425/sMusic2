@@ -21,20 +21,6 @@ import io.reactivex.functions.Consumer;
  */
 
 public class PermissionHelper {
-    private static PermissionHelper sInstance;
-
-
-    public static PermissionHelper getInstance(){
-        if (sInstance == null)    {
-            synchronized (PermissionHelper.class){
-                if ( sInstance == null) {
-                    sInstance = new PermissionHelper();
-                }
-            }
-        }
-        return sInstance;
-    }
-
 
     private PermissionHelper(){
 
@@ -46,7 +32,7 @@ public class PermissionHelper {
      * @param permissions
      * @param callback
      */
-    public void requestPermissions(@NonNull Activity activity,@NonNull String[] permissions,
+    public static void requestPermissions(@NonNull Activity activity,@NonNull String[] permissions,
                                    @NonNull final PermissionCallback callback) {
         if ((permissions == null) || (permissions.length == 0)) {
             return;

@@ -135,8 +135,10 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 if (position == INDEX_TAB_SONG) {
                     showFabForSwitchingPage(R.drawable.ic_play_arrow_white);
+                    showFabForScrolling();
                 } else if (position == INDEX_TAB_COLLECTION) {
                     showFabForSwitchingPage(R.drawable.ic_add_white);
+                    showFabForScrolling();
                 } else if (position == INDEX_TAB_ALBUM) {
                     hideFabForSwitchingPage();
                 }
@@ -163,7 +165,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            ToastHelper.getInstance().showToast(getActivity(),"search");
+            ToastHelper.getInstance().showToast(getActivity(), "search");
         }
         return true;
     }
@@ -195,10 +197,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showFabForScrolling() {
-        if (mBinding.fabMain.getVisibility() == View.VISIBLE) {
-            return;
-        }
-
         mBinding.fabMain
                 .animate()
                 .setDuration(600)
@@ -215,10 +213,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideFabForScrolling() {
-        if (mBinding.fabMain.getVisibility() != View.VISIBLE) {
-            return;
-        }
-
         mBinding.fabMain
                 .animate()
                 .setDuration(600)

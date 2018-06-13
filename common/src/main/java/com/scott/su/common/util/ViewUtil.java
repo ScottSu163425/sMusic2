@@ -12,7 +12,7 @@ public class ViewUtil {
     public static boolean isFastDoubleClick() {
         long currentClickTime = System.currentTimeMillis();
 
-        if ((currentClickTime - sLastClickTime) < 1000) {
+        if ((currentClickTime - sLastClickTime) < 500) {
             return true;
         }
 

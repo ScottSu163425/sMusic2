@@ -35,6 +35,8 @@ public class MusicPlayCallbackBus {
     private static MusicPlayCallbackBus sInstance;
     private static MusicPlayCallbackReceiver sMusicPlayCallbackReceiver;
     private static List<MusicPlayCallback> sMusicPlayCallbacks = new ArrayList<>();
+    private static LocalSongEntity sCurrentPlayingSong;
+    private static ArrayList<LocalSongEntity> sPlayingQueue;
 
 
     public static MusicPlayCallbackBus getInstance() {
@@ -103,6 +105,14 @@ public class MusicPlayCallbackBus {
         }
     }
 
+    public static LocalSongEntity getCurrentPlayingSong() {
+        return sCurrentPlayingSong;
+    }
+
+    public static ArrayList<LocalSongEntity> getPlayingQueue() {
+        return sPlayingQueue == null ? new ArrayList<LocalSongEntity>() : sPlayingQueue;
+    }
+
     private static void notifyOnStart(LocalSongEntity currentPlayingSong, ArrayList<LocalSongEntity> playQueue) {
         for (MusicPlayCallback callback : sMusicPlayCallbacks) {
             callback.onStart(currentPlayingSong, playQueue);
@@ -147,6 +157,8 @@ public class MusicPlayCallbackBus {
             final int duration = intent.getIntExtra(MusicPlayConstants.KEY_EXTRA_DURATION_CURRENT_PLAYING, 0);
 
             if (eventCode == EVENT_CODE_ON_START) {
+                sCurrentPlayingSong = currentPlayingSong;
+                sPlayingQueue = playQueue;
                 notifyOnStart(currentPlayingSong, playQueue);
             } else if (eventCode == EVENT_CODE_ON_TICK) {
                 notifyOnTick(currentPlayingSong, playQueue, position, duration);

@@ -20,7 +20,7 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     private RecyclerView mRecyclerView;
     private LayoutInflater mLayoutInflater;
 
-    private int mSingleSelectedPosition=POSITION_NONE;
+    private int mSingleSelectedPosition = POSITION_NONE;
 
 
     public BaseRecyclerViewAdapter(Context context) {
@@ -254,6 +254,10 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     }
 
     public boolean scrollToPosition(int position) {
+        return scrollToPosition(position, false);
+    }
+
+    public boolean scrollToPosition(int position, boolean anim) {
         if (!isLegalPositionForGetting(position)) {
             return false;
         }
@@ -262,7 +266,12 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
             return false;
         }
 
-        getRecyclerView().smoothScrollToPosition(position);
+        if (anim) {
+            getRecyclerView().smoothScrollToPosition(position);
+        } else {
+            getRecyclerView().scrollToPosition(position);
+        }
+
         return true;
     }
 
@@ -306,11 +315,11 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     }
 
     public void setSingleSelectedPosition(int singleSelectedPosition) {
-        if(mSingleSelectedPosition==singleSelectedPosition){
+        if (mSingleSelectedPosition == singleSelectedPosition) {
             return;
         }
 
-        if(mSingleSelectedPosition!=POSITION_NONE){
+        if (mSingleSelectedPosition != POSITION_NONE) {
             notifyItemChanged(mSingleSelectedPosition);
         }
 

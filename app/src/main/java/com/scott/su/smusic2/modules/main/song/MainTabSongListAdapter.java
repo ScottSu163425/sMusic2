@@ -3,6 +3,7 @@ package com.scott.su.smusic2.modules.main.song;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +41,15 @@ public class MainTabSongListAdapter
         holder.bind(entity, position);
     }
 
-    public void playSongRandom() {
-        if (isEmpty()) {
-            return;
-        }
+    public ImageView getCoverImageView(int position) {
+        VH vh = (VH) getRecyclerView().findViewHolderForLayoutPosition(position);
 
-        LocalSongEntity songEntity = ListUtil.getNextRandom(getData(), null);
+        return vh.binding.ivCover;
+    }
+
+    public int getFirstVisiblePosition(){
+        LinearLayoutManager layoutManager= (LinearLayoutManager) getRecyclerView().getLayoutManager();
+        return layoutManager.findFirstVisibleItemPosition();
     }
 
     class VH extends BaseRecyclerViewHolder<LocalSongEntity> {

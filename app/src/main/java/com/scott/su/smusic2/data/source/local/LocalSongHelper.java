@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.scott.su.common.util.TimeUtil;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
@@ -77,6 +78,11 @@ public class LocalSongHelper implements ILocalSongDataSource {
             long duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
             long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
             String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+
+            //过滤2分钟以下的音频
+            if (TimeUtil.getMinutesFromMills(duration) < 2) {
+                continue;
+            }
 
             LocalSongEntity localSongEntity = new LocalSongEntity();
             localSongEntity.setSongId(songId);

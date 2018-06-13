@@ -306,7 +306,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void playSongRandom() {
-
+        EventBus.getDefault().post(new PlaySongRandomEvent());
     }
 
     private void createCollection() {

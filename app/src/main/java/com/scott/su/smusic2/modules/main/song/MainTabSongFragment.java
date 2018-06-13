@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
+import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.PopupMenuHelper;
 import com.scott.su.common.manager.ToastHelper;
+import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
@@ -116,8 +119,35 @@ public class MainTabSongFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onEventPlaySongRandom(PlaySongRandomEvent event){
-        mSongListAdapter.playSongRandom();
+    public void onEventPlaySongRandom(PlaySongRandomEvent event) {
+        playSongRandom();
+    }
+
+    private void playSongRandom() {
+        if (mSongListAdapter.isEmpty()) {
+            return;
+        }
+
+        final LocalSongEntity currentPlayingSong = MusicPlayCallbackBus.getCurrentPlayingSong();
+        final int position = (currentPlayingSong == null) ? mSongListAdapter.getFirstVisiblePosition()
+                : ListUtil.getPositionIntList(mSongListAdapter.getData(), new Judgment<LocalSongEntity>() {
+            @Override
+            public boolean test(LocalSongEntity obj) {
+                return obj.getSongId() == currentPlayingSong.getSongId();
+            }
+        });
+
+        mSongListAdapter.scrollToPosition(position, true);
+        final ImageView cover = mSongListAdapter.getCoverImageView(position);
+        mBinding.rv.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mSongListAdapter.getData(),
+                        mSongListAdapter.getData(position), new View[]{cover});
+            }
+        }, 200);
+
+
     }
 
 }

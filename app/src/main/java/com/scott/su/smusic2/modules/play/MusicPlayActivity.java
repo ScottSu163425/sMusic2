@@ -27,7 +27,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -38,6 +37,7 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.manager.ActivityStarter;
+import com.scott.su.common.manager.ToastHelper;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
@@ -67,7 +67,6 @@ public class MusicPlayActivity extends BaseActivity {
 
     public static void start(Context context, ArrayList<LocalSongEntity> songList,
                              LocalSongEntity currentSong, @Nullable View[] shareElements) {
-
         Intent intent = getStartIntent(context, songList, currentSong, shareElements);
 
         if (shareElements == null || shareElements.length == 0) {
@@ -174,6 +173,10 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 mBinding.ivCover.setVisibility(View.GONE);
+
+                /*若不添加mask，会在共享动画过程中，VP选中封面和共享元素图像相同，看起来
+                * 是2份，而不是1份移动；不事先把VP隐藏是因为在调试中，发现设置VP由GONE到
+                * VISIBLE会有一段可感知的延时和闪动；*/
                 mBinding.viewMask.setVisibility(View.GONE);
                 return false;
             }
@@ -365,9 +368,10 @@ public class MusicPlayActivity extends BaseActivity {
         mMusicPlayCallback = new MusicPlayCallback() {
             @Override
             public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-                updateCurrentPlayingSongInfo(song);
+                ToastHelper.showToast(getActivity(), "onStart:" + song.getTitle());
 
-                togglePlayButtonState(true);
+                updateCurrentPlayingSongInfo(song);
+                togglePlayButtonState(true, true);
             }
 
             @Override
@@ -383,12 +387,17 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                togglePlayButtonState(false);
+                ToastHelper.showToast(getActivity(), "onPause:" + song.getTitle());
+
+                togglePlayButtonState(false, true);
             }
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                togglePlayButtonState(true);
+                ToastHelper.showToast(getActivity(), "onResume:" + song.getTitle());
+
+                updateCurrentPlayingSongInfo(song);
+                togglePlayButtonState(true, true);
             }
 
             @Override
@@ -407,14 +416,19 @@ public class MusicPlayActivity extends BaseActivity {
             return;
         }
 
+        boolean isInitSong = mSongPlaying.getSongId() == mSongPlayingInit.getSongId();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //与最初进入界面播放的歌曲相同，则显示sharedElement；
-            boolean isInitSong = mSongPlaying.getSongId() == mSongPlayingInit.getSongId();
             mBinding.ivCover.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
+            mBinding.viewMask.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
             mBinding.vpSongCover.setVisibility(isInitSong ? View.GONE : View.VISIBLE);
+
+            finishAfterTransition();
+        } else {
+            super.onBackPressed();
         }
 
-        super.onBackPressed();
     }
 
     @Override
@@ -424,10 +438,16 @@ public class MusicPlayActivity extends BaseActivity {
         MusicPlayCallbackBus.getInstance().unregisterCallback(mMusicPlayCallback);
     }
 
-    private void togglePlayButtonState(final boolean isPlaying) {
-
+    private void togglePlayButtonState(final boolean isPlaying, final boolean anim) {
         if (mBinding.fabPlay.getTag() != null
                 && (Boolean) mBinding.fabPlay.getTag() == isPlaying) {
+            return;
+        }
+
+        if (!anim) {
+            mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
+                    : R.drawable.ic_play_arrow_black);
+
             return;
         }
 
@@ -440,6 +460,9 @@ public class MusicPlayActivity extends BaseActivity {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         super.onAnimationStart(animation);
+
+                        mBinding.fabPlay.setRotation(0);
+
                         mBinding.fabPlay.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -449,8 +472,15 @@ public class MusicPlayActivity extends BaseActivity {
                                 mBinding.fabPlay.setTag(isPlaying);
                             }
                         }, 200);
-
                     }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        mBinding.fabPlay.setRotation(0);
+                    }
+
                 })
                 .start();
 
@@ -475,6 +505,8 @@ public class MusicPlayActivity extends BaseActivity {
      * @param currentPlayingSong
      */
     private void updateCurrentPlayingSongInfo(@NonNull final LocalSongEntity currentPlayingSong) {
+        mSongPlaying = currentPlayingSong;
+
         ImageLoader.load(getActivity(), currentPlayingSong.getAlbumCoverPath(), mBinding.ivCover);
 
         int positionCurrentPlaying = ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {

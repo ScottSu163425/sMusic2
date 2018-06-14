@@ -28,6 +28,7 @@ public class LocalMusicPlayer {
     private MusicPlayProgressTimer mProgressTimer;
     private List<LocalSongEntity> mPlayQueue = new ArrayList<>();
     private LocalSongEntity mCurrentPlayingSong;
+    private PlayRepeatMode mPlayRepeatMode = PlayRepeatMode.REPEAT_ALL;//循环模式
 
 
     public LocalMusicPlayer(Context context) {
@@ -38,8 +39,8 @@ public class LocalMusicPlayer {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 Log.e(TAG, "onCompletion");
-                getCallback().onComplete(mCurrentPlayingSong, mPlayQueue);
 
+                getCallback().onComplete(mCurrentPlayingSong, mPlayQueue);
                 skipToNext();
             }
         });
@@ -71,6 +72,10 @@ public class LocalMusicPlayer {
         });
     }
 
+    public void setPlayRepeatMode(PlayRepeatMode playRepeatMode) {
+        mPlayRepeatMode = playRepeatMode;
+    }
+
     public void setPlaySongs(@NonNull List<LocalSongEntity> playQueue) {
         this.mPlayQueue = playQueue;
     }
@@ -88,14 +93,9 @@ public class LocalMusicPlayer {
             return;
         }
 
-        if (newSong == null) {
-            return;
-        }
-
         //初次播放
         if (isPlayingSongEmpty()) {
-            mCurrentPlayingSong = newSong;
-            playNew();
+            playNew(newSong);
             return;
         }
 
@@ -105,8 +105,7 @@ public class LocalMusicPlayer {
         }
 
         //切歌
-        mCurrentPlayingSong = newSong;
-        playNew();
+        playNew(newSong);
     }
 
     /**
@@ -155,13 +154,21 @@ public class LocalMusicPlayer {
             return;
         }
 
-        LocalSongEntity newSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
+        LocalSongEntity newSong = null;
+
+        if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ALL) {
+            newSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
+        } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ONE) {
+            newSong = mCurrentPlayingSong;
+        } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_SHUFFLE) {
+            newSong = ListUtil.getNextRandom(mPlayQueue, mCurrentPlayingSong);
+        }
+
         if (newSong == null) {
             return;
         }
 
-        mCurrentPlayingSong = newSong;
-        playNew();
+        playNew(newSong);
     }
 
     public void skipToNext() {
@@ -169,13 +176,21 @@ public class LocalMusicPlayer {
             return;
         }
 
-        LocalSongEntity newSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
+        LocalSongEntity newSong = null;
+
+        if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ALL) {
+            newSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
+        } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ONE) {
+            newSong = mCurrentPlayingSong;
+        } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_SHUFFLE) {
+            newSong = ListUtil.getNextRandom(mPlayQueue, mCurrentPlayingSong);
+        }
+
         if (newSong == null) {
             return;
         }
 
-        mCurrentPlayingSong = newSong;
-        playNew();
+        playNew(newSong);
     }
 
     public void seekTo(int position) {
@@ -199,7 +214,13 @@ public class LocalMusicPlayer {
     }
 
     public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+        int position = mMediaPlayer.getCurrentPosition();
+
+        if (position > getCurrentDuration()) {
+            position = getCurrentDuration();
+        }
+
+        return position;
     }
 
     public int getCurrentDuration() {
@@ -220,14 +241,19 @@ public class LocalMusicPlayer {
                 || getCurrentDuration() <= 0;
     }
 
-    private void playNew() {
+    private void playNew(LocalSongEntity newSong) {
+        //注意一定要先关闭，否则可能引起onCompletion提前调用；
+        stop();
+
+        mCurrentPlayingSong = newSong;
+
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
-            mMediaPlayer.prepareAsync();//若多次调用，可能产生顺序问题；
-//            mMediaPlayer.prepare();//同步方法，保证顺序
-
+            mMediaPlayer.prepareAsync();//异步方法
+//            mMediaPlayer.prepare();//同步方法
+//
 //            mMediaPlayer.start();
 //            getCallback().onStart(mCurrentPlayingSong, mPlayQueue);
 //            startProgressTimer();

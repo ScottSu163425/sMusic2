@@ -27,6 +27,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -205,6 +206,7 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 if (selectByGesture) {
+                    Log.e("test:", "onPageSelected:" + position + " , " + mSongList.get(position).getTitle());
                     updateCurrentPlayingSong(mSongList.get(position), false);
                 }
 
@@ -243,10 +245,6 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ViewUtil.isFastDoubleClick()) {
-                    return;
-                }
-
                 MusicPlayController.getInstance().skipToPrevious(getActivity());
             }
         });
@@ -254,10 +252,6 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.viewSkipNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ViewUtil.isFastDoubleClick()) {
-                    return;
-                }
-
                 MusicPlayController.getInstance().skipToNext(getActivity());
             }
         });
@@ -512,7 +506,10 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, false);
+        if(positionCurrentPlaying!=mBinding.vpSongCover.getCurrentItem()){
+            mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, false);
+        }
+
         mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);
 
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());

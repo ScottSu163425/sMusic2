@@ -55,6 +55,12 @@ public class CollectionCreateActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this)
                 .get(CollectionCreateViewModel.class);
 
+        mBinding.viewBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revealBodyOut();
+            }
+        });
 
         mBinding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,13 +169,16 @@ public class CollectionCreateActivity extends BaseActivity {
                                     public void onAnimEnd() {
                                         mAnimating = false;
 
-                                        mExit = true;
-
-                                        onBackPressed();
+                                        exit();
                                     }
                                 }, true);
                     }
                 }, true);
+    }
+
+    private void exit() {
+        mExit = true;
+        onBackPressed();
     }
 
     @Override

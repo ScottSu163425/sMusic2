@@ -37,7 +37,7 @@
                         android:id="@+id/view_mask"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"/>
+                        android:background="@color/md_grey_800"/>
 
                     <ImageView
                         android:id="@+id/iv_cover"
@@ -161,6 +161,7 @@
                                     android:tint="@color/white"
                                     android:visibility="gone"
                                     tools:visibility="visible"/>
+
                                 <ImageView
                                     android:id="@+id/iv_repeat_shufflel"
                                     android:layout_width="28dp"

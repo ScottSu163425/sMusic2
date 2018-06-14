@@ -27,7 +27,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -36,13 +35,11 @@ import android.widget.SeekBar;
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
-import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.manager.ActivityStarter;
-import com.scott.su.common.manager.ToastHelper;
+import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
-import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
@@ -224,7 +221,7 @@ public class MusicPlayActivity extends BaseActivity {
             public boolean test(LocalSongEntity obj) {
                 return mSongPlaying.getSongId() == obj.getSongId();
             }
-        }), false);
+        }), true);
 
     }
 
@@ -506,7 +503,7 @@ public class MusicPlayActivity extends BaseActivity {
         });
 
         if (positionCurrentPlaying != mBinding.vpSongCover.getCurrentItem()) {
-            mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, false);
+            mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, true);
         }
 
         mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);

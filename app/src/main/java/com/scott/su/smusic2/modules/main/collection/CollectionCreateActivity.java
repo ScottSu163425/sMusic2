@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -41,7 +40,6 @@ public class CollectionCreateActivity extends BaseActivity {
     private ActivityCollectionCreateBinding mBinding;
 
 
-
     private boolean mExit;
     private boolean mEnter = true;//过滤Activity销毁时，共享元素动画结束回调
     private boolean mAnimating;//防止多次点击
@@ -58,17 +56,19 @@ public class CollectionCreateActivity extends BaseActivity {
                 .get(CollectionCreateViewModel.class);
 
 
+        mBinding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         mViewModel.start();
     }
 
     @Override
-    protected int provideAnimOpenIn() {
-        return R.anim.fade_in;
-    }
-
-    @Override
-    protected int provideAnimCloseOut() {
-        return R.anim.fade_out;
+    protected boolean autoTransition() {
+        return false;
     }
 
     private void setUpAnimation() {

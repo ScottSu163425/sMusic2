@@ -25,7 +25,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
         } else {
-            getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+            if(autoTransition()){
+                getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+            }
         }
 
     }
@@ -42,6 +44,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             overridePendingTransition(provideAnimCloseIn(), provideAnimCloseOut());
         }
+    }
+
+    protected boolean autoTransition(){
+        return true;
     }
 
     protected

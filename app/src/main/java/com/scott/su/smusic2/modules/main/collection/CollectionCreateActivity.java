@@ -42,7 +42,8 @@ public class CollectionCreateActivity extends BaseActivity {
 
     private boolean mExit;
     private boolean mEnter = true;//过滤Activity销毁时，共享元素动画结束回调
-    private boolean mAnimating;//防止多次点击
+    private boolean mAnimatingIn;//防止多次点击
+    private boolean mAnimatingOut;//防止多次点击
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class CollectionCreateActivity extends BaseActivity {
         mBinding.viewBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                revealBodyOut();
+                onBackPressed();
             }
         });
 
@@ -125,7 +126,7 @@ public class CollectionCreateActivity extends BaseActivity {
                 new FastOutSlowInInterpolator(), new CirclarRevealUtil.SimpleAnimListener() {
                     @Override
                     public void onAnimStart() {
-                        mAnimating = true;
+                        mAnimatingIn = true;
                     }
 
                     @Override
@@ -140,7 +141,7 @@ public class CollectionCreateActivity extends BaseActivity {
 
                                     @Override
                                     public void onAnimEnd() {
-                                        mAnimating = false;
+                                        mAnimatingIn = false;
                                         mEnter = false;
                                     }
                                 });
@@ -153,7 +154,7 @@ public class CollectionCreateActivity extends BaseActivity {
                 null, new CirclarRevealUtil.SimpleAnimListener() {
                     @Override
                     public void onAnimStart() {
-                        mAnimating = true;
+                        mAnimatingOut = true;
                     }
 
                     @Override
@@ -167,7 +168,7 @@ public class CollectionCreateActivity extends BaseActivity {
 
                                     @Override
                                     public void onAnimEnd() {
-                                        mAnimating = false;
+                                        mAnimatingOut = false;
 
                                         exit();
                                     }
@@ -184,7 +185,7 @@ public class CollectionCreateActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-        if (mAnimating) {
+        if (mAnimatingIn||mAnimatingOut) {
             return;
         }
 

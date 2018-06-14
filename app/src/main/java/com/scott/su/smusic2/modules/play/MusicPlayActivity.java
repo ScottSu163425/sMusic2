@@ -206,7 +206,6 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 if (selectByGesture) {
-                    Log.e("test:", "onPageSelected:" + position + " , " + mSongList.get(position).getTitle());
                     updateCurrentPlayingSong(mSongList.get(position), false);
                 }
 
@@ -233,7 +232,7 @@ public class MusicPlayActivity extends BaseActivity {
      * 初始化播放控制相关
      */
     private void initPlayControl() {
-        mBinding.fabPlay.setTag(true);
+        setPlayFabImageResource(true);
 
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -429,20 +428,16 @@ public class MusicPlayActivity extends BaseActivity {
     }
 
     private void togglePlayButtonState(final boolean isPlaying, final boolean anim) {
-        if (mBinding.fabPlay.getTag() != null
-                && (Boolean) mBinding.fabPlay.getTag() == isPlaying) {
+        if (isPlaying == mPlayFabPlaying) {
             return;
         }
 
         if (!anim) {
-            mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
-                    : R.drawable.ic_play_arrow_black);
-
+            setPlayFabImageResource(isPlaying);
             return;
         }
 
-        mBinding.fabPlay.
-                animate()
+        mBinding.fabPlay.animate()
                 .setDuration(400)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .rotation(isPlaying ? -360 : mBinding.fabPlay.getRotation() + 360)
@@ -452,14 +447,11 @@ public class MusicPlayActivity extends BaseActivity {
                         super.onAnimationStart(animation);
 
                         mBinding.fabPlay.setRotation(0);
-                        mBinding.fabPlay.setTag(isPlaying);
 
                         mBinding.fabPlay.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
-                                        : R.drawable.ic_play_arrow_black);
-
+                                setPlayFabImageResource(isPlaying);
                             }
                         }, 200);
                     }
@@ -473,8 +465,15 @@ public class MusicPlayActivity extends BaseActivity {
 
                 })
                 .start();
+    }
 
+    private boolean mPlayFabPlaying;
 
+    private void setPlayFabImageResource(boolean playing) {
+        mBinding.fabPlay.setImageResource(playing ? R.drawable.ic_pause_black
+                : R.drawable.ic_play_arrow_black);
+
+        mPlayFabPlaying = playing;
     }
 
     private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean playPause) {
@@ -506,7 +505,7 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        if(positionCurrentPlaying!=mBinding.vpSongCover.getCurrentItem()){
+        if (positionCurrentPlaying != mBinding.vpSongCover.getCurrentItem()) {
             mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, false);
         }
 

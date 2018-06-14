@@ -208,9 +208,10 @@ public class LocalMusicPlayer {
     }
 
     public void stop() {
-        pause();
-
-        mMediaPlayer.stop();
+        if (isPlaying()) {
+            stopProgressTimer();
+            mMediaPlayer.stop();
+        }
     }
 
     public int getCurrentPosition() {

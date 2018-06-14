@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">sMusic</string>
+
+    <string name="transition_name_cover">transition_name_cover</string>
+    <string name="transition_name_fab">transition_name_fab</string>
+
+
     <string name="tab_main_recommend">推荐</string>
     <string name="tab_main_song">歌曲</string>
     <string name="tab_main_collection">收藏</string>
@@ -7,7 +12,6 @@
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="tip_exit">退出应用?</string>
-    <string name="transition_name_cover">cover</string>
     <string name="action_search">搜索</string>
     <string name="action_more">更多</string>
 </resources>

@@ -231,6 +231,8 @@ public class MusicPlayActivity extends BaseActivity {
      * 初始化播放控制相关
      */
     private void initPlayControl() {
+        mBinding.fabPlay.setTag(true);
+
         mBinding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -368,8 +370,6 @@ public class MusicPlayActivity extends BaseActivity {
         mMusicPlayCallback = new MusicPlayCallback() {
             @Override
             public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-                ToastHelper.showToast(getActivity(), "onStart:" + song.getTitle());
-
                 updateCurrentPlayingSongInfo(song);
                 togglePlayButtonState(true, true);
             }
@@ -387,15 +387,11 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                ToastHelper.showToast(getActivity(), "onPause:" + song.getTitle());
-
                 togglePlayButtonState(false, true);
             }
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                ToastHelper.showToast(getActivity(), "onResume:" + song.getTitle());
-
                 updateCurrentPlayingSongInfo(song);
                 togglePlayButtonState(true, true);
             }
@@ -462,6 +458,7 @@ public class MusicPlayActivity extends BaseActivity {
                         super.onAnimationStart(animation);
 
                         mBinding.fabPlay.setRotation(0);
+                        mBinding.fabPlay.setTag(isPlaying);
 
                         mBinding.fabPlay.postDelayed(new Runnable() {
                             @Override
@@ -469,7 +466,6 @@ public class MusicPlayActivity extends BaseActivity {
                                 mBinding.fabPlay.setImageResource(isPlaying ? R.drawable.ic_pause_black
                                         : R.drawable.ic_play_arrow_black);
 
-                                mBinding.fabPlay.setTag(isPlaying);
                             }
                         }, 200);
                     }

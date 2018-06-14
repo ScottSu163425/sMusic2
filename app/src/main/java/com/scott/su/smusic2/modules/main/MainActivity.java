@@ -26,6 +26,7 @@ import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
+import com.scott.su.smusic2.modules.main.collection.CollectionCreateActivity;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
@@ -310,7 +311,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void createCollection() {
-        ToastHelper.showToast(getActivity(), "创建收藏");
+        CollectionCreateActivity.start(getActivity(), mBinding.fabMain);
     }
 
 }

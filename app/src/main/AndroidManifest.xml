@@ -31,6 +31,12 @@
             android:name=".modules.play.MusicPlayActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".modules.main.collection.CollectionCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustResize"/>
+
     </application>
 
 </manifest>

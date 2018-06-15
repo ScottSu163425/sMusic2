@@ -16,6 +16,8 @@ import android.view.View;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.CirclarRevealUtil;
+import com.scott.su.common.util.KeyboardUtil;
+import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.ActivityCollectionCreateBinding;
 
@@ -184,10 +186,11 @@ public class CollectionCreateActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-
-        if (mAnimatingIn||mAnimatingOut) {
+        if (mAnimatingIn || mAnimatingOut) {
             return;
         }
+
+        KeyboardUtil.closeKeyboard(getActivity());
 
         if (mExit) {
             super.onBackPressed();

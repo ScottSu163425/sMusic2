@@ -116,7 +116,7 @@ public class MusicPlayActivity extends BaseActivity {
         initPlayQueue();
         initViewModel();
 
-        updateCurrentPlayingSong(mSongPlaying, false);
+        playSong(mSongPlaying);
 
         mViewModel.start();
     }
@@ -203,7 +203,8 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 if (selectByGesture) {
-                    updateCurrentPlayingSong(mSongList.get(position), false);
+                    playSong(mSongList.get(position));
+                    selectByGesture = false;
                 }
 
             }
@@ -343,7 +344,7 @@ public class MusicPlayActivity extends BaseActivity {
         mPlayQueueListAdapter.setCallback(new MusicPlayQueueListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, LocalSongEntity entity, int position) {
-                updateCurrentPlayingSong(entity, false);
+                playSong(entity);
             }
 
             @Override
@@ -473,14 +474,14 @@ public class MusicPlayActivity extends BaseActivity {
         mPlayFabPlaying = playing;
     }
 
-    private void updateCurrentPlayingSong(@NonNull LocalSongEntity currentPlayingSong, boolean playPause) {
+    private void playSong(@NonNull LocalSongEntity currentPlayingSong) {
         mSongPlaying = currentPlayingSong;
 
-        if (playPause) {
-            MusicPlayController.getInstance().playPause(getActivity());
-        } else {
-            MusicPlayController.getInstance().play(getActivity(), mSongList, mSongPlaying);
-        }
+//        if (playPause) {
+//            MusicPlayController.getInstance().playPause(getActivity());
+//        } else {
+        MusicPlayController.getInstance().play(getActivity(), mSongList, mSongPlaying);
+//        }
 
         updateCurrentPlayingSongInfo(currentPlayingSong);
     }

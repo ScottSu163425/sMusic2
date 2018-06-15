@@ -42,20 +42,18 @@ public class MusicPlayService extends Service {
         mMusicPlayer.setCallback(new MusicPlayCallback() {
             @Override
             public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-                Log.e("===>Callback in Service", "onStart");
-
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
 
                 sendCallbackBroadcast(getApplicationContext(),
                         MusicPlayCallbackBus.EVENT_CODE_ON_START, extraData);
+
+                updateNotification();
             }
 
             @Override
             public void onTik(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                Log.e("===>Callback in Service", "onTik");
-
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
@@ -68,8 +66,6 @@ public class MusicPlayService extends Service {
 
             @Override
             public void onPause(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                Log.e("===>Callback in Service", "onPause");
-
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
@@ -78,12 +74,12 @@ public class MusicPlayService extends Service {
 
                 sendCallbackBroadcast(getApplicationContext(),
                         MusicPlayCallbackBus.EVENT_CODE_ON_PAUSE, extraData);
+
+                updateNotification();
             }
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                Log.e("===>Callback in Service", "onResume");
-
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
@@ -92,12 +88,12 @@ public class MusicPlayService extends Service {
 
                 sendCallbackBroadcast(getApplicationContext(),
                         MusicPlayCallbackBus.EVENT_CODE_ON_RESUME, extraData);
+
+                updateNotification();
             }
 
             @Override
             public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
-                Log.e("===>Callback in Service", "onComplete");
-
                 Intent extraData = new Intent();
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG, song);
                 extraData.putExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE, (ArrayList) playQueue);
@@ -109,6 +105,11 @@ public class MusicPlayService extends Service {
         });
 
         registerCommandReceiver();
+    }
+
+    private void updateNotification() {
+        // TODO: 2018/6/15 更新状态栏通知
+
     }
 
     @Override

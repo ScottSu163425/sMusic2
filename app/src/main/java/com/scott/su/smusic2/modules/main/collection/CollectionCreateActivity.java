@@ -190,6 +190,7 @@ public class CollectionCreateActivity extends BaseActivity {
             return;
         }
 
+
         KeyboardUtil.closeKeyboard(getActivity());
 
         if (mExit) {

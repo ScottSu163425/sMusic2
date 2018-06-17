@@ -21,7 +21,7 @@ public abstract class BaseAndroidViewModel extends AndroidViewModel {
         mContext = application.getApplicationContext();
     }
 
-    protected Context getContext() {
+    protected Context getApplicationContext() {
         return mContext;
     }
 

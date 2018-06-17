@@ -19,9 +19,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-
-        AppConfig.init(this);
-
         MusicPlayController.launch(getApplicationContext());
         MusicPlayCallbackBus.init(getApplicationContext());
     }

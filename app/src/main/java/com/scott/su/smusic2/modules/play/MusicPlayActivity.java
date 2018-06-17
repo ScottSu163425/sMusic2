@@ -110,11 +110,11 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_music_play);
 
         initTitle();
+        initViewModel();
         initCoverPager();
         initPlayControl();
         initPlayCallback();
         initPlayQueue();
-        initViewModel();
 
         playSong(mSongPlaying);
 
@@ -383,7 +383,6 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onResume(LocalSongEntity song, List<LocalSongEntity> playQueue, int position, int duration) {
-                updateCurrentPlayingSongInfo(song);
                 togglePlayButtonState(true, true);
             }
 

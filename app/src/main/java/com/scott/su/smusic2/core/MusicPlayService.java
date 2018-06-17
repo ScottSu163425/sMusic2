@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.source.local.AppConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_COMMAND_COD
 public class MusicPlayService extends Service {
     private MusicPlayCommandReceiver mCommandReceiver;
     private LocalMusicPlayer mMusicPlayer;
-
 
     @Nullable
     @Override
@@ -110,6 +110,7 @@ public class MusicPlayService extends Service {
     private void updateNotification() {
         // TODO: 2018/6/15 更新状态栏通知
 
+
     }
 
     @Override
@@ -168,13 +169,19 @@ public class MusicPlayService extends Service {
                 ArrayList<LocalSongEntity> playQueue
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE);
 
+                //更新循环模式
+                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.setPlaySongs(playQueue);
                 mMusicPlayer.restart(currentPlayingSong);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_PLAY_PAUSE) {
                 mMusicPlayer.playPause();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_PREVIOUS) {
+                //更新循环模式
+                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_NEXT) {
+                //更新循环模式
+                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.skipToNext();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SEEK) {
                 int positionSeekTo = intent.getIntExtra(MusicPlayConstants.KEY_EXTRA_POSITION_SEEK_TO, 0);
@@ -185,6 +192,18 @@ public class MusicPlayService extends Service {
 
         }
 
+    }
+
+    private PlayRepeatMode getPlayRepeatMode() {
+        PlayRepeatMode repeatMode = PlayRepeatMode.REPEAT_ALL;
+        if (AppConfig.isRepeatOne(getApplicationContext())) {
+            repeatMode = PlayRepeatMode.REPEAT_ONE;
+        }
+        if (AppConfig.isRepeatShuffle(getApplicationContext())) {
+            repeatMode = PlayRepeatMode.REPEAT_SHUFFLE;
+        }
+
+        return repeatMode;
     }
 
     /**

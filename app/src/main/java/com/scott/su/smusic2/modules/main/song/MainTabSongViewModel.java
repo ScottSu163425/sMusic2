@@ -36,7 +36,7 @@ public class MainTabSongViewModel extends BaseAndroidViewModel {
         Observable.create(new ObservableOnSubscribe<List<LocalSongEntity>>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<List<LocalSongEntity>> emitter) throws Exception {
-                emitter.onNext(LocalSongDataSource.getInstance().getAllSongs(getContext()));
+                emitter.onNext(LocalSongDataSource.getInstance().getAllSongs(getApplicationContext()));
                 emitter.onComplete();
             }
         })

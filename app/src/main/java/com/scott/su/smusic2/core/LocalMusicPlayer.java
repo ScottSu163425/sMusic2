@@ -72,6 +72,19 @@ public class LocalMusicPlayer {
         });
     }
 
+
+    public void setPlayRepeatModeALl() {
+        setPlayRepeatMode(PlayRepeatMode.REPEAT_ALL);
+    }
+
+    public void setPlayRepeatModeOne() {
+        setPlayRepeatMode(PlayRepeatMode.REPEAT_ONE);
+    }
+
+    public void setPlayRepeatModeShuffle() {
+        setPlayRepeatMode(PlayRepeatMode.REPEAT_SHUFFLE);
+    }
+
     public void setPlayRepeatMode(PlayRepeatMode playRepeatMode) {
         mPlayRepeatMode = playRepeatMode;
     }

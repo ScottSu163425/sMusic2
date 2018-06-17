@@ -3,6 +3,7 @@ package com.scott.su.smusic2.data.source.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 /**
  * 描述:
@@ -13,113 +14,78 @@ import android.preference.PreferenceManager;
 public class AppConfig {
     private static final String KEY_FIRST_TIME_LAUNCH = "KEY_FIRST_TIME_LAUNCH";
 
-    private static final String KEY_REPEAT_ONE = "KEY_REPEAT_ONE";
-    private static final String KEY_REPEAT_ALL = "KEY_REPEAT_ALL";
-    private static final String KEY_REPEAT_SHUFFLE = "KEY_REPEAT_SHUFFLE";
-    private static Context sContext;
+    private static final String KEY_REPEAT_MODE = "KEY_REPEAT_MODE";
+
+    private static final int VALUE_REPEAT_ALL = 0;
+    private static final int VALUE_REPEAT_ONE = 1;
+    private static final int VALUE_REPEAT_SHUFFLE = 2;
+
     private static SharedPreferences sSharedPreferences;
-
-
-    public static void init(Context context) {
-        sContext = context.getApplicationContext();
-        sSharedPreferences = PreferenceManager.getDefaultSharedPreferences(sContext);
-    }
-
-    private static AppConfig sInstance;
-
-
-    public static AppConfig getInstance() {
-        if (sInstance == null) {
-            synchronized (AppConfig.class) {
-                if (sInstance == null) {
-                    sInstance = new AppConfig();
-                }
-            }
-        }
-        return sInstance;
-    }
-
 
     private AppConfig() {
 
     }
 
-    public void setFirstTimeLaunch(boolean flag) {
+    private static void initIfNeed(@NonNull Context context) {
+        if (sSharedPreferences == null) {
+            sSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        }
+    }
+
+    public static void setFirstTimeLaunch(Context context, boolean flag) {
+        initIfNeed(context);
+
         sSharedPreferences.edit()
                 .putBoolean(KEY_FIRST_TIME_LAUNCH, flag)
                 .apply();
-
-        if (flag) {
-            setRepeatAll(true);
-        }
     }
 
-    public boolean isFirstTimeLaunch() {
+    public static boolean isFirstTimeLaunch(Context context) {
+        initIfNeed(context);
+
         return sSharedPreferences.getBoolean(KEY_FIRST_TIME_LAUNCH, true);
     }
 
-    public void setRepeatOne(boolean flag) {
+    public static void setRepeatAll(Context context) {
+        initIfNeed(context);
+
         sSharedPreferences.edit()
-                .putBoolean(KEY_REPEAT_ONE, flag)
+                .putInt(KEY_REPEAT_MODE, VALUE_REPEAT_ALL)
                 .apply();
-
-        if (flag) {
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_ALL, false)
-                    .apply();
-
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_SHUFFLE, false)
-                    .apply();
-
-        }
-
     }
 
-    public void setRepeatAll(boolean flag) {
+    public static void setRepeatOne(Context context) {
+        initIfNeed(context);
+
         sSharedPreferences.edit()
-                .putBoolean(KEY_REPEAT_ALL, flag)
+                .putInt(KEY_REPEAT_MODE, VALUE_REPEAT_ONE)
                 .apply();
-
-        if (flag) {
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_ONE, false)
-                    .apply();
-
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_SHUFFLE, false)
-                    .apply();
-        }
-
     }
 
-    public void setRepeatShuffle(boolean flag) {
+    public static void setRepeatShuffle(Context context) {
+        initIfNeed(context);
+
         sSharedPreferences.edit()
-                .putBoolean(KEY_REPEAT_SHUFFLE, flag)
+                .putInt(KEY_REPEAT_MODE, VALUE_REPEAT_SHUFFLE)
                 .apply();
-
-        if (flag) {
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_ONE, false)
-                    .apply();
-
-            sSharedPreferences.edit()
-                    .putBoolean(KEY_REPEAT_ALL, false)
-                    .apply();
-        }
-
     }
 
-    public boolean isRepeatOne() {
-        return sSharedPreferences.getBoolean(KEY_REPEAT_ONE, false);
+    public static boolean isRepeatAll(Context context) {
+        initIfNeed(context);
+
+        return sSharedPreferences.getInt(KEY_REPEAT_MODE, VALUE_REPEAT_ALL) == VALUE_REPEAT_ALL;
     }
 
-    public boolean isRepeatAll() {
-        return sSharedPreferences.getBoolean(KEY_REPEAT_ALL, false);
+    public static boolean isRepeatOne(Context context) {
+        initIfNeed(context);
+
+        return sSharedPreferences.getInt(KEY_REPEAT_MODE, VALUE_REPEAT_ALL) == VALUE_REPEAT_ONE;
     }
 
-    public boolean isRepeatShuffle() {
-        return sSharedPreferences.getBoolean(KEY_REPEAT_SHUFFLE, false);
+    public static boolean isRepeatShuffle(Context context) {
+        initIfNeed(context);
+
+        return sSharedPreferences.getInt(KEY_REPEAT_MODE, VALUE_REPEAT_ALL) == VALUE_REPEAT_SHUFFLE;
     }
 
 

@@ -2,6 +2,7 @@ package com.scott.su.smusic2.modules.play;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.scott.su.common.viewmodel.BaseAndroidViewModel;
@@ -14,24 +15,24 @@ import com.scott.su.smusic2.data.source.local.AppConfig;
  */
 
 public class MusicPlayViewModel extends BaseAndroidViewModel {
-    private AppConfig mAppConfig;
-    private MutableLiveData<Boolean> mLiveDataIsRepeatAll = new MutableLiveData<>();
-    private MutableLiveData<Boolean> mLiveDataIsRepeatOne = new MutableLiveData<>();
-    private MutableLiveData<Boolean> mLiveDataIsRepeatShuffle = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLiveDataIsRepeatAll;
+    private MutableLiveData<Boolean> mLiveDataIsRepeatOne;
+    private MutableLiveData<Boolean> mLiveDataIsRepeatShuffle;
 
 
     public MusicPlayViewModel(@NonNull Application application) {
         super(application);
 
-        mAppConfig = AppConfig.getInstance();
-
+        mLiveDataIsRepeatAll = new MutableLiveData<>();
+        mLiveDataIsRepeatOne = new MutableLiveData<>();
+        mLiveDataIsRepeatShuffle = new MutableLiveData<>();
     }
 
     @Override
     protected void start() {
-        mLiveDataIsRepeatAll.setValue(mAppConfig.isRepeatAll());
-        mLiveDataIsRepeatOne.setValue(mAppConfig.isRepeatOne());
-        mLiveDataIsRepeatShuffle.setValue(mAppConfig.isRepeatShuffle());
+        mLiveDataIsRepeatAll.setValue(AppConfig.isRepeatAll(getApplicationContext()));
+        mLiveDataIsRepeatOne.setValue(AppConfig.isRepeatOne(getApplicationContext()));
+        mLiveDataIsRepeatShuffle.setValue(AppConfig.isRepeatShuffle(getApplicationContext()));
     }
 
     public MutableLiveData<Boolean> getLiveDataIsRepeatAll() {
@@ -48,17 +49,17 @@ public class MusicPlayViewModel extends BaseAndroidViewModel {
 
     public void toggleRepeatMode() {
         if (mLiveDataIsRepeatAll.getValue()) {
-            mAppConfig.setRepeatOne(true);
+            AppConfig.setRepeatOne(getApplicationContext());
             mLiveDataIsRepeatAll.setValue(false);
             mLiveDataIsRepeatOne.setValue(true);
             mLiveDataIsRepeatShuffle.setValue(false);
         } else if (mLiveDataIsRepeatOne.getValue()) {
-            mAppConfig.setRepeatShuffle(true);
+            AppConfig.setRepeatShuffle(getApplicationContext());
             mLiveDataIsRepeatAll.setValue(false);
             mLiveDataIsRepeatOne.setValue(false);
             mLiveDataIsRepeatShuffle.setValue(true);
         } else if (mLiveDataIsRepeatShuffle.getValue()) {
-            mAppConfig.setRepeatAll(true);
+            AppConfig.setRepeatAll(getApplicationContext());
             mLiveDataIsRepeatAll.setValue(true);
             mLiveDataIsRepeatOne.setValue(false);
             mLiveDataIsRepeatShuffle.setValue(false);

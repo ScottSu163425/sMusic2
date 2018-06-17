@@ -194,13 +194,13 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void afterAnimationFinished() {
-        boolean firstTimeLaunch = AppConfig.getInstance().isFirstTimeLaunch();
+        boolean firstTimeLaunch = AppConfig.isFirstTimeLaunch(getApplicationContext());
 
         if (firstTimeLaunch) {
             // TODO: 2018/6/5
         }
 
-        AppConfig.getInstance().setFirstTimeLaunch(false);
+        AppConfig.setFirstTimeLaunch(getApplicationContext(), false);
 
         requestPermissionsIfNeed();
     }

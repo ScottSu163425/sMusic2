@@ -4,9 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -221,10 +219,13 @@ public class LocalMusicPlayer {
     }
 
     public void stop() {
-        if (isPlaying()) {
-            stopProgressTimer();
-            mMediaPlayer.stop();
-        }
+        stopProgressTimer();
+        mMediaPlayer.stop();
+    }
+    public void close(){
+        stop();
+        mCallback.onClose(mCurrentPlayingSong, mPlayQueue);
+
     }
 
     public int getCurrentPosition() {
@@ -327,6 +328,11 @@ public class LocalMusicPlayer {
 
                 @Override
                 public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
+
+                }
+
+                @Override
+                public void onClose(LocalSongEntity song, List<LocalSongEntity> playQueue) {
 
                 }
             };

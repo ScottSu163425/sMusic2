@@ -25,7 +25,7 @@ public interface IMusicPlayController {
 
     void seekTo(Context context, int position);
 
-    void stop(Context context);
+    void close(Context context);
 
 
 }

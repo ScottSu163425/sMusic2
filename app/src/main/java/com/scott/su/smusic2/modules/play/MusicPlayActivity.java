@@ -239,7 +239,7 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mBinding.viewSkipPrevious.setOnClickListener(new View.OnClickListener() {
+        mBinding.viewSkipPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MusicPlayController.getInstance().skipToPrevious(getActivity());
@@ -390,15 +390,28 @@ public class MusicPlayActivity extends BaseActivity {
             public void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue) {
 
             }
+
+            @Override
+            public void onClose(LocalSongEntity song, List<LocalSongEntity> playQueue) {
+                closeActivity();
+            }
         };
 
         MusicPlayCallbackBus.getInstance().registerCallback(mMusicPlayCallback);
     }
 
+    private void closeActivity() {
+        mCloseActivity = true;
+        onBackPressed();
+    }
+
+    private boolean mCloseActivity;
+
     @Override
     public void onBackPressed() {
-        if (BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
+        if (!mCloseActivity && BottomSheetBehavior.STATE_EXPANDED == mBehaviorPlayQueue.getState()) {
             collapsePlayQueue();
+
             return;
         }
 
@@ -437,7 +450,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.fabPlay.animate()
                 .setDuration(400)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .rotation(isPlaying ? -360 : mBinding.fabPlay.getRotation() + 360)
+                .rotation(isPlaying ? mBinding.fabPlay.getRotation() + 360 : -360)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {

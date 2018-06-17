@@ -2,12 +2,14 @@ package com.scott.su.smusic2.core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_COMMAND_CODE;
@@ -31,7 +33,20 @@ public class MusicPlayController implements IMusicPlayController {
     public static final int COMMAND_CODE_SKIP_TO_NEXT = COMMAND_CODE_NONE + 4;
     public static final int COMMAND_CODE_SKIP_TO_PREVIOUS = COMMAND_CODE_NONE + 5;
     public static final int COMMAND_CODE_SEEK = COMMAND_CODE_NONE + 6;
-    public static final int COMMAND_CODE_STOP = COMMAND_CODE_NONE + 7;
+    public static final int COMMAND_CODE_CLOSE = COMMAND_CODE_NONE + 7;
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({COMMAND_CODE_UPDATE_CURRENT_PLAYING_SONG_INFO,
+            COMMAND_CODE_PLAY,
+            COMMAND_CODE_PLAY_PAUSE,
+            COMMAND_CODE_SKIP_TO_NEXT,
+            COMMAND_CODE_SKIP_TO_PREVIOUS,
+            COMMAND_CODE_SEEK,
+            COMMAND_CODE_CLOSE,
+    })
+    public @interface CommandCode {
+    }
 
 
     private static MusicPlayController sInstance;
@@ -95,14 +110,42 @@ public class MusicPlayController implements IMusicPlayController {
     }
 
     @Override
-    public void stop(Context context) {
-        sendCommend(context, COMMAND_CODE_STOP, null);
+    public void close(Context context) {
+        sendCommend(context, COMMAND_CODE_CLOSE, null);
+    }
+
+    public static Intent getCommandPlayPause( ) {
+        Intent intent = new Intent();
+
+        intent.setAction(ACTION_MUSIC_PLAY_CONTROL);
+        intent.putExtra(KEY_EXTRA_COMMAND_CODE, COMMAND_CODE_PLAY_PAUSE);
+
+        return intent;
+    }
+
+    public static Intent getCommandSkipPrev( ) {
+        Intent intent = new Intent();
+
+        intent.setAction(ACTION_MUSIC_PLAY_CONTROL);
+        intent.putExtra(KEY_EXTRA_COMMAND_CODE, COMMAND_CODE_SKIP_TO_PREVIOUS);
+
+        return intent;
+    }
+
+    public static Intent getCommandSkipNext( ) {
+        Intent intent = new Intent();
+
+        intent.setAction(ACTION_MUSIC_PLAY_CONTROL);
+        intent.putExtra(KEY_EXTRA_COMMAND_CODE, COMMAND_CODE_SKIP_TO_NEXT);
+
+        return intent;
     }
 
     private static void sendCommend(Context context, int command, @Nullable Intent extraData) {
         //启动音乐播放服务
         context.startService(new Intent(context, MusicPlayService.class));
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getApplicationContext());
+//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getApplicationContext());
+        //由于要在Notification中发送PendingIntent，无法响应本地广播，故使用全局广播；
 
         if (extraData == null) {
             extraData = new Intent();
@@ -112,7 +155,7 @@ public class MusicPlayController implements IMusicPlayController {
         extraData.putExtra(KEY_EXTRA_COMMAND_CODE, command);
 
         //发送指令本地广播
-        manager.sendBroadcast(extraData);
+        context.sendBroadcast(extraData);
     }
 
 

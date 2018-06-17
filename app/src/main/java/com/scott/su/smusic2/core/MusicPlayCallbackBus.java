@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -29,7 +28,8 @@ public class MusicPlayCallbackBus {
     public static final int EVENT_CODE_ON_TICK = EVENT_CODE_NONE + 3;
     public static final int EVENT_CODE_ON_PAUSE = EVENT_CODE_NONE + 4;
     public static final int EVENT_CODE_ON_RESUME = EVENT_CODE_NONE + 5;
-    public static final int EVENT_CODE__ON_COMPLETE = EVENT_CODE_NONE + 6;
+    public static final int EVENT_CODE_ON_COMPLETE = EVENT_CODE_NONE + 6;
+    public static final int EVENT_CODE_ON_STOP = EVENT_CODE_NONE + 7;
 
 
     private static MusicPlayCallbackBus sInstance;
@@ -72,15 +72,12 @@ public class MusicPlayCallbackBus {
         sMusicPlayCallbackReceiver = new MusicPlayCallbackReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_MUSIC_PLAY_CALLBACK);
-
-        LocalBroadcastManager.getInstance(context)
-                .registerReceiver(sMusicPlayCallbackReceiver, intentFilter);
+        context.registerReceiver(sMusicPlayCallbackReceiver, intentFilter);
     }
 
     private static void unregisterReceiver(@NonNull Context context) {
         if (sMusicPlayCallbackReceiver != null) {
-            LocalBroadcastManager.getInstance(context)
-                    .unregisterReceiver(sMusicPlayCallbackReceiver);
+            context.unregisterReceiver(sMusicPlayCallbackReceiver);
         }
     }
 
@@ -143,6 +140,12 @@ public class MusicPlayCallbackBus {
         }
     }
 
+    private static void notifyOnClose(LocalSongEntity song, List<LocalSongEntity> playQueue) {
+        for (MusicPlayCallback callback : sMusicPlayCallbacks) {
+            callback.onClose(song, playQueue);
+        }
+    }
+
     private static class MusicPlayCallbackReceiver extends BroadcastReceiver {
 
         @Override
@@ -166,8 +169,10 @@ public class MusicPlayCallbackBus {
                 notifyOnPause(currentPlayingSong, playQueue, position, duration);
             } else if (eventCode == EVENT_CODE_ON_RESUME) {
                 notifyOnResume(currentPlayingSong, playQueue, position, duration);
-            } else if (eventCode == EVENT_CODE__ON_COMPLETE) {
+            } else if (eventCode == EVENT_CODE_ON_COMPLETE) {
                 notifyOnComplete(currentPlayingSong, playQueue);
+            } else if (eventCode == EVENT_CODE_ON_STOP) {
+                notifyOnClose(currentPlayingSong, playQueue);
             }
 
         }

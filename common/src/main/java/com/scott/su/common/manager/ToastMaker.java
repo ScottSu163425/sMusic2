@@ -10,8 +10,8 @@ import android.widget.Toast;
  * 日期: 2018/6/6
  */
 
-public class ToastHelper {
-    private ToastHelper() {
+public class ToastMaker {
+    private ToastMaker() {
 
     }
 

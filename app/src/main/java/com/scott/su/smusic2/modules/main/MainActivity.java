@@ -19,8 +19,8 @@ import android.view.View;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.FragmentHelper;
-import com.scott.su.common.manager.SnackBarHelper;
-import com.scott.su.common.manager.ToastHelper;
+import com.scott.su.common.manager.SnackBarMaker;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayController;
@@ -99,6 +99,13 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        ToastMaker.showToast(getApplicationContext(),"onNewIntent");
+    }
+
     private void initTitle() {
         mBinding.toolbar.setTitle(R.string.app_name);
         setSupportActionBar(mBinding.toolbar);
@@ -172,7 +179,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            ToastHelper.showToast(getActivity(), "search");
+            ToastMaker.showToast(getActivity(), "search");
         }
         return true;
     }
@@ -296,11 +303,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showExit() {
-        SnackBarHelper.showSnackBar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
+        SnackBarMaker.showSnackBar(mBinding.fabMain, getString(R.string.tip_exit), getString(R.string.confirm),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MusicPlayController.getInstance().stop(getActivity());
+                        // TODO: 2018/6/17
+                        MusicPlayController.getInstance().close(getActivity());
                         finish();
                     }
                 });

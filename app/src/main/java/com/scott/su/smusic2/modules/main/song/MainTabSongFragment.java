@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.PopupMenuHelper;
-import com.scott.su.common.manager.ToastHelper;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
@@ -76,7 +76,7 @@ public class MainTabSongFragment extends BaseFragment {
                         new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                ToastHelper.showToast(getActivity(), item.getTitle());
+                                ToastMaker.showToast(getActivity(), item.getTitle());
                                 return false;
                             }
                         });

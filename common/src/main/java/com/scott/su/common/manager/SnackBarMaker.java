@@ -12,9 +12,9 @@ import android.view.View;
  * 日期: 2018/6/6
  */
 
-public class SnackBarHelper {
+public class SnackBarMaker {
 
-    private SnackBarHelper(){
+    private SnackBarMaker(){
 
     }
 

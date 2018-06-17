@@ -178,7 +178,7 @@
                                 android:layout_weight="1"/>
 
                             <FrameLayout
-                                android:id="@+id/view_skip_previous"
+                                android:id="@+id/view_skip_prev"
                                 android:layout_width="@dimen/height_button_s"
                                 android:layout_height="@dimen/height_button_s"
                                 android:layout_marginRight="@dimen/padding_xs"

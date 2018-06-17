@@ -22,4 +22,6 @@ public interface MusicPlayCallback {
 
     void onComplete(LocalSongEntity song, List<LocalSongEntity> playQueue);
 
+    void onClose(LocalSongEntity song, List<LocalSongEntity> playQueue);
+
 }

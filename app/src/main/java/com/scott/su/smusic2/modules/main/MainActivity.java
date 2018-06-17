@@ -12,16 +12,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.manager.AppUtil;
 import com.scott.su.common.manager.FragmentHelper;
 import com.scott.su.common.manager.SnackBarMaker;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
+import com.scott.su.smusic2.App;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
@@ -30,6 +33,7 @@ import com.scott.su.smusic2.modules.main.collection.CollectionCreateActivity;
 import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
 import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
+import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -72,6 +76,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        launchPlayDetailIfNeed(getIntent());
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initTitle();
@@ -84,7 +90,6 @@ public class MainActivity extends BaseActivity {
                 if (ViewUtil.isFastDoubleClick()) {
                     return;
                 }
-
 
                 int index = mBinding.vpMain.getCurrentItem();
                 if (INDEX_TAB_SONG == index) {
@@ -103,7 +108,18 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        ToastMaker.showToast(getApplicationContext(),"onNewIntent");
+        launchPlayDetailIfNeed(intent);
+    }
+
+    /**
+     * 点击通知，跳转播放详情
+     */
+    private void launchPlayDetailIfNeed(Intent intent) {
+        Intent intentDetail = intent.getParcelableExtra("intent");
+
+        if (intentDetail != null) {
+            startActivity(intentDetail);
+        }
     }
 
     private void initTitle() {
@@ -307,8 +323,6 @@ public class MainActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // TODO: 2018/6/17
-                        MusicPlayController.getInstance().close(getActivity());
                         finish();
                     }
                 });

@@ -13,10 +13,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.scott.su.smusic2.App;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.modules.main.MainActivity;
+import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class MusicPlayService extends Service {
     private LocalMusicPlayer mMusicPlayer;
     private NotificationManager mNotificationManager;
     private int mRequestCode;
+    private NotificationClickReceiver mNotificationClickReceiver;
 
     @Nullable
     @Override
@@ -52,7 +55,16 @@ public class MusicPlayService extends Service {
         mMusicPlayer = new LocalMusicPlayer(getApplicationContext());
         mMusicPlayer.setCallback(mMusicPlayCallback);
 
-        registerCommandReceiver();
+        registerReceiverCommand();
+        registerClickReceiverNotification();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiverCommand();
+        unregisterReceiverNotificationClick();
     }
 
     /**
@@ -61,14 +73,14 @@ public class MusicPlayService extends Service {
     private void updateNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        // TODO: 2018/6/17 跳转逻辑完善
+        Intent intentNotificationClick = new Intent();
+        intentNotificationClick.setAction(NotificationClickReceiver.ACTION);
 
-        Intent intentGoToMusicPlay = MainActivity.getStartIntent(getApplicationContext());
-        PendingIntent pendingIntentGoToMusicPlay = PendingIntent.getActivity(this, ++mRequestCode,
-                intentGoToMusicPlay, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, ++mRequestCode,
+                intentNotificationClick, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_notification_music_play);
-        builder.setContentIntent(pendingIntentGoToMusicPlay);
         builder.setContent(getNotificationContentView());
 //        builder.setCustomBigContentView(generateBigContentRemoteView());
 //        builder.setDefaults(NotificationCompat.DEFAULT_ALL); //过滤暂停、切歌时的音效
@@ -105,7 +117,6 @@ public class MusicPlayService extends Service {
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-
     /**
      * 去除状态栏通知
      */
@@ -116,19 +127,12 @@ public class MusicPlayService extends Service {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        unregisterCommandReceiver();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void registerCommandReceiver() {
-        unregisterCommandReceiver();
+    private void registerReceiverCommand() {
+        unregisterReceiverCommand();
 
         mCommandReceiver = new MusicPlayCommandReceiver();
 
@@ -140,9 +144,25 @@ public class MusicPlayService extends Service {
         registerReceiver(mCommandReceiver, intentFilter);
     }
 
-    private void unregisterCommandReceiver() {
+    private void unregisterReceiverCommand() {
         if (mCommandReceiver != null) {
             unregisterReceiver(mCommandReceiver);
+        }
+    }
+
+    private void registerClickReceiverNotification() {
+        unregisterReceiverNotificationClick();
+
+        mNotificationClickReceiver = new NotificationClickReceiver();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(NotificationClickReceiver.ACTION);
+        registerReceiver(mNotificationClickReceiver, intentFilter);
+    }
+
+    private void unregisterReceiverNotificationClick() {
+        if (mNotificationClickReceiver != null) {
+            unregisterReceiver(mNotificationClickReceiver);
         }
     }
 
@@ -303,5 +323,32 @@ public class MusicPlayService extends Service {
         //发送指令广播
         sendBroadcast(extraData);
     }
+
+
+    class NotificationClickReceiver extends BroadcastReceiver {
+        public static final String ACTION = "NotificationClickReceiver.ACTION";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ACTION.equals(intent.getAction())) {
+
+                //若播放详情界面已在栈顶，则不跳转；
+                boolean isMusicPlayInTop = ((App) getApplication()).isTopActivity(MusicPlayActivity.class);
+                if (isMusicPlayInTop) {
+                    return;
+                }
+
+                Intent intentMain = MainActivity.getStartIntent(getApplicationContext());
+                Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
+                        (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
+                        mMusicPlayer.getCurrentPlayingSong(), null);
+                intentMain.putExtra("intent", intentPlayDetail);
+
+                startActivity(intentMain);
+            }
+        }
+    }
+
+    ;
 
 }

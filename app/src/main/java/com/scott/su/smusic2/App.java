@@ -1,10 +1,16 @@
 package com.scott.su.smusic2;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.source.local.AppConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 描述:
@@ -14,6 +20,7 @@ import com.scott.su.smusic2.data.source.local.AppConfig;
 
 public class App extends Application {
 
+    private List<Activity> mActivities = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -21,6 +28,8 @@ public class App extends Application {
 
         MusicPlayController.launch(getApplicationContext());
         MusicPlayCallbackBus.init(getApplicationContext());
+
+        registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
 
     @Override
@@ -28,6 +37,66 @@ public class App extends Application {
         MusicPlayCallbackBus.release(getApplicationContext());
 
         super.onTerminate();
+    }
+
+    private ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            mActivities.add(activity);
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            mActivities.remove(activity);
+        }
+    };
+
+    public boolean isActivityRunning(@NonNull Class clazz) {
+        if (mActivities.isEmpty()) {
+            return false;
+        }
+
+        for (Activity activity : mActivities) {
+            if (activity.getClass().getName().equals(clazz.getName())) {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+    public boolean isTopActivity(Class clazz) {
+        if (mActivities.isEmpty()) {
+            return false;
+        }
+
+        return mActivities.get(mActivities.size() - 1).getClass().getName().equals(clazz.getName());
     }
 
 }

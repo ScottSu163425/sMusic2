@@ -121,6 +121,11 @@ public class MusicPlayActivity extends BaseActivity {
         mViewModel.start();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
     private void initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(MusicPlayViewModel.class);
 

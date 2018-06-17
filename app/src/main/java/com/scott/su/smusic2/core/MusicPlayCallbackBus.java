@@ -152,7 +152,7 @@ public class MusicPlayCallbackBus {
         public void onReceive(Context context, Intent intent) {
             int eventCode = intent.getIntExtra(KEY_EXTRA_EVENT_CODE, EVENT_CODE_NONE);
 
-            Log.e("===>onReceive", "MusicPlayCallbackBus:" + eventCode);
+//            Log.e("===>onReceive", "MusicPlayCallbackBus:" + eventCode);
 
             final LocalSongEntity currentPlayingSong = (LocalSongEntity) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_CURRENT_PLAYING_SONG);
             final ArrayList<LocalSongEntity> playQueue = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE);

@@ -158,6 +158,21 @@ public class LocalSongHelper implements ILocalSongDataSource {
     }
 
     @Override
+    public LocalAlbumEntity getAlbum(Context context, long albumId) {
+        List<LocalAlbumEntity> albums = getAllAlbums(context);
+
+        if (albums != null && albums.isEmpty()) {
+            for (LocalAlbumEntity albumEntity : albums) {
+                if (albumEntity.getAlbumId() == albumId) {
+                    return albumEntity;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
         String path = null;
         Cursor cursor = context.getContentResolver().query(

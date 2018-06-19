@@ -30,11 +30,12 @@ import com.scott.su.smusic2.data.entity.LocalSongEntity;
  */
 
 public class SongInfoDialogFragment extends DialogFragment {
+    private static final String KEY_EXTRA_SONG = "KEY_EXTRA_SONG";
 
     public static SongInfoDialogFragment newInstance(@NonNull LocalSongEntity song) {
 
         Bundle args = new Bundle();
-        args.putSerializable("song", song);
+        args.putSerializable(KEY_EXTRA_SONG, song);
 
         SongInfoDialogFragment fragment = new SongInfoDialogFragment();
         fragment.setArguments(args);
@@ -54,7 +55,7 @@ public class SongInfoDialogFragment extends DialogFragment {
 
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppDialog);
 
-        mSongEntity = (LocalSongEntity) getArguments().getSerializable("song");
+        mSongEntity = (LocalSongEntity) getArguments().getSerializable(KEY_EXTRA_SONG);
     }
 
     @Nullable

@@ -16,6 +16,7 @@ import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabAlbumBinding;
+import com.scott.su.smusic2.modules.album.AlbumDetailActivity;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,7 +61,7 @@ public class MainTabAlbumFragment extends BaseFragment {
         mAlbumListAdapter.setCallback(new MainTabAlbumListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, ImageView cover, LocalAlbumEntity entity, int position) {
-
+                AlbumDetailActivity.start(getActivity(), entity.getAlbumId(), cover);
             }
         });
 

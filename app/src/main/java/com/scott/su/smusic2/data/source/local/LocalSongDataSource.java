@@ -43,6 +43,11 @@ public class LocalSongDataSource implements ILocalSongDataSource {
     }
 
     @Override
+    public LocalAlbumEntity getAlbum(Context context, long albumId) {
+        return LocalSongHelper.getInstance().getAlbum(context,albumId);
+    }
+
+    @Override
     public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
         return LocalSongHelper.getInstance().getAlbumCoverPathByAlbumId(context, albumId);
     }

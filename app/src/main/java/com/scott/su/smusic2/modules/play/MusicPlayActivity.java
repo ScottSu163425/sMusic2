@@ -26,9 +26,7 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -39,8 +37,6 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.ImageLoader;
-import com.scott.su.common.manager.PopupMenuHelper;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
@@ -50,8 +46,7 @@ import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
-import com.scott.su.smusic2.modules.common.SongInfoDialogFragment;
-import com.scott.su.smusic2.modules.common.SongItemMenu;
+import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +66,7 @@ public class MusicPlayActivity extends BaseActivity {
 
     public static void start(Context context, ArrayList<LocalSongEntity> songList,
                              LocalSongEntity currentSong, @Nullable View[] shareElements) {
-        Intent intent = getStartIntent(context, songList, currentSong, shareElements);
+        Intent intent = getStartIntent(context, songList, currentSong);
 
         if (shareElements == null || shareElements.length == 0) {
             context.startActivity(intent);
@@ -82,7 +77,7 @@ public class MusicPlayActivity extends BaseActivity {
     }
 
     public static Intent getStartIntent(Context context, ArrayList<LocalSongEntity> songList,
-                                        LocalSongEntity currentSong, @Nullable View[] shareElements) {
+                                        LocalSongEntity currentSong) {
         Intent intent = new Intent(context, MusicPlayActivity.class);
         intent.putExtra(KEY_EXTRA_SONG_LIST, songList);
         intent.putExtra(KEY_EXTRA_SONG, currentSong);
@@ -701,7 +696,7 @@ public class MusicPlayActivity extends BaseActivity {
     }
 
     private void showItemMenu(View anchor, final LocalSongEntity song) {
-        SongItemMenu.show(getActivity(), anchor, song);
+        SongItemPopupMenu.show(getActivity(), anchor, song);
     }
 
 }

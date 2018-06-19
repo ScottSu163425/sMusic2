@@ -24,19 +24,23 @@
 
         <activity
             android:name=".modules.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".modules.play.MusicPlayActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".modules.main.collection.CollectionCreateActivity"
+            android:name=".modules.collection.CollectionCreateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".modules.album.AlbumDetailActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

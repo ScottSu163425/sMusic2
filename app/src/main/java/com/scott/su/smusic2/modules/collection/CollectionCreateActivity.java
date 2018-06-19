@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.collection;
+package com.scott.su.smusic2.modules.collection;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -17,7 +17,6 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.CirclarRevealUtil;
 import com.scott.su.common.util.KeyboardUtil;
-import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.ActivityCollectionCreateBinding;
 

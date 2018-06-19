@@ -7,24 +7,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.interfaces.Judgment;
-import com.scott.su.common.manager.PopupMenuHelper;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
-import com.scott.su.smusic2.modules.common.SongItemMenu;
+import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 import com.scott.su.smusic2.modules.main.PlaySongRandomEvent;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
@@ -74,7 +70,7 @@ public class MainTabSongFragment extends BaseFragment {
 
             @Override
             public void onMoreClick(View view, LocalSongEntity entity, int position) {
-                SongItemMenu.show((AppCompatActivity) getActivity(), view, entity);
+                SongItemPopupMenu.show((AppCompatActivity) getActivity(), view, entity);
             }
         });
 

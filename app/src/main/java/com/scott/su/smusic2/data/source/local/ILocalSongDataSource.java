@@ -17,6 +17,7 @@ public interface ILocalSongDataSource {
 
     /**
      * 获取所有本地音乐
+     *
      * @param context
      * @return
      */
@@ -24,10 +25,13 @@ public interface ILocalSongDataSource {
 
     /**
      * 获取所有本地音乐专辑
+     *
      * @param context
      * @return
      */
     List<LocalAlbumEntity> getAllAlbums(Context context);
+
+    LocalAlbumEntity getAlbum(Context context,long albumId);
 
     /**
      * 获取指定专辑封面图片路径

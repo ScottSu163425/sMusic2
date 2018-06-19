@@ -341,7 +341,7 @@ public class MusicPlayService extends Service {
                 Intent intentMain = MainActivity.getStartIntent(getApplicationContext());
                 Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
                         (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
-                        mMusicPlayer.getCurrentPlayingSong(), null);
+                        mMusicPlayer.getCurrentPlayingSong());
                 intentMain.putExtra("intent", intentPlayDetail);
 
                 startActivity(intentMain);

@@ -161,7 +161,7 @@ public class LocalSongHelper implements ILocalSongDataSource {
     public LocalAlbumEntity getAlbum(Context context, long albumId) {
         List<LocalAlbumEntity> albums = getAllAlbums(context);
 
-        if (albums != null && albums.isEmpty()) {
+        if (albums != null && !albums.isEmpty()) {
             for (LocalAlbumEntity albumEntity : albums) {
                 if (albumEntity.getAlbumId() == albumId) {
                     return albumEntity;

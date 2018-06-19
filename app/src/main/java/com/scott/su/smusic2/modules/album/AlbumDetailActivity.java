@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.ImageLoader;
@@ -54,7 +55,16 @@ public class AlbumDetailActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_album_detail);
 
+        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20);
+
         mAlbumId = getIntent().getLongExtra(KEY_EXTRA_ALBUM_ID, 0);
+
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mViewModel = ViewModelProviders.of(this).get(AlbumDetailViewModel.class);
         mViewModel.setAlbumId(mAlbumId);
@@ -68,12 +78,14 @@ public class AlbumDetailActivity extends BaseActivity {
         mViewModel.start();
     }
 
-    private void setUpData(LocalAlbumEntity albumEntity){
+    private void setUpData(LocalAlbumEntity albumEntity) {
         if (albumEntity == null) {
             return;
         }
 
-        ImageLoader.load(getApplicationContext(),albumEntity.getAlbumCoverPath(),mBinding.ivCover);
+        ImageLoader.load(getApplicationContext(), albumEntity.getAlbumCoverPath(), mBinding.ivCover);
+
+        mBinding.toolbar.setTitle(albumEntity.getTitle());
     }
 
 }

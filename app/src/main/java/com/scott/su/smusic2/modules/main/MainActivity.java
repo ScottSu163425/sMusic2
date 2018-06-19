@@ -282,7 +282,15 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
+                        mBinding.fabMain.setRotation(0);
                     }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        super.onAnimationCancel(animation);
+                        mBinding.fabMain.setRotation(0);
+                    }
+
                 })
                 .start();
     }
@@ -308,7 +316,15 @@ public class MainActivity extends BaseActivity {
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         mBinding.fabMain.setVisibility(View.GONE);
+                        mBinding.fabMain.setRotation(0);
                     }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        super.onAnimationCancel(animation);
+                        mBinding.fabMain.setRotation(0);
+                    }
+
                 })
                 .start();
     }

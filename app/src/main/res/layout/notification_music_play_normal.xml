@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_cover"
-        android:layout_width="82dp"
-        android:layout_height="82dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:src="@drawable/pic_default_cover_album"/>
 
     <RelativeLayout
@@ -31,7 +31,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/textPrimary"
-                android:textSize="@dimen/text_size_subhead"/>
+                android:textSize="@dimen/text_size_body"/>
 
             <TextView
                 android:id="@+id/tv_artist"
@@ -47,41 +47,42 @@
 
     <FrameLayout
         android:id="@+id/view_skip_prev"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginRight="@dimen/padding_xs"
         android:clickable="true">
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_skip_previous_black"/>
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/view_play_pause"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="@dimen/padding_xs"
         android:clickable="true">
 
         <ImageView
             android:id="@+id/iv_play_pause"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_play_arrow_black"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/view_skip_next"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginRight="@dimen/padding_xs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:clickable="true">
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_skip_next_black"/>
     </FrameLayout>

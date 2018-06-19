@@ -12,11 +12,11 @@ public class LocalSongEntity implements Serializable {
     private long songId;
     private long albumId;
     private long duration;
-    private long size;
+    private long fileSize;
     private String title; //歌曲名称
     private String artist; //歌手
     private String album; //专辑
-    private String path; //音频文件路径
+    private String filePath; //音频文件路径
     private String albumCoverPath; //专辑封面图片路径
 
 
@@ -44,12 +44,12 @@ public class LocalSongEntity implements Serializable {
         this.duration = duration;
     }
 
-    public long getSize() {
-        return size;
+    public long getFileSize() {
+        return fileSize;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public String getTitle() {
@@ -76,12 +76,12 @@ public class LocalSongEntity implements Serializable {
         this.album = album;
     }
 
-    public String getPath() {
-        return path;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getAlbumCoverPath() {
@@ -98,11 +98,11 @@ public class LocalSongEntity implements Serializable {
                 "songId=" + songId +
                 ", albumId=" + albumId +
                 ", duration=" + duration +
-                ", size=" + size +
+                ", fileSize=" + fileSize +
                 ", title='" + title + '\'' +
                 ", artist='" + artist + '\'' +
                 ", album='" + album + '\'' +
-                ", path='" + path + '\'' +
+                ", filePath='" + filePath + '\'' +
                 ", albumCoverPath='" + albumCoverPath + '\'' +
                 '}';
     }

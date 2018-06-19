@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundContent"
+        android:orientation="vertical">
+
+        <android.support.percent.PercentFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="0dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic_default_cover_album"
+                app:layout_aspectRatio="178%"
+                app:layout_widthPercent="100%"/>
+
+            <ImageView
+                android:id="@+id/view_close"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_margin="@dimen/padding_xs"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close_black"
+                android:tint="@color/white"/>
+
+        </android.support.percent.PercentFrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_s">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/song_name"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="听妈妈的话"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_xs">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/artist"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="周杰伦"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_xs">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/album"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_album"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="叶惠美"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_xs">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/song_duration"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="04:32"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_xs">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file_size"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_file_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="11M"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_xs">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file_path"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_file_path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_xs"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"
+                    tools:text="ffdsssssssssssssssssssssffffffffffffffffsdffffffffffffffffffsdf.mp3"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

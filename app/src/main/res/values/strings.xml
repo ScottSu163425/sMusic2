@@ -5,6 +5,13 @@
     <string name="transition_name_fab">transition_name_fab</string>
 
 
+    <string name="action_search">搜索</string>
+    <string name="action_more">更多</string>
+    <string name="action_add_into_collection">加入收藏夹</string>
+    <string name="action_check_album">查看专辑</string>
+    <string name="action_check_song_info">查看歌曲信息</string>
+
+
     <string name="tab_main_recommend">推荐</string>
     <string name="tab_main_song">歌曲</string>
     <string name="tab_main_collection">收藏</string>
@@ -12,6 +19,11 @@
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="tip_exit">退出应用?</string>
-    <string name="action_search">搜索</string>
-    <string name="action_more">更多</string>
+    <string name="song_name">歌曲名</string>
+    <string name="artist">艺术家</string>
+    <string name="album">专辑</string>
+    <string name="song_duration">时长</string>
+    <string name="file_size">文件大小</string>
+    <string name="file_path">文件路径</string>
+
 </resources>

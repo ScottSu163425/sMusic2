@@ -282,6 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_peek_play_queue"
                         android:clickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         app:cardBackgroundColor="@color/backgroundContent"
                         app:cardCornerRadius="0dp">
 
@@ -291,28 +292,12 @@
                             android:clipChildren="false"
                             android:orientation="horizontal">
 
-                            <FrameLayout
-                                android:id="@+id/layout_play_icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true">
-
-                                <ImageView
-                                    android:id="@+id/iv_close_play_queue"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_margin="@dimen/padding_s"
-                                    android:clickable="true"
-                                    android:src="@drawable/ic_close_black"
-                                    android:visibility="gone"/>
-
-                                <ImageView
-                                    android:id="@+id/iv_play_icon"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_margin="@dimen/padding_s"
-                                    android:src="@drawable/ic_volume_up_black"/>
-                            </FrameLayout>
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/padding_s"
+                                android:src="@drawable/ic_volume_up_black"/>
 
                             <Space
                                 android:id="@+id/space"

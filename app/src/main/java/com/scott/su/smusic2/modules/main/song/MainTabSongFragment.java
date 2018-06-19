@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
+import com.scott.su.smusic2.modules.common.SongItemMenu;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 import com.scott.su.smusic2.modules.main.PlaySongRandomEvent;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
@@ -72,14 +74,7 @@ public class MainTabSongFragment extends BaseFragment {
 
             @Override
             public void onMoreClick(View view, LocalSongEntity entity, int position) {
-                PopupMenuHelper.popup(getActivity(), view, new int[]{1, 2, 3}, new String[]{"1", "2", "3"},
-                        new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                ToastMaker.showToast(getActivity(), item.getTitle());
-                                return false;
-                            }
-                        });
+                SongItemMenu.show((AppCompatActivity) getActivity(), view, entity);
             }
         });
 

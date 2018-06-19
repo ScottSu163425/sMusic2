@@ -265,7 +265,7 @@ public class LocalMusicPlayer {
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setDataSource(mCurrentPlayingSong.getPath());
+            mMediaPlayer.setDataSource(mCurrentPlayingSong.getFilePath());
             mMediaPlayer.prepareAsync();//异步方法
 //            mMediaPlayer.prepare();//同步方法
 //

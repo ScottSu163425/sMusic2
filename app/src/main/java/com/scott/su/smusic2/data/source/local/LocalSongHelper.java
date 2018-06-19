@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
@@ -91,8 +89,8 @@ public class LocalSongHelper implements ILocalSongDataSource {
             localSongEntity.setAlbum(album);
             localSongEntity.setAlbumId(albumId);
             localSongEntity.setDuration(duration);
-            localSongEntity.setSize(size);
-            localSongEntity.setPath(path);
+            localSongEntity.setFileSize(size);
+            localSongEntity.setFilePath(path);
 
             //Get and set covert path from LruCache if exists,otherwise com.scott.su.smusic.cache it.
 //            String coverPath = CoverPathCache.getInstance().get(albumId + "");

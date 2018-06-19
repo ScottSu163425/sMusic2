@@ -26,7 +26,9 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -37,6 +39,8 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.ImageLoader;
+import com.scott.su.common.manager.PopupMenuHelper;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
@@ -46,6 +50,8 @@ import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
+import com.scott.su.smusic2.modules.common.SongInfoDialogFragment;
+import com.scott.su.smusic2.modules.common.SongItemMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,15 +296,19 @@ public class MusicPlayActivity extends BaseActivity {
      * 初始化播放列表相关
      */
     private void initPlayQueue() {
+        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePlayQueue();
+            }
+        });
+
         mBehaviorPlayQueue = BottomSheetBehavior.from(mBinding.layoutMusicPlayQueue);
         mBehaviorPlayQueue.setHideable(false);
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
-                    mBinding.ivClosePlayQueue.setVisibility(View.GONE);
-
                     mBinding.cardCurrentPlaying.setCardElevation(0);
                     mBinding.rvPlayQueue.setAlpha(0);
                     mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
@@ -313,28 +323,11 @@ public class MusicPlayActivity extends BaseActivity {
                 final float factorOut = 1 - slideOffset;
 
                 mBinding.viewMaskContent.setVisibility(View.VISIBLE);
-                mBinding.ivPlayIcon.setVisibility(View.VISIBLE);
-                mBinding.ivClosePlayQueue.setVisibility(View.VISIBLE);
-
                 mBinding.viewMaskContent.setAlpha(factorIn);
-                mBinding.ivPlayIcon.setAlpha(factorOut);
-                mBinding.ivPlayIcon.setScaleX(factorOut);
-                mBinding.ivPlayIcon.setScaleY(factorOut);
-
-                mBinding.ivClosePlayQueue.setAlpha(factorIn);
-                mBinding.ivClosePlayQueue.setScaleX(factorIn);
-                mBinding.ivClosePlayQueue.setScaleY(factorIn);
 
                 mBinding.cardCurrentPlaying.setCardElevation(factorIn * 12);
                 mBinding.rvPlayQueue.setAlpha(factorIn);
                 mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
-            }
-        });
-
-        mBinding.ivClosePlayQueue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                collapsePlayQueue();
             }
         });
 
@@ -354,12 +347,19 @@ public class MusicPlayActivity extends BaseActivity {
 
             @Override
             public void onMoreClick(View itemView, LocalSongEntity entity, int position) {
-
+                showItemMenu(itemView, entity);
             }
         });
         mPlayQueueListAdapter.setData(mSongList);
         mBinding.rvPlayQueue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
+
+        mBinding.viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showItemMenu(v, mSongPlaying);
+            }
+        });
     }
 
     private void initPlayCallback() {
@@ -493,13 +493,7 @@ public class MusicPlayActivity extends BaseActivity {
 
     private void playSong(@NonNull LocalSongEntity currentPlayingSong) {
         mSongPlaying = currentPlayingSong;
-
-//        if (playPause) {
-//            MusicPlayController.getInstance().playPause(getActivity());
-//        } else {
         MusicPlayController.getInstance().play(getActivity(), mSongList, mSongPlaying);
-//        }
-
         updateCurrentPlayingSongInfo(currentPlayingSong);
     }
 
@@ -704,6 +698,10 @@ public class MusicPlayActivity extends BaseActivity {
                     }
                 })
                 .start();
+    }
+
+    private void showItemMenu(View anchor, final LocalSongEntity song) {
+        SongItemMenu.show(getActivity(), anchor, song);
     }
 
 }

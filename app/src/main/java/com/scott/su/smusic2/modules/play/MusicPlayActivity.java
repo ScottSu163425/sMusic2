@@ -44,6 +44,7 @@ import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
+import com.scott.su.smusic2.core.MusicPlayService;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
 import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
@@ -282,6 +283,8 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mViewModel.toggleRepeatMode();
+                //更新循环模式
+                sendBroadcast(new Intent(MusicPlayService.PlayRepeatModeChangedReceiver.ACTION));
             }
         });
 

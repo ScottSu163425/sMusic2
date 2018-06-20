@@ -39,6 +39,7 @@ public class MusicPlayService extends Service {
     private NotificationManager mNotificationManager;
     private int mRequestCode;
     private NotificationClickReceiver mNotificationClickReceiver;
+    private PlayRepeatModeChangedReceiver mRepeatModeChangedReceiver;
 
     @Nullable
     @Override
@@ -54,17 +55,48 @@ public class MusicPlayService extends Service {
 
         mMusicPlayer = new LocalMusicPlayer(getApplicationContext());
         mMusicPlayer.setCallback(mMusicPlayCallback);
-
-        registerReceiverCommand();
-        registerClickReceiverNotification();
+        updatePlayRepeatMode();
+        registerReceivers();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        unregisterReceiverCommand();
-        unregisterReceiverNotificationClick();
+        unregisterReceivers();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void registerReceivers() {
+        mCommandReceiver = new MusicPlayCommandReceiver();
+        //由于要在Notification中发送PendingIntent，无法响应本地广播，故使用全局广播；
+//        LocalBroadcastManager.getInstance(getApplicationContext())
+        registerReceiver(mCommandReceiver, new IntentFilter(MusicPlayController.ACTION_MUSIC_PLAY_CONTROL));
+
+
+        mNotificationClickReceiver = new NotificationClickReceiver();
+        registerReceiver(mNotificationClickReceiver, new IntentFilter(NotificationClickReceiver.ACTION));
+
+        mRepeatModeChangedReceiver = new PlayRepeatModeChangedReceiver();
+        registerReceiver(mRepeatModeChangedReceiver, new IntentFilter(PlayRepeatModeChangedReceiver.ACTION));
+    }
+
+    private void unregisterReceivers() {
+        if (mCommandReceiver != null) {
+            unregisterReceiver(mCommandReceiver);
+        }
+
+        if (mNotificationClickReceiver != null) {
+            unregisterReceiver(mNotificationClickReceiver);
+        }
+
+        if (mRepeatModeChangedReceiver != null) {
+            unregisterReceiver(mRepeatModeChangedReceiver);
+        }
     }
 
     /**
@@ -126,46 +158,6 @@ public class MusicPlayService extends Service {
         stopSelf();
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    private void registerReceiverCommand() {
-        unregisterReceiverCommand();
-
-        mCommandReceiver = new MusicPlayCommandReceiver();
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MusicPlayController.ACTION_MUSIC_PLAY_CONTROL);
-
-        //由于要在Notification中发送PendingIntent，无法响应本地广播，故使用全局广播；
-//        LocalBroadcastManager.getInstance(getApplicationContext())
-        registerReceiver(mCommandReceiver, intentFilter);
-    }
-
-    private void unregisterReceiverCommand() {
-        if (mCommandReceiver != null) {
-            unregisterReceiver(mCommandReceiver);
-        }
-    }
-
-    private void registerClickReceiverNotification() {
-        unregisterReceiverNotificationClick();
-
-        mNotificationClickReceiver = new NotificationClickReceiver();
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(NotificationClickReceiver.ACTION);
-        registerReceiver(mNotificationClickReceiver, intentFilter);
-    }
-
-    private void unregisterReceiverNotificationClick() {
-        if (mNotificationClickReceiver != null) {
-            unregisterReceiver(mNotificationClickReceiver);
-        }
-    }
-
     /**
      * 播放指令接收器
      */
@@ -191,19 +183,13 @@ public class MusicPlayService extends Service {
                 ArrayList<LocalSongEntity> playQueue
                         = (ArrayList<LocalSongEntity>) intent.getSerializableExtra(MusicPlayConstants.KEY_EXTRA_PLAY_QUEUE);
 
-                //更新循环模式
-                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.setPlaySongs(playQueue);
                 mMusicPlayer.restart(currentPlayingSong);
             } else if (commandCode == MusicPlayController.COMMAND_CODE_PLAY_PAUSE) {
                 mMusicPlayer.playPause();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_PREVIOUS) {
-                //更新循环模式
-                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.skipToPrevious();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SKIP_TO_NEXT) {
-                //更新循环模式
-                mMusicPlayer.setPlayRepeatMode(getPlayRepeatMode());
                 mMusicPlayer.skipToNext();
             } else if (commandCode == MusicPlayController.COMMAND_CODE_SEEK) {
                 int positionSeekTo = intent.getIntExtra(MusicPlayConstants.KEY_EXTRA_POSITION_SEEK_TO, 0);
@@ -293,7 +279,14 @@ public class MusicPlayService extends Service {
         }
     };
 
-    private PlayRepeatMode getPlayRepeatMode() {
+    /**
+     * 更新循环模式
+     */
+    private void updatePlayRepeatMode() {
+        if (mMusicPlayer == null) {
+            return;
+        }
+
         PlayRepeatMode repeatMode = PlayRepeatMode.REPEAT_ALL;
         if (AppConfig.isRepeatOne(getApplicationContext())) {
             repeatMode = PlayRepeatMode.REPEAT_ONE;
@@ -302,7 +295,7 @@ public class MusicPlayService extends Service {
             repeatMode = PlayRepeatMode.REPEAT_SHUFFLE;
         }
 
-        return repeatMode;
+        mMusicPlayer.setPlayRepeatMode(repeatMode);
     }
 
     /**
@@ -349,6 +342,16 @@ public class MusicPlayService extends Service {
         }
     }
 
-    ;
+    public class PlayRepeatModeChangedReceiver extends BroadcastReceiver {
+        public static final String ACTION = "PlayRepeatModeChangedReceiver.ACTION";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ACTION.equals(intent.getAction())) {
+                updatePlayRepeatMode();
+            }
+        }
+    }
+
 
 }

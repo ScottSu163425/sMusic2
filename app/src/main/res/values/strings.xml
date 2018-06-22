@@ -37,5 +37,7 @@
     <string name="success_create_new_collection">收藏夹创建成功</string>
     <string name="tip_input_collection_name">请输入要创建收藏夹的名称</string>
     <string name="error_collection_name_exist">收藏夹名称已存在</string>
+    <string name="remove_collection">移除收藏夹</string>
+    <string name="tip_remove_collection">是否移除收藏夹？</string>
 
 </resources>

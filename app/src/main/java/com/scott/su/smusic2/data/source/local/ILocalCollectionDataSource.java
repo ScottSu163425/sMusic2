@@ -21,5 +21,7 @@ public interface ILocalCollectionDataSource {
 
     List<LocalCollectionEntity> getAllCollections();
 
+    void removeCollection(@NonNull LocalCollectionEntity entity);
+
 
 }

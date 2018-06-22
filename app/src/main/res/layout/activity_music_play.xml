@@ -296,9 +296,9 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_centerVertical="true"
-                                android:tint="@color/md_grey_800"
                                 android:layout_margin="@dimen/padding_s"
-                                android:src="@drawable/ic_volume_up_black"/>
+                                android:src="@drawable/ic_volume_up_black"
+                                android:tint="@color/iconTint"/>
 
                             <Space
                                 android:id="@+id/space"
@@ -351,8 +351,8 @@
                                     android:layout_width="@dimen/height_item_xs"
                                     android:layout_height="@dimen/height_item_xs"
                                     android:layout_gravity="center"
-                                    android:tint="@color/md_grey_800"
-                                    android:src="@drawable/ic_more_vert_black"/>
+                                    android:src="@drawable/ic_more_vert_black"
+                                    android:tint="@color/iconTint"/>
                             </FrameLayout>
 
                         </RelativeLayout>

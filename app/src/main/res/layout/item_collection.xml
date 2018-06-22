@@ -14,7 +14,9 @@
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_xxs"
+        android:layout_marginLeft="@dimen/padding_xxs"
+        android:layout_marginRight="@dimen/padding_xxs"
+        android:layout_marginBottom="@dimen/padding_xs"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@drawable/selector_btn_card"
         app:cardBackgroundColor="@color/backgroundContent">
@@ -60,6 +62,7 @@
                     android:layout_height="18dp"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="@dimen/padding_xs"
+                    android:tint="@color/iconTint"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more_vert_black"/>
             </FrameLayout>

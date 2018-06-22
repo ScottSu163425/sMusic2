@@ -559,7 +559,7 @@ public class MusicPlayActivity extends BaseActivity {
      * @param coverPath
      */
     private void updatePanelBackgroundColorByCover(@Nullable String coverPath) {
-        final int colorDefault = ContextCompat.getColor(getActivity(), R.color.default_background_panel_music_play);
+        final int colorDefault = ContextCompat.getColor(getActivity(), R.color.musicPlayDefaultPanelBackgroundColor);
 
         final boolean userDefault = TextUtils.isEmpty(coverPath);
         final Bitmap bitmap = userDefault ? BitmapFactory.decodeResource(getResources(), R.drawable.pic_default_cover_album)

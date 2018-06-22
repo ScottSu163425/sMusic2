@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.scott.su.common.viewmodel.BaseAndroidViewModel;
-import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.source.local.LocalCollectionDataSource;
 
@@ -16,7 +15,6 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -26,12 +24,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class MainTabCollectionViewModel extends BaseAndroidViewModel {
-    private MutableLiveData<List<LocalCollectionEntity>> mLiveDataCollectionList;
+    private MutableLiveData<List<LocalCollectionEntity>> mLiveDataCollectionList = new MutableLiveData<>();
+    private MutableLiveData<LocalCollectionEntity> mLiveDataCollectionRemoved = new MutableLiveData<>();
+
 
     public MainTabCollectionViewModel(@NonNull Application application) {
         super(application);
-
-        mLiveDataCollectionList = new MutableLiveData<>();
     }
 
     @Override
@@ -43,7 +41,35 @@ public class MainTabCollectionViewModel extends BaseAndroidViewModel {
         return mLiveDataCollectionList;
     }
 
+    public MutableLiveData<LocalCollectionEntity> getLiveDataCollectionRemoved() {
+        return mLiveDataCollectionRemoved;
+    }
+
     public void refreshCollectionList() {
+        getCollectionList();
+    }
+
+    public void removeCollection(final LocalCollectionEntity entity) {
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+                LocalCollectionDataSource.getInstance(getApplicationContext())
+                        .removeCollection(entity);
+                emitter.onNext(true);
+                emitter.onComplete();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean b) throws Exception {
+                        mLiveDataCollectionRemoved.setValue(entity);
+                    }
+                });
+    }
+
+    private void getCollectionList() {
         Observable.create(new ObservableOnSubscribe<List<LocalCollectionEntity>>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<List<LocalCollectionEntity>> emitter) throws Exception {
@@ -60,5 +86,4 @@ public class MainTabCollectionViewModel extends BaseAndroidViewModel {
                     }
                 });
     }
-
 }

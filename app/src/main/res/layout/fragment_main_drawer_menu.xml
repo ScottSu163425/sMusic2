@@ -55,8 +55,8 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:tint="@color/md_grey_800"
-                        android:src="@drawable/ic_menu_item_drawer_statistic"/>
+                        android:src="@drawable/ic_menu_item_drawer_statistic"
+                        android:tint="@color/iconTint"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -78,9 +78,9 @@
                         android:layout_alignBottom="@+id/switch_night_mode"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:tint="@color/md_grey_800"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_menu_item_drawer_night_mode"/>
+                        android:src="@drawable/ic_menu_item_drawer_night_mode"
+                        android:tint="@color/iconTint"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,7 +113,8 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"/>
+                        android:src="@drawable/ic_close_black"
+                        android:tint="@color/iconTint"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,7 +139,8 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"/>
+                        android:src="@drawable/ic_close_black"
+                        android:tint="@color/iconTint"/>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -9,6 +9,7 @@ import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.source.local.db.AppDatabase;
 import com.scott.su.smusic2.data.source.local.db.LocalCollectionDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,25 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
 
     @Override
     public List<LocalCollectionEntity> getAllCollections() {
-        return mCollectionDao.getAllCollections();
+        List<LocalCollectionEntity> list = mCollectionDao.getAllCollections();
+
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+
+        List<LocalCollectionEntity> listOrdered = new ArrayList<>();
+
+        int n = list.size();
+        for (int i = n - 1; i >= 0; i--) {
+            listOrdered.add(list.get(i));
+        }
+
+        return listOrdered;
+    }
+
+    @Override
+    public void removeCollection(@NonNull LocalCollectionEntity entity) {
+        mCollectionDao.removeCollection(entity);
     }
 
     @Override

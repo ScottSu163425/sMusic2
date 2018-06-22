@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
 
 /**
  * 描述:
@@ -66,7 +67,7 @@ public class MainTabAlbumFragment extends BaseFragment {
         });
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mBinding.rv.setAdapter(new SlideInBottomAnimationAdapter(mAlbumListAdapter));
+        mBinding.rv.setAdapter(new SlideInRightAnimationAdapter(mAlbumListAdapter));
 
         mViewModel = ViewModelProviders.of(this).get(MainTabAlbumViewModel.class);
         mViewModel.getLiveDataSongList()

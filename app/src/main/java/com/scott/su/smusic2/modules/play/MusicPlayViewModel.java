@@ -15,17 +15,14 @@ import com.scott.su.smusic2.data.source.local.AppConfig;
  */
 
 public class MusicPlayViewModel extends BaseAndroidViewModel {
-    private MutableLiveData<Boolean> mLiveDataIsRepeatAll;
-    private MutableLiveData<Boolean> mLiveDataIsRepeatOne;
-    private MutableLiveData<Boolean> mLiveDataIsRepeatShuffle;
+    private MutableLiveData<Boolean> mLiveDataIsRepeatAll= new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLiveDataIsRepeatOne= new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLiveDataIsRepeatShuffle= new MutableLiveData<>();
 
 
     public MusicPlayViewModel(@NonNull Application application) {
         super(application);
 
-        mLiveDataIsRepeatAll = new MutableLiveData<>();
-        mLiveDataIsRepeatOne = new MutableLiveData<>();
-        mLiveDataIsRepeatShuffle = new MutableLiveData<>();
     }
 
     @Override

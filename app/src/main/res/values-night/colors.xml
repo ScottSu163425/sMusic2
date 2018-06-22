@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">@color/md_red_600</color>
     <color name="colorPrimaryDark">@color/md_red_800</color>
-    <color name="colorAccent">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="iconTint">#99FFFFFF</color>
 
 </resources>

@@ -1,10 +1,12 @@
 package com.scott.su.smusic2.data.source.local.db;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 
@@ -22,8 +24,11 @@ public interface LocalCollectionDao {
     List<LocalCollectionEntity> getAllCollections();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void createNewCollection(LocalCollectionEntity entity);
+    void createNewCollection(@NonNull LocalCollectionEntity entity);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateCollection(LocalCollectionEntity entity);
+    void updateCollection(@NonNull LocalCollectionEntity entity);
+
+    @Delete
+    void removeCollection(@NonNull LocalCollectionEntity entity);
 }

@@ -20,7 +20,9 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:padding="@dimen/padding_xxs"/>
+            android:paddingLeft="@dimen/padding_xxs"
+            android:paddingRight="@dimen/padding_xxs"
+            android:paddingTop="@dimen/padding_xxs"/>
     </FrameLayout>
 
 </layout>

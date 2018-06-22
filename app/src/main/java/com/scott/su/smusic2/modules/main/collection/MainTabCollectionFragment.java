@@ -5,15 +5,22 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
+import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabCollectionBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -47,17 +54,44 @@ public class MainTabCollectionFragment extends BaseFragment {
 
     @Override
     protected void onInit() {
+        mBinding.rv.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
+        mCollectionListAdapter = new MainTabCollectionListAdapter(getActivity()) {
+            @Override
+            void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position) {
+                ToastMaker.showToast(getContext(), "onItemClick" + entity.getCollectionName());
+            }
+
+            @Override
+            void onMoreClick(View view, LocalCollectionEntity entity, int position) {
+                ToastMaker.showToast(getContext(), "onMoreClick" + entity.getCollectionName());
+            }
+        };
+        mBinding.rv.setAdapter(mCollectionListAdapter);
+
         mViewModel = ViewModelProviders.of(this).get(MainTabCollectionViewModel.class);
         mViewModel.getLiveDataCollectionList()
                 .observe(this, new Observer<List<LocalCollectionEntity>>() {
                     @Override
                     public void onChanged(@Nullable List<LocalCollectionEntity> localCollectionEntities) {
-
+                        mCollectionListAdapter.setData(localCollectionEntities);
                     }
                 });
 
-        mCollectionListAdapter=new MainTabCollectionListAdapter(getActivity());
         mViewModel.start();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventCollectionsNeedRefreshEvent(CollectionsNeedRefreshEvent event) {
+        mViewModel.refreshCollectionList();
     }
 
 

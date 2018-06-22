@@ -21,22 +21,10 @@ import com.scott.su.common.manager.CirclarRevealUtil;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.KeyboardUtil;
 import com.scott.su.smusic2.R;
-import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
-import com.scott.su.smusic2.data.entity.event.CollectionCreateSuccessEvent;
-import com.scott.su.smusic2.data.source.local.LocalCollectionDataSource;
+import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.ActivityCollectionCreateBinding;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 描述: 歌曲收藏夹创建界面
@@ -107,7 +95,7 @@ public class CollectionCreateActivity extends BaseActivity {
                                     getString(R.string.success_create_new_collection));
 
                             //通知列表刷新
-                            EventBus.getDefault().post(new CollectionCreateSuccessEvent());
+                            EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
                         }
                     }
                 });

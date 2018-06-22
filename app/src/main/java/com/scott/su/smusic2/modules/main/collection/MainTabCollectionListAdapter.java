@@ -20,8 +20,12 @@ import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
  * 日期: 2018/6/11
  */
 
-public class MainTabCollectionListAdapter
+public abstract class MainTabCollectionListAdapter
         extends BaseRecyclerViewAdapter<LocalCollectionEntity, MainTabCollectionListAdapter.VH> {
+
+    abstract void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position);
+
+    abstract void onMoreClick(View view, LocalCollectionEntity entity, int position);
 
     public MainTabCollectionListAdapter(Context context) {
         super(context);
@@ -60,46 +64,18 @@ public class MainTabCollectionListAdapter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCallback().onItemClick(v, ivCover, entity, position);
+                    onItemClick(v, ivCover, entity, position);
                 }
             });
 
             viewMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getCallback().onMoreClick(v, entity, position);
+                    onMoreClick(v, entity, position);
                 }
             });
         }
     }
 
-    private Callback mCallback;
-
-    public void setCallback(Callback callback) {
-        this.mCallback = callback;
-    }
-
-    private Callback getCallback() {
-        if (mCallback == null) {
-            mCallback = new Callback() {
-                @Override
-                public void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position) {
-
-                }
-
-                @Override
-                public void onMoreClick(View view, LocalCollectionEntity entity, int position) {
-
-                }
-            };
-        }
-        return mCallback;
-    }
-
-    public interface Callback {
-        void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position);
-
-        void onMoreClick(View view, LocalCollectionEntity entity, int position);
-    }
 
 }

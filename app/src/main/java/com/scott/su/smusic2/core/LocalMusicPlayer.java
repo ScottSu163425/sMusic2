@@ -170,7 +170,8 @@ public class LocalMusicPlayer {
         if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ALL) {
             newSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
         } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ONE) {
-            newSong = mCurrentPlayingSong;
+//            newSong = mCurrentPlayingSong;
+            newSong = ListUtil.getPrevLoop(mPlayQueue, mCurrentPlayingSong);
         } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_SHUFFLE) {
             newSong = ListUtil.getNextRandom(mPlayQueue, mCurrentPlayingSong);
         }
@@ -192,7 +193,8 @@ public class LocalMusicPlayer {
         if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ALL) {
             newSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
         } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_ONE) {
-            newSong = mCurrentPlayingSong;
+//            newSong = mCurrentPlayingSong;
+            newSong = ListUtil.getNextLoop(mPlayQueue, mCurrentPlayingSong);
         } else if (mPlayRepeatMode == PlayRepeatMode.REPEAT_SHUFFLE) {
             newSong = ListUtil.getNextRandom(mPlayQueue, mCurrentPlayingSong);
         }
@@ -222,7 +224,8 @@ public class LocalMusicPlayer {
         stopProgressTimer();
         mMediaPlayer.stop();
     }
-    public void close(){
+
+    public void close() {
         stop();
         mCallback.onClose(mCurrentPlayingSong, mPlayQueue);
 

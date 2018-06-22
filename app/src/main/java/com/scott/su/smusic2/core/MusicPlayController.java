@@ -141,6 +141,15 @@ public class MusicPlayController implements IMusicPlayController {
         return intent;
     }
 
+    public static Intent getCommandClose( ) {
+        Intent intent = new Intent();
+
+        intent.setAction(ACTION_MUSIC_PLAY_CONTROL);
+        intent.putExtra(KEY_EXTRA_COMMAND_CODE, COMMAND_CODE_CLOSE);
+
+        return intent;
+    }
+
     private static void sendCommend(Context context, int command, @Nullable Intent extraData) {
         //启动音乐播放服务
         context.startService(new Intent(context, MusicPlayService.class));

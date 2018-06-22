@@ -4,7 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="grey_translucent">#05000000</color>
 
-    <color name="default_background_panel_music_play">@color/colorPrimary</color>
+
+
+    <color name="default_background_panel_music_play">@color/white</color>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.album;
+package com.scott.su.smusic2.modules.album;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -13,9 +13,7 @@ import com.scott.su.common.adapter.BaseRecyclerViewHolder;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
-import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ItemAlbumMainBinding;
-import com.scott.su.smusic2.databinding.ItemSongMainBinding;
 
 /**
  * 描述:

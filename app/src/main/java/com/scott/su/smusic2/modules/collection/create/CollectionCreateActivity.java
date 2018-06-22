@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.collection;
+package com.scott.su.smusic2.modules.collection.create;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;

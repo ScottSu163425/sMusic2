@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.collection;
+package com.scott.su.smusic2.modules.collection.list;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

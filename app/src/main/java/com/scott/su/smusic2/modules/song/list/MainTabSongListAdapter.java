@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.song;
+package com.scott.su.smusic2.modules.song.list;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -9,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.scott.su.common.adapter.BaseRecyclerViewAdapter;
 import com.scott.su.common.adapter.BaseRecyclerViewHolder;
 import com.scott.su.common.manager.ImageLoader;
-import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.databinding.ItemSongMainBinding;

@@ -33,13 +33,21 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".modules.collection.CollectionCreateActivity"
+            android:name=".modules.collection.create.CollectionCreateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".modules.album.AlbumDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".modules.collection.detail.CollectionDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".modules.song.select.LocalSongSelectActivity"
             android:screenOrientation="portrait"/>
 
     </application>

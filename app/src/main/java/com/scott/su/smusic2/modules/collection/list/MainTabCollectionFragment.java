@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.collection;
+package com.scott.su.smusic2.modules.collection.list;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +17,11 @@ import android.widget.ImageView;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.manager.AlertDialogHelper;
 import com.scott.su.common.manager.PopupMenuHelper;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabCollectionBinding;
+import com.scott.su.smusic2.modules.collection.detail.CollectionDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,7 +64,7 @@ public class MainTabCollectionFragment extends BaseFragment {
         mCollectionListAdapter = new MainTabCollectionListAdapter(getActivity()) {
             @Override
             void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position) {
-                ToastMaker.showToast(getContext(), "onItemClick" + entity.getCollectionName());
+                CollectionDetailActivity.start(getContext(), entity.getCollectionId(), new View[]{cover});
             }
 
             @Override

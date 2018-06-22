@@ -26,13 +26,12 @@ import com.scott.su.common.manager.SnackBarMaker;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
-import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
-import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
-import com.scott.su.smusic2.modules.collection.CollectionCreateActivity;
-import com.scott.su.smusic2.modules.main.collection.MainTabCollectionFragment;
-import com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuFragment;
-import com.scott.su.smusic2.modules.main.song.MainTabSongFragment;
+import com.scott.su.smusic2.modules.album.MainTabAlbumFragment;
+import com.scott.su.smusic2.modules.collection.create.CollectionCreateActivity;
+import com.scott.su.smusic2.modules.collection.list.MainTabCollectionFragment;
+import com.scott.su.smusic2.modules.drawer.MainDrawerMenuFragment;
+import com.scott.su.smusic2.modules.song.list.MainTabSongFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.drawer;
+package com.scott.su.smusic2.modules.drawer;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.scott.su.common.fragment.BaseFragment;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;

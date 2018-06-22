@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.drawer;
+package com.scott.su.smusic2.modules.drawer;
 
 import android.app.Application;
 import android.support.annotation.NonNull;

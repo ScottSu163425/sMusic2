@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.scott.su.smusic2.modules.collection.CollectionCreateViewModel"/>
+            type="com.scott.su.smusic2.modules.collection.create.CollectionCreateViewModel"/>
 
     </data>
 

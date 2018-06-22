@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuViewModel"/>
+            type="com.scott.su.smusic2.modules.drawer.MainDrawerMenuViewModel"/>
     </data>
 
     <android.support.percent.PercentRelativeLayout

@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.main.album;
+package com.scott.su.smusic2.modules.album;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;

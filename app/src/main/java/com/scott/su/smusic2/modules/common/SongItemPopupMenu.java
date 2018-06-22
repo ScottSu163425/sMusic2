@@ -9,6 +9,7 @@ import com.scott.su.common.manager.PopupMenuHelper;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.modules.album.AlbumDetailActivity;
+import com.scott.su.smusic2.modules.collection.select.CollectionSelectFragment;
 
 /**
  * 描述:
@@ -27,7 +28,9 @@ public class SongItemPopupMenu {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.action_check_song_info) {
+                if (id == R.id.action_collect) {
+                    CollectionSelectFragment.newInstance().show(activity);
+                } else if (id == R.id.action_check_song_info) {
                     SongInfoDialogFragment.newInstance(song).show(activity);
                 } else if (id == R.id.action_check_album) {
                     AlbumDetailActivity.start(activity, song.getAlbumId(), null);

@@ -14,10 +14,7 @@
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_xs"
-        android:layout_marginLeft="@dimen/padding_xxs"
-        android:layout_marginRight="@dimen/padding_xxs"
-        android:layout_marginTop="@dimen/padding_xs"
+        android:layout_margin="@dimen/padding_xxs"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@drawable/selector_btn_card"
         app:cardBackgroundColor="@color/backgroundContent">

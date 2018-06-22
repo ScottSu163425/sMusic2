@@ -2,6 +2,10 @@
 <layout>
 
     <data>
+
+        <variable
+            name="vm"
+            type="com.scott.su.smusic2.modules.main.collection.MainTabCollectionViewModel"/>
     </data>
 
     <FrameLayout

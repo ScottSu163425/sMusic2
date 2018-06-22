@@ -1,7 +1,9 @@
 package com.scott.su.smusic2.data.entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 描述: 本地音乐收藏实体类
@@ -9,19 +11,20 @@ import java.util.List;
  * 日期: 2018/5/11
  */
 
+@Entity(tableName = "collections")
 public class LocalCollectionEntity implements Serializable {
-    private String collectionId;
+    @PrimaryKey
+    private long collectionId;
     private String collectionName;
-    private List<String> collectionSongIds;
-    private String createTime;
     private String coverPath;
+    private String collectionSongIds;
 
 
-    public String getCollectionId() {
+    public long getCollectionId() {
         return collectionId;
     }
 
-    public void setCollectionId(String collectionId) {
+    public void setCollectionId(long collectionId) {
         this.collectionId = collectionId;
     }
 
@@ -33,20 +36,12 @@ public class LocalCollectionEntity implements Serializable {
         this.collectionName = collectionName;
     }
 
-    public List<String> getCollectionSongIds() {
+    public String getCollectionSongIds() {
         return collectionSongIds;
     }
 
-    public void setCollectionSongIds(List<String> collectionSongIds) {
+    public void setCollectionSongIds(String collectionSongIds) {
         this.collectionSongIds = collectionSongIds;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     public String getCoverPath() {
@@ -63,7 +58,6 @@ public class LocalCollectionEntity implements Serializable {
                 "collectionId='" + collectionId + '\'' +
                 ", collectionName='" + collectionName + '\'' +
                 ", collectionSongIds=" + collectionSongIds +
-                ", createTime='" + createTime + '\'' +
                 ", coverPath='" + coverPath + '\'' +
                 '}';
     }

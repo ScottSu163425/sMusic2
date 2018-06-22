@@ -1,9 +1,14 @@
 package com.scott.su.smusic2.data.source.local;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
+import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.source.local.db.AppDatabase;
+import com.scott.su.smusic2.data.source.local.db.LocalCollectionDao;
 
 import java.util.List;
 
@@ -13,23 +18,22 @@ import java.util.List;
  * 日期: 2018/4/30
  */
 
-public class LocalSongDataSource implements ILocalSongDataSource {
+public class LocalSongDataSource implements IDataSource {
     private static LocalSongDataSource sInstance;
 
 
-    public static LocalSongDataSource getInstance() {
+    public static LocalSongDataSource getInstance( ) {
         if (sInstance == null) {
             synchronized (LocalSongDataSource.class) {
                 if (sInstance == null) {
-                    sInstance = new LocalSongDataSource();
+                    sInstance = new LocalSongDataSource( );
                 }
             }
         }
         return sInstance;
     }
 
-    private LocalSongDataSource() {
-
+    private LocalSongDataSource( ) {
     }
 
     @Override
@@ -44,7 +48,7 @@ public class LocalSongDataSource implements ILocalSongDataSource {
 
     @Override
     public LocalAlbumEntity getAlbum(Context context, long albumId) {
-        return LocalSongHelper.getInstance().getAlbum(context,albumId);
+        return LocalSongHelper.getInstance().getAlbum(context, albumId);
     }
 
     @Override

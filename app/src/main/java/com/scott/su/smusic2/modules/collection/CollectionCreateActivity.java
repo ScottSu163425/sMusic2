@@ -1,5 +1,6 @@
 package com.scott.su.smusic2.modules.collection;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -16,9 +18,25 @@ import android.view.View;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.CirclarRevealUtil;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.KeyboardUtil;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
+import com.scott.su.smusic2.data.entity.event.CollectionCreateSuccessEvent;
+import com.scott.su.smusic2.data.source.local.LocalCollectionDataSource;
 import com.scott.su.smusic2.databinding.ActivityCollectionCreateBinding;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 描述: 歌曲收藏夹创建界面
@@ -53,10 +71,6 @@ public class CollectionCreateActivity extends BaseActivity {
         setUpAnimation();
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_collection_create);
-
-        mViewModel = ViewModelProviders.of(this)
-                .get(CollectionCreateViewModel.class);
-
         mBinding.viewBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,9 +81,36 @@ public class CollectionCreateActivity extends BaseActivity {
         mBinding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                createNewCollection();
             }
         });
+
+        mViewModel = ViewModelProviders.of(this)
+                .get(CollectionCreateViewModel.class);
+
+        mViewModel.getLiveDataTip()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        ToastMaker.showToast(getApplicationContext(), s);
+                    }
+                });
+
+        mViewModel.getLiveDataCreateCollectionSuccess()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean success) {
+                        if (success != null && success) {
+                            onBackPressed();
+
+                            ToastMaker.showToast(getApplicationContext(),
+                                    getString(R.string.success_create_new_collection));
+
+                            //通知列表刷新
+                            EventBus.getDefault().post(new CollectionCreateSuccessEvent());
+                        }
+                    }
+                });
 
         mViewModel.start();
     }
@@ -199,5 +240,17 @@ public class CollectionCreateActivity extends BaseActivity {
         }
 
     }
+
+    private void createNewCollection() {
+        String collectionName = mBinding.etCollectionName.getText().toString().trim();
+
+        if (TextUtils.isEmpty(collectionName)) {
+            ToastMaker.showToast(getApplicationContext(), getString(R.string.tip_input_collection_name));
+            return;
+        }
+
+        mViewModel.saveNewCollection(collectionName);
+    }
+
 
 }

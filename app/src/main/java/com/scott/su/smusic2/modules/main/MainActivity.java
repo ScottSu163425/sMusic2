@@ -242,20 +242,21 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-        if (isForNightMode) {
-            if (AppConfig.getInstance().isNightModeOn()) {
-                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
-            } else {
-                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-            }
-        }/* else {
-            if (AppConfig.isLanguageModeOn(MainActivity.this)) {
-                overridePendingTransition(R.anim.in_left, R.anim.out_right);
-            } else {
-                overridePendingTransition(R.anim.in_right, R.anim.out_left);
-            }
-        }*/
+//        if (isForNightMode) {
+//            if (AppConfig.getInstance().isNightModeOn()) {
+//                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+//            } else {
+//                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+//            }
+//        }  else {
+//            if (AppConfig.isLanguageModeOn(MainActivity.this)) {
+//                overridePendingTransition(R.anim.in_left, R.anim.out_right);
+//            } else {
+//                overridePendingTransition(R.anim.in_right, R.anim.out_left);
+//            }
+//        }
     }
 
     private void showFabForScrolling() {

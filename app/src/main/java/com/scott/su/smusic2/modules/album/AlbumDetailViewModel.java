@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AlbumDetailViewModel extends BaseAndroidViewModel {
 
     private MutableLiveData<LocalAlbumEntity> mLiveDataAlbum;
-    private long mAlbumId;
+    private String mAlbumId;
 
     public AlbumDetailViewModel(@NonNull Application application) {
         super(application);
@@ -31,7 +31,7 @@ public class AlbumDetailViewModel extends BaseAndroidViewModel {
         mLiveDataAlbum = new MutableLiveData<>();
     }
 
-    public void setAlbumId(long albumId) {
+    public void setAlbumId(String albumId) {
         this.mAlbumId = albumId;
     }
 
@@ -46,10 +46,10 @@ public class AlbumDetailViewModel extends BaseAndroidViewModel {
 
     private void getAlbum() {
         Observable.just(mAlbumId)
-                .map(new Function<Long, LocalAlbumEntity>() {
+                .map(new Function<String, LocalAlbumEntity>() {
                     @Override
-                    public LocalAlbumEntity apply(@io.reactivex.annotations.NonNull Long aLong) throws Exception {
-                        return LocalSongDataSource.getInstance().getAlbum(getApplicationContext(), aLong);
+                    public LocalAlbumEntity apply(@io.reactivex.annotations.NonNull String string) throws Exception {
+                        return LocalSongDataSource.getInstance().getAlbum(getContext(), string);
                     }
                 })
                 .subscribeOn(Schedulers.io())

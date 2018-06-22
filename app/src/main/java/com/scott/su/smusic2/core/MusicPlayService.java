@@ -74,7 +74,7 @@ public class MusicPlayService extends Service {
     private void registerReceivers() {
         mCommandReceiver = new MusicPlayCommandReceiver();
         //由于要在Notification中发送PendingIntent，无法响应本地广播，故使用全局广播；
-//        LocalBroadcastManager.getInstance(getApplicationContext())
+//        LocalBroadcastManager.getInstance(getContext())
         registerReceiver(mCommandReceiver, new IntentFilter(MusicPlayController.ACTION_MUSIC_PLAY_CONTROL));
 
 

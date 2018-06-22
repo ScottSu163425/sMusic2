@@ -2,6 +2,7 @@ package com.scott.su.smusic2.data.source.local;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
@@ -22,18 +23,18 @@ public class LocalSongDataSource implements IDataSource {
     private static LocalSongDataSource sInstance;
 
 
-    public static LocalSongDataSource getInstance( ) {
+    public static LocalSongDataSource getInstance() {
         if (sInstance == null) {
             synchronized (LocalSongDataSource.class) {
                 if (sInstance == null) {
-                    sInstance = new LocalSongDataSource( );
+                    sInstance = new LocalSongDataSource();
                 }
             }
         }
         return sInstance;
     }
 
-    private LocalSongDataSource( ) {
+    private LocalSongDataSource() {
     }
 
     @Override
@@ -42,18 +43,28 @@ public class LocalSongDataSource implements IDataSource {
     }
 
     @Override
+    public LocalSongEntity getSongById(@NonNull Context context, @NonNull String songId) {
+        return LocalSongHelper.getInstance().getSongById(context, songId);
+    }
+
+    @Override
     public List<LocalAlbumEntity> getAllAlbums(Context context) {
         return LocalSongHelper.getInstance().getAllAlbums(context);
     }
 
     @Override
-    public LocalAlbumEntity getAlbum(Context context, long albumId) {
+    public LocalAlbumEntity getAlbum(Context context, String albumId) {
         return LocalSongHelper.getInstance().getAlbum(context, albumId);
     }
 
     @Override
-    public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
+    public String getAlbumCoverPathByAlbumId(Context context, String albumId) {
         return LocalSongHelper.getInstance().getAlbumCoverPathByAlbumId(context, albumId);
+    }
+
+    @Override
+    public String getAlbumCoverPathBySongId(@NonNull Context context, @NonNull String songId) {
+        return LocalSongHelper.getInstance().getAlbumCoverPathBySongId(context, songId);
     }
 
 }

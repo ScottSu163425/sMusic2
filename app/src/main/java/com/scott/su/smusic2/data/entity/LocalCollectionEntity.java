@@ -2,6 +2,8 @@ package com.scott.su.smusic2.data.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 
@@ -13,18 +15,21 @@ import java.io.Serializable;
 
 @Entity(tableName = "collections")
 public class LocalCollectionEntity implements Serializable {
+    private static final String SEPARATOR = "&";
+
     @PrimaryKey
-    private long collectionId;
+    @NonNull
+    private String collectionId;
     private String collectionName;
     private String coverPath;
     private String collectionSongIds;
 
 
-    public long getCollectionId() {
+    public String getCollectionId() {
         return collectionId;
     }
 
-    public void setCollectionId(long collectionId) {
+    public void setCollectionId(String collectionId) {
         this.collectionId = collectionId;
     }
 
@@ -61,4 +66,53 @@ public class LocalCollectionEntity implements Serializable {
                 ", coverPath='" + coverPath + '\'' +
                 '}';
     }
+
+    public boolean empty() {
+        return TextUtils.isEmpty(getCollectionSongIds());
+    }
+
+    public boolean containSong(@NonNull String songId) {
+        if (empty()) {
+            return false;
+        }
+
+        return getCollectionSongIds().contains(songId);
+    }
+
+    public String[] getCollectionSongIdArr() {
+        if (empty()) {
+            return null;
+        }
+
+        return getCollectionSongIds().split(SEPARATOR);
+    }
+
+    public boolean addSongIntoCollection(@NonNull String songId) {
+        if (containSong(songId)) {
+            return false;
+        }
+
+        setCollectionSongIds(getCollectionSongIds() + SEPARATOR + songId);
+        return true;
+    }
+
+    public void removreSongs(@NonNull String... songId) {
+        for (String id : songId) {
+            removeSong(id);
+        }
+    }
+
+    public boolean removeSong(@NonNull String songId) {
+        if (empty()) {
+            return false;
+        }
+
+        if (!containSong(songId)) {
+            return false;
+        }
+
+        getCollectionSongIds().replace(songId + SEPARATOR, "");
+        return true;
+    }
+
 }

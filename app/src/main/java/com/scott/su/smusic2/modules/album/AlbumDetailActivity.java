@@ -27,7 +27,7 @@ public class AlbumDetailActivity extends BaseActivity {
     private static final String KEY_EXTRA_ALBUM_ID = "KEY_EXTRA_ALBUM_ID";
 
 
-    public static void start(Context context, long albumId, @Nullable View shareElement) {
+    public static void start(Context context, String albumId, @Nullable View shareElement) {
         Intent intent = getStartIntent(context, albumId);
 
         if (shareElement == null) {
@@ -38,14 +38,14 @@ public class AlbumDetailActivity extends BaseActivity {
         ActivityStarter.startWithSharedElements(context, intent, new View[]{shareElement});
     }
 
-    public static Intent getStartIntent(Context context, long albumId) {
+    public static Intent getStartIntent(Context context, String albumId) {
         Intent intent = new Intent(context, AlbumDetailActivity.class);
         intent.putExtra(KEY_EXTRA_ALBUM_ID, albumId);
 
         return intent;
     }
 
-    private long mAlbumId;
+    private String mAlbumId;
     private AlbumDetailViewModel mViewModel;
     private ActivityAlbumDetailBinding mBinding;
 
@@ -57,7 +57,7 @@ public class AlbumDetailActivity extends BaseActivity {
 
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20);
 
-        mAlbumId = getIntent().getLongExtra(KEY_EXTRA_ALBUM_ID, 0);
+        mAlbumId = getIntent().getStringExtra(KEY_EXTRA_ALBUM_ID);
 
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

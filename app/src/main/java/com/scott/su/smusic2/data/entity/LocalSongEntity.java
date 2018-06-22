@@ -9,8 +9,8 @@ import java.io.Serializable;
  */
 
 public class LocalSongEntity implements Serializable {
-    private long songId;
-    private long albumId;
+    private String songId;
+    private String albumId;
     private long duration;
     private long fileSize;
     private String title; //歌曲名称
@@ -20,19 +20,19 @@ public class LocalSongEntity implements Serializable {
     private String albumCoverPath; //专辑封面图片路径
 
 
-    public long getSongId() {
+    public String getSongId() {
         return songId;
     }
 
-    public void setSongId(long songId) {
+    public void setSongId(String songId) {
         this.songId = songId;
     }
 
-    public long getAlbumId() {
+    public String getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(long albumId) {
+    public void setAlbumId(String albumId) {
         this.albumId = albumId;
     }
 

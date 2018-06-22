@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
@@ -44,7 +46,7 @@ public class LocalSongHelper implements ILocalSongDataSource {
     }
 
     @Override
-    public List<LocalSongEntity> getAllSongs(Context context) {
+    public List<LocalSongEntity> getAllSongs(@NonNull Context context) {
         List<LocalSongEntity> songList = new ArrayList<>();
 
         Cursor cursor = context.getContentResolver()
@@ -83,11 +85,11 @@ public class LocalSongHelper implements ILocalSongDataSource {
             }
 
             LocalSongEntity localSongEntity = new LocalSongEntity();
-            localSongEntity.setSongId(songId);
+            localSongEntity.setSongId(String.valueOf(songId));
             localSongEntity.setTitle(title);
             localSongEntity.setArtist(artist);
             localSongEntity.setAlbum(album);
-            localSongEntity.setAlbumId(albumId);
+            localSongEntity.setAlbumId(String.valueOf(albumId));
             localSongEntity.setDuration(duration);
             localSongEntity.setFileSize(size);
             localSongEntity.setFilePath(path);
@@ -99,7 +101,7 @@ public class LocalSongHelper implements ILocalSongDataSource {
 //                CoverPathCache.getInstance().put(albumId + "", coverPath);
 //            }
 
-            localSongEntity.setAlbumCoverPath(getAlbumCoverPathByAlbumId(context, albumId));
+            localSongEntity.setAlbumCoverPath(getAlbumCoverPathByAlbumId(context, String.valueOf(albumId)));
 
             //Put the whole entity into the com.scott.su.smusic.cache;
 //            LocalSongEntityCache.getInstance().put(songId + "", localSongEntity);
@@ -112,14 +114,34 @@ public class LocalSongHelper implements ILocalSongDataSource {
     }
 
     @Override
+    public LocalSongEntity getSongById(@NonNull Context context, @NonNull String songId) {
+        if (TextUtils.isEmpty(songId)) {
+            return null;
+        }
+
+        List<LocalSongEntity> songs = getAllSongs(context);
+        if (songs == null || songs.isEmpty()) {
+            return null;
+        }
+
+        for (LocalSongEntity entity : songs) {
+            if (songId.equals(entity.getSongId())) {
+                return entity;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<LocalAlbumEntity> getAllAlbums(Context context) {
         List<LocalAlbumEntity> result = new ArrayList<>();
         List<LocalSongEntity> localSongs = getAllSongs(context);
-        Set<Long> albumIds = new HashSet<>();
-        Map<Long, String> albumTitles = new HashMap<>();
-        Map<Long, String> albumArtists = new HashMap<>();
-        Map<Long, String> albumCoverPaths = new HashMap<>();
-        Map<Long, List<LocalSongEntity>> albumSongs = new HashMap<>();
+        Set<String> albumIds = new HashSet<>();
+        Map<String, String> albumTitles = new HashMap<>();
+        Map<String, String> albumArtists = new HashMap<>();
+        Map<String, String> albumCoverPaths = new HashMap<>();
+        Map<String, List<LocalSongEntity>> albumSongs = new HashMap<>();
 
 
         for (int i = 0, n = localSongs.size(); i < n; i++) {
@@ -131,9 +153,9 @@ public class LocalSongHelper implements ILocalSongDataSource {
             albumCoverPaths.put(song.getAlbumId(), song.getAlbumCoverPath());
         }
 
-        for (Long albumId : albumIds) {
+        for (String albumId : albumIds) {
             LocalAlbumEntity album = new LocalAlbumEntity();
-            album.setAlbumId(albumId);
+            album.setAlbumId(String.valueOf(albumId));
             album.setTitle(albumTitles.get(albumId));
             album.setArtist(albumArtists.get(albumId));
             album.setAlbumCoverPath(albumCoverPaths.get(albumId));
@@ -145,7 +167,7 @@ public class LocalSongHelper implements ILocalSongDataSource {
 
         for (int i = 0, n = localSongs.size(); i < n; i++) {
             LocalSongEntity song = localSongs.get(i);
-            long albumId = song.getAlbumId();
+            String albumId = song.getAlbumId();
 
             albumSongs.get(albumId).add(song);
         }
@@ -158,12 +180,12 @@ public class LocalSongHelper implements ILocalSongDataSource {
     }
 
     @Override
-    public LocalAlbumEntity getAlbum(Context context, long albumId) {
+    public LocalAlbumEntity getAlbum(Context context, @NonNull String albumId) {
         List<LocalAlbumEntity> albums = getAllAlbums(context);
 
         if (albums != null && !albums.isEmpty()) {
             for (LocalAlbumEntity albumEntity : albums) {
-                if (albumEntity.getAlbumId() == albumId) {
+                if (albumId.equals(albumEntity.getAlbumId())) {
                     return albumEntity;
                 }
             }
@@ -173,7 +195,7 @@ public class LocalSongHelper implements ILocalSongDataSource {
     }
 
     @Override
-    public String getAlbumCoverPathByAlbumId(Context context, long albumId) {
+    public String getAlbumCoverPathByAlbumId(Context context, @NonNull String albumId) {
         String path = null;
         Cursor cursor = context.getContentResolver().query(
                 Uri.parse("content://media/external/audio/albums/" + albumId),
@@ -188,6 +210,17 @@ public class LocalSongHelper implements ILocalSongDataSource {
 //        path = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId).toString();
 
         return path;
+    }
+
+    @Override
+    public String getAlbumCoverPathBySongId(Context context, @NonNull String songId) {
+        LocalSongEntity song = getSongById(context, songId);
+
+        if (song == null) {
+            return null;
+        }
+
+        return song.getAlbumCoverPath();
     }
 
 }

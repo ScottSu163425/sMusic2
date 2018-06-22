@@ -153,7 +153,7 @@ public class MusicPlayController implements IMusicPlayController {
     private static void sendCommend(Context context, int command, @Nullable Intent extraData) {
         //启动音乐播放服务
         context.startService(new Intent(context, MusicPlayService.class));
-//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getApplicationContext());
+//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context.getContext());
         //由于要在Notification中发送PendingIntent，无法响应本地广播，故使用全局广播；
 
         if (extraData == null) {

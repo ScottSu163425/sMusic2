@@ -53,8 +53,8 @@ public class MainTabCollectionViewModel extends BaseAndroidViewModel {
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-                LocalCollectionDataSource.getInstance(getApplicationContext())
-                        .removeCollection(entity);
+                LocalCollectionDataSource.getInstance(getContext())
+                        .removeCollection(getContext(),entity);
                 emitter.onNext(true);
                 emitter.onComplete();
             }
@@ -73,7 +73,7 @@ public class MainTabCollectionViewModel extends BaseAndroidViewModel {
         Observable.create(new ObservableOnSubscribe<List<LocalCollectionEntity>>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<List<LocalCollectionEntity>> emitter) throws Exception {
-                emitter.onNext(LocalCollectionDataSource.getInstance(getApplicationContext()).getAllCollections());
+                emitter.onNext(LocalCollectionDataSource.getInstance(getContext()).getAllCollections(getContext()));
                 emitter.onComplete();
             }
         })

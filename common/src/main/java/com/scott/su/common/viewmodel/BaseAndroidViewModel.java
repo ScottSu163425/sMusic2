@@ -26,7 +26,7 @@ public abstract class BaseAndroidViewModel extends AndroidViewModel {
         mLiveDataTip = new MutableLiveData<>();
     }
 
-    protected Context getApplicationContext() {
+    protected Context getContext() {
         return mContext;
     }
 

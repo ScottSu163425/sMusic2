@@ -1,6 +1,7 @@
 package com.scott.su.smusic2.data.source.local;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
@@ -15,13 +16,13 @@ import java.util.List;
 
 public interface ILocalCollectionDataSource {
 
-    boolean isCollectionNameExist(@NonNull String collectionName);
+    boolean isCollectionNameExist(@NonNull Context context, @NonNull String collectionName);
 
-    void createNewCollection(@NonNull LocalCollectionEntity entity);
+    void createNewCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity);
 
-    List<LocalCollectionEntity> getAllCollections();
+    List<LocalCollectionEntity> getAllCollections(@NonNull Context context);
 
-    void removeCollection(@NonNull LocalCollectionEntity entity);
+    void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity);
 
 
 }

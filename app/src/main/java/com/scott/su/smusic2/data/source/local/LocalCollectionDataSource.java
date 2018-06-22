@@ -42,11 +42,26 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
-    public List<LocalCollectionEntity> getAllCollections() {
+    public List<LocalCollectionEntity> getAllCollections(@NonNull Context context) {
         List<LocalCollectionEntity> list = mCollectionDao.getAllCollections();
 
         if (list == null) {
             list = new ArrayList<>();
+        }
+
+        if (list.isEmpty()) {
+            return list;
+        }
+
+        //获取并设置封面路径
+        for (LocalCollectionEntity collectionEntity : list) {
+            String[] songIdArr = collectionEntity.getCollectionSongIdArr();
+
+            if (songIdArr != null && songIdArr.length > 0) {
+                String coverSongId = songIdArr[0];
+
+                collectionEntity.setCoverPath(LocalSongHelper.getInstance().getAlbumCoverPathBySongId(context, coverSongId));
+            }
         }
 
         List<LocalCollectionEntity> listOrdered = new ArrayList<>();
@@ -60,13 +75,13 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
-    public void removeCollection(@NonNull LocalCollectionEntity entity) {
+    public void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
         mCollectionDao.removeCollection(entity);
     }
 
     @Override
-    public boolean isCollectionNameExist(@NonNull String collectionName) {
-        List<LocalCollectionEntity> list = getAllCollections();
+    public boolean isCollectionNameExist(@NonNull Context context, @NonNull String collectionName) {
+        List<LocalCollectionEntity> list = getAllCollections(context);
 
         if (list == null || list.isEmpty()) {
             return false;
@@ -83,7 +98,7 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
-    public void createNewCollection(LocalCollectionEntity entity) {
+    public void createNewCollection(@NonNull Context context, LocalCollectionEntity entity) {
         mCollectionDao.createNewCollection(entity);
     }
 

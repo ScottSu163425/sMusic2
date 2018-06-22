@@ -10,17 +10,17 @@ import java.util.List;
  */
 
 public class LocalAlbumEntity implements Serializable {
-    private long albumId;
+    private String albumId;
     private String title; //歌曲名称
     private String artist; //歌手
     private String albumCoverPath; //专辑封面图片路径
     private List<LocalSongEntity> albumSongs;
 
-    public long getAlbumId() {
+    public String getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(long albumId) {
+    public void setAlbumId(String albumId) {
         this.albumId = albumId;
     }
 

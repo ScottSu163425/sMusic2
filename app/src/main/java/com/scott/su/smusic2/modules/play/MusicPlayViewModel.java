@@ -30,9 +30,9 @@ public class MusicPlayViewModel extends BaseAndroidViewModel {
 
     @Override
     protected void start() {
-        mLiveDataIsRepeatAll.setValue(AppConfig.isRepeatAll(getApplicationContext()));
-        mLiveDataIsRepeatOne.setValue(AppConfig.isRepeatOne(getApplicationContext()));
-        mLiveDataIsRepeatShuffle.setValue(AppConfig.isRepeatShuffle(getApplicationContext()));
+        mLiveDataIsRepeatAll.setValue(AppConfig.getInstance().isRepeatAll());
+        mLiveDataIsRepeatOne.setValue(AppConfig.getInstance().isRepeatOne());
+        mLiveDataIsRepeatShuffle.setValue(AppConfig.getInstance().isRepeatShuffle());
     }
 
     public MutableLiveData<Boolean> getLiveDataIsRepeatAll() {
@@ -49,17 +49,17 @@ public class MusicPlayViewModel extends BaseAndroidViewModel {
 
     public void toggleRepeatMode() {
         if (mLiveDataIsRepeatAll.getValue()) {
-            AppConfig.setRepeatOne(getApplicationContext());
+            AppConfig.getInstance().setRepeatOne();
             mLiveDataIsRepeatAll.setValue(false);
             mLiveDataIsRepeatOne.setValue(true);
             mLiveDataIsRepeatShuffle.setValue(false);
         } else if (mLiveDataIsRepeatOne.getValue()) {
-            AppConfig.setRepeatShuffle(getApplicationContext());
+            AppConfig.getInstance().setRepeatShuffle();
             mLiveDataIsRepeatAll.setValue(false);
             mLiveDataIsRepeatOne.setValue(false);
             mLiveDataIsRepeatShuffle.setValue(true);
         } else if (mLiveDataIsRepeatShuffle.getValue()) {
-            AppConfig.setRepeatAll(getApplicationContext());
+            AppConfig.getInstance().setRepeatAll();
             mLiveDataIsRepeatAll.setValue(true);
             mLiveDataIsRepeatOne.setValue(false);
             mLiveDataIsRepeatShuffle.setValue(false);

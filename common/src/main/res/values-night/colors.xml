@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#545454</color>
+    <color name="backgroundContent">#454545</color>
+
+    <color name="divider_line">#66666666</color>
+
+    <!--text-->
+    <color name="textTertiary">#8affffff</color>
+    <color name="textSecondary">#8affffff</color>
+    <color name="textPrimary">#DEffffff</color>
+    <color name="textColorWhite">#de000000</color>
+
+</resources>

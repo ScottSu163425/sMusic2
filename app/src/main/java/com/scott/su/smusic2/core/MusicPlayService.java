@@ -291,10 +291,10 @@ public class MusicPlayService extends Service {
         }
 
         PlayRepeatMode repeatMode = PlayRepeatMode.REPEAT_ALL;
-        if (AppConfig.isRepeatOne(getApplicationContext())) {
+        if (AppConfig.getInstance().isRepeatOne()) {
             repeatMode = PlayRepeatMode.REPEAT_ONE;
         }
-        if (AppConfig.isRepeatShuffle(getApplicationContext())) {
+        if (AppConfig.getInstance().isRepeatShuffle()) {
             repeatMode = PlayRepeatMode.REPEAT_SHUFFLE;
         }
 

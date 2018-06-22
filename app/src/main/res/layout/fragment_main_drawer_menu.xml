@@ -39,12 +39,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/padding_xs">
 
                 <RelativeLayout
                     android:id="@+id/rl_item_statistic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_m"
+                    android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
@@ -54,7 +55,8 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"/>
+                        android:tint="@color/md_grey_800"
+                        android:src="@drawable/ic_menu_item_drawer_statistic"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -66,10 +68,19 @@
                         android:textSize="@dimen/text_size_menu"/>
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_m">
+                    android:layout_height="@dimen/height_item_s">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignBottom="@+id/switch_night_mode"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:tint="@color/md_grey_800"
+                        android:layout_marginLeft="@dimen/padding_s"
+                        android:src="@drawable/ic_menu_item_drawer_night_mode"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -81,27 +92,18 @@
                         android:textSize="@dimen/text_size_menu"/>
 
                     <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/swtich_night_mode"
+                        android:id="@+id/switch_night_mode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/padding_s"/>
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignBottom="@+id/swtich_night_mode"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"/>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_item_language"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_m"
+                    android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
@@ -126,7 +128,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_item_settings"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_m"
+                    android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">

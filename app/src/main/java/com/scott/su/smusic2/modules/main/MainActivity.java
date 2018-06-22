@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import com.scott.su.common.manager.SnackBarMaker;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
+import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
 import com.scott.su.smusic2.modules.main.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.collection.CollectionCreateActivity;
@@ -45,7 +47,6 @@ import java.util.List;
  */
 
 public class MainActivity extends BaseActivity {
-
     public static void start(Context context) {
         context.startActivity(getStartIntent(context));
     }
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         StatusBarUtil.setColorForDrawerLayout(this, mBinding.drawerLayout,
-                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),20);
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), 20);
 
         initTitle();
         initDrawer();
@@ -224,6 +225,37 @@ public class MainActivity extends BaseActivity {
         } else {
             hideFabForScrolling();
         }
+    }
+
+    @Subscribe
+    public void onEventNightModeChanged(NightModeChangedEvent event) {
+        if (event.isOn()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        recreateActivity(true);
+    }
+
+    private void recreateActivity(boolean isForNightMode) {
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
+        if (isForNightMode) {
+            if (AppConfig.getInstance().isNightModeOn()) {
+                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+            } else {
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            }
+        }/* else {
+            if (AppConfig.isLanguageModeOn(MainActivity.this)) {
+                overridePendingTransition(R.anim.in_left, R.anim.out_right);
+            } else {
+                overridePendingTransition(R.anim.in_right, R.anim.out_left);
+            }
+        }*/
     }
 
     private void showFabForScrolling() {

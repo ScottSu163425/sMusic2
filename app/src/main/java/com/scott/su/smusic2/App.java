@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
@@ -26,10 +27,18 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        AppConfig.init(this);
+
         MusicPlayController.launch(getApplicationContext());
         MusicPlayCallbackBus.init(getApplicationContext());
 
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+
+        if (AppConfig.getInstance().isNightModeOn()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

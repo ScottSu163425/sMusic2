@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.FragmentHelper;
 import com.scott.su.common.manager.SnackBarMaker;
@@ -74,6 +76,9 @@ public class MainActivity extends BaseActivity {
         launchPlayDetailIfNeed(getIntent());
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        StatusBarUtil.setColorForDrawerLayout(this, mBinding.drawerLayout,
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),20);
 
         initTitle();
         initDrawer();

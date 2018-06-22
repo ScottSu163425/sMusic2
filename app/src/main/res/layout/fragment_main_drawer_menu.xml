@@ -8,11 +8,147 @@
             type="com.scott.su.smusic2.modules.main.drawer.MainDrawerMenuViewModel"/>
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="300dp"
-                 android:layout_height="match_parent"
-                 android:background="@color/colorAccent"
-                 android:orientation="vertical">
-    </FrameLayout>
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundContent"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/prl_top_area_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="32%">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_header_drawer"
+                android:scaleType="centerCrop"/>
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/prl_top_area_fragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_item_statistic"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_item_m"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_s"
+                        android:src="@drawable/ic_close_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:text="@string/menu_item_statistic"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="@dimen/text_size_menu"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_item_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:text="@string/night_mode"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="@dimen/text_size_menu"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/swtich_night_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/padding_s"/>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignBottom="@+id/swtich_night_mode"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="@dimen/padding_s"
+                        android:src="@drawable/ic_close_black"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_item_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_item_m"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_s"
+                        android:src="@drawable/ic_close_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:text="@string/language"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="@dimen/text_size_menu"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_item_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_item_m"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_s"
+                        android:src="@drawable/ic_close_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:text="@string/about"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="@dimen/text_size_menu"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.percent.PercentRelativeLayout>
 
 </layout>

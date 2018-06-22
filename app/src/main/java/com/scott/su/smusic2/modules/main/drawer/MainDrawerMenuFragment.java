@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.scott.su.common.fragment.BaseFragment;
+import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.FragmentMainDrawerMenuBinding;
 
@@ -32,6 +33,9 @@ public class MainDrawerMenuFragment extends BaseFragment {
     @Override
     protected View provideContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mDrawerMenuBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_drawer_menu, container, false);
+        View root = mDrawerMenuBinding.getRoot();
+        root.setLayoutParams(new ViewGroup.LayoutParams((int) (ScreenUtil.getScreenWidth(getActivity()) * 0.82),
+                ViewGroup.LayoutParams.MATCH_PARENT));
         return mDrawerMenuBinding.getRoot();
     }
 

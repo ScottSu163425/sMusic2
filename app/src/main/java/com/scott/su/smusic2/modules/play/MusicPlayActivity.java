@@ -28,6 +28,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionListenerAdapter;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -105,7 +107,7 @@ public class MusicPlayActivity extends BaseActivity {
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
     private MusicPlayQueueListAdapter mPlayQueueListAdapter;
     private boolean mDraggingSeekBar;
-
+    private boolean mEnterTransitionEnd;
 
     private Animator mAnimatorRevealPanel;
 
@@ -113,12 +115,7 @@ public class MusicPlayActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide slide = new Slide(Gravity.BOTTOM);
-            getWindow().setEnterTransition(slide);
-            slide.excludeTarget(android.R.id.statusBarBackground, true);
-            slide.excludeTarget(android.R.id.navigationBarBackground, true);
-        }
+        initTransition();
 
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
@@ -136,6 +133,45 @@ public class MusicPlayActivity extends BaseActivity {
         playSong(mSongPlaying);
 
         mViewModel.start();
+    }
+
+    private void initTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide slide = new Slide(Gravity.BOTTOM);
+            getWindow().setEnterTransition(slide);
+            slide.excludeTarget(android.R.id.statusBarBackground, true);
+            slide.excludeTarget(android.R.id.navigationBarBackground, true);
+
+            getWindow().getEnterTransition()
+                    .addListener(new Transition.TransitionListener() {
+                        @Override
+                        public void onTransitionStart(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            //修复未点击封面，导致封面IV不消失，VP滚动时动画被覆盖；
+                            hideCover();
+                            mEnterTransitionEnd = true;
+                        }
+
+                        @Override
+                        public void onTransitionCancel(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionPause(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionResume(Transition transition) {
+
+                        }
+                    });
+        }
     }
 
     @Override
@@ -211,12 +247,11 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.ivCover.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mBinding.ivCover.setVisibility(View.GONE);
-
                 /*若不添加mask，会在共享动画过程中，VP选中封面和共享元素图像相同，看起来
                 * 是2份，而不是1份移动；不事先把VP隐藏是因为在调试中，发现设置VP由GONE到
                 * VISIBLE会有一段可感知的延时和闪动；*/
-                mBinding.viewMask.setVisibility(View.GONE);
+                hideCover();
+
                 return false;
             }
         });
@@ -396,6 +431,7 @@ public class MusicPlayActivity extends BaseActivity {
 
     private void initPlayCallback() {
         mMusicPlayCallback = new MusicPlayCallback() {
+
             @Override
             public void onStart(LocalSongEntity song, List<LocalSongEntity> playQueue) {
                 updateCurrentPlayingSongInfo(song);
@@ -440,6 +476,11 @@ public class MusicPlayActivity extends BaseActivity {
     private void closeActivity() {
         mCloseActivity = true;
         onBackPressed();
+    }
+
+    private void hideCover() {
+        mBinding.ivCover.setVisibility(View.GONE);
+        mBinding.viewMask.setVisibility(View.GONE);
     }
 
     private boolean mCloseActivity;
@@ -537,7 +578,12 @@ public class MusicPlayActivity extends BaseActivity {
     private void updateCurrentPlayingSongInfo(@NonNull final LocalSongEntity currentPlayingSong) {
         mSongPlaying = currentPlayingSong;
 
+        //会默认把ImageView设为VISIBLE?
         ImageLoader.load(getActivity(), currentPlayingSong.getAlbumCoverPath(), mBinding.ivCover);
+
+        if (mEnterTransitionEnd) {
+            hideCover();
+        }
 
         int positionCurrentPlaying = ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
             @Override

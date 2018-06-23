@@ -21,7 +21,6 @@ import java.util.List;
 
 public class LocalMusicPlayer {
     private static final String TAG = "===>LocalMusicPlayer";
-    private Context mContext;
     private MediaPlayer mMediaPlayer;
     private MusicPlayProgressTimer mProgressTimer;
     private List<LocalSongEntity> mPlayQueue = new ArrayList<>();
@@ -30,8 +29,6 @@ public class LocalMusicPlayer {
 
 
     public LocalMusicPlayer(Context context) {
-        mContext = context;
-
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override

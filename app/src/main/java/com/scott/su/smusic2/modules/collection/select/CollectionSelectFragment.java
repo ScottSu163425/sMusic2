@@ -2,8 +2,12 @@ package com.scott.su.smusic2.modules.collection.select;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.scott.su.common.manager.ToastMaker;
 
@@ -22,6 +26,12 @@ public class CollectionSelectFragment extends DialogFragment {
         CollectionSelectFragment fragment = new CollectionSelectFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public void show(@NonNull AppCompatActivity activity) {

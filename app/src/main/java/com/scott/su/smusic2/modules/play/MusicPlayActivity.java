@@ -418,12 +418,12 @@ public class MusicPlayActivity extends BaseActivity {
             return;
         }
 
-        boolean isInitSong = mSongPlaying.getSongId() == mSongPlayingInit.getSongId();
+        boolean isInitSong = mSongPlaying.getSongId().equals(mSongPlayingInit.getSongId());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //与最初进入界面播放的歌曲相同，则显示sharedElement；
             mBinding.ivCover.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
-            mBinding.viewMask.setVisibility(isInitSong ? View.VISIBLE : View.GONE);
+            mBinding.viewMask.setVisibility(View.GONE);
             mBinding.vpSongCover.setVisibility(isInitSong ? View.GONE : View.VISIBLE);
 
             finishAfterTransition();
@@ -508,7 +508,7 @@ public class MusicPlayActivity extends BaseActivity {
         int positionCurrentPlaying = ListUtil.getPositionIntList(mSongList, new Judgment<LocalSongEntity>() {
             @Override
             public boolean test(LocalSongEntity obj) {
-                return obj.getSongId() == currentPlayingSong.getSongId();
+                return obj.getSongId().equals(currentPlayingSong.getSongId());
             }
         });
 

@@ -19,9 +19,9 @@
 
     </style>
 
-    <style name="animation_dialog_song_info">
-        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    <style name="animationAppDialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_app_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_app_dialog</item>
     </style>
 
 </resources>

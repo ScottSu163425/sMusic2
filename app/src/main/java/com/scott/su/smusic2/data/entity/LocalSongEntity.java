@@ -110,7 +110,7 @@ public class LocalSongEntity implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof LocalSongEntity) {
-            return getSongId() == ((LocalSongEntity) obj).getSongId();
+            return ((LocalSongEntity) obj).getSongId().equals(getSongId());
         }
 
         return false;

@@ -1,5 +1,8 @@
 package com.scott.su.smusic2.modules.song.select;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.scott.su.common.activity.BaseActivity;
 
 /**
@@ -9,5 +12,11 @@ import com.scott.su.common.activity.BaseActivity;
  */
 
 public class LocalSongSelectActivity extends BaseActivity {
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
 }

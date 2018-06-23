@@ -136,12 +136,10 @@ public class MusicPlayService extends Service {
         Intent actionPlayPause = MusicPlayController.getCommandPlayPause();
         Intent actionSkipPrev = MusicPlayController.getCommandSkipPrev();
         Intent actionSkipNext = MusicPlayController.getCommandSkipNext();
-        Intent actionClose = MusicPlayController.getCommandClose();
 
         remoteViews.setOnClickPendingIntent(R.id.view_skip_prev, getNotificationControlPendingIntent(actionSkipPrev));
         remoteViews.setOnClickPendingIntent(R.id.view_skip_next, getNotificationControlPendingIntent(actionSkipNext));
         remoteViews.setOnClickPendingIntent(R.id.view_play_pause, getNotificationControlPendingIntent(actionPlayPause));
-        remoteViews.setOnClickPendingIntent(R.id.view_close, getNotificationControlPendingIntent(actionClose));
 
         return remoteViews;
     }

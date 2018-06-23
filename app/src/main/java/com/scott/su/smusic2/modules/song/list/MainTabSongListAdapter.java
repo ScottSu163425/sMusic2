@@ -31,7 +31,7 @@ public class MainTabSongListAdapter
 
     @Override
     protected VH onCreateVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
-        return new VH(getLayoutInflater().inflate(R.layout.item_song_main, parent, false));
+        return new VH(inflater.inflate(R.layout.item_song_main, parent, false));
     }
 
     @Override

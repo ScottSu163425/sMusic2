@@ -37,6 +37,7 @@ import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.ImageLoader;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.common.util.TimeUtil;
@@ -45,9 +46,14 @@ import com.scott.su.smusic2.core.MusicPlayCallback;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
 import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.core.MusicPlayService;
+import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
+import com.scott.su.smusic2.modules.collection.select.CollectionSelectDialogFragment;
 import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,6 +160,25 @@ public class MusicPlayActivity extends BaseActivity {
                         showOrHideRepeat(mBinding.ivRepeatShufflel, aBoolean);
                     }
                 });
+
+        mViewModel.getLiveDataCollectSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+                    ToastMaker.showToast(getActivity(), getString(R.string.success_add_into_collection));
+
+                    //更新收藏夹封面
+                    EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
+                }
+            }
+        });
+
+        mViewModel.getLiveDataCollectFailMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                ToastMaker.showToast(getActivity(), s);
+            }
+        });
     }
 
     /**
@@ -699,7 +724,12 @@ public class MusicPlayActivity extends BaseActivity {
     }
 
     private void showItemMenu(View anchor, final LocalSongEntity song) {
-        SongItemPopupMenu.show(getActivity(), anchor, song);
+        SongItemPopupMenu.show(getActivity(), anchor, song, new CollectionSelectDialogFragment.Callback() {
+            @Override
+            public void onCollectSelected(LocalCollectionEntity collection) {
+                mViewModel.collectSong(collection, song);
+            }
+        });
     }
 
 }

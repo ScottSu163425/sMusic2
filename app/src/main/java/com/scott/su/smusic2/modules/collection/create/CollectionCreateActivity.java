@@ -76,7 +76,7 @@ public class CollectionCreateActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this)
                 .get(CollectionCreateViewModel.class);
 
-        mViewModel.getLiveDataTip()
+        mViewModel.getLiveDataCreateCollectionFailMessage()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.manager.AlertDialogHelper;
 import com.scott.su.common.manager.PopupMenuHelper;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
@@ -75,20 +77,20 @@ public class MainTabCollectionFragment extends BaseFragment {
         mBinding.rv.setAdapter(new ScaleInAnimationAdapter(mCollectionListAdapter));
 
         mViewModel = ViewModelProviders.of(this).get(MainTabCollectionViewModel.class);
-        mViewModel.getLiveDataCollectionList()
-                .observe(this, new Observer<List<LocalCollectionEntity>>() {
-                    @Override
-                    public void onChanged(@Nullable List<LocalCollectionEntity> localCollectionEntities) {
-                        mCollectionListAdapter.setData(localCollectionEntities);
-                    }
-                });
-        mViewModel.getLiveDataCollectionRemoved()
-                .observe(this, new Observer<LocalCollectionEntity>() {
-                    @Override
-                    public void onChanged(@Nullable LocalCollectionEntity entity) {
-                        mCollectionListAdapter.removeData(entity);
-                    }
-                });
+        mViewModel.getLiveDataCollectionList().observe(this, new Observer<List<LocalCollectionEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<LocalCollectionEntity> localCollectionEntities) {
+                mCollectionListAdapter.setData(localCollectionEntities);
+
+                mBinding.layoutEmpty.setVisibility(mCollectionListAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        });
+        mViewModel.getLiveDataCollectionRemoved().observe(this, new Observer<LocalCollectionEntity>() {
+            @Override
+            public void onChanged(@Nullable LocalCollectionEntity entity) {
+                mCollectionListAdapter.removeData(entity);
+            }
+        });
 
         mViewModel.start();
 

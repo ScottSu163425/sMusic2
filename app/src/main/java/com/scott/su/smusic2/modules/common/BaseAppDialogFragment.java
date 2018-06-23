@@ -35,9 +35,9 @@ public class BaseAppDialogFragment extends DialogFragment {
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
+            dialog.getWindow().setWindowAnimations(R.style.animationAppDialog);
             final int width = (int) (ScreenUtil.getScreenWidth(getActivity()) * 0.8);
             dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setWindowAnimations(R.style.animationAppDialog);
         }
     }
 

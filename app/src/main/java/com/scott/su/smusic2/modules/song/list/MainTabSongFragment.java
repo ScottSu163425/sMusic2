@@ -15,11 +15,15 @@ import android.widget.ImageView;
 
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.interfaces.Judgment;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.core.MusicPlayCallbackBus;
+import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.FragmentMainTabSongBinding;
+import com.scott.su.smusic2.modules.collection.select.CollectionSelectDialogFragment;
 import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
 import com.scott.su.smusic2.modules.main.MainTabListScrollEvent;
 import com.scott.su.smusic2.modules.main.PlaySongRandomEvent;
@@ -69,8 +73,13 @@ public class MainTabSongFragment extends BaseFragment {
             }
 
             @Override
-            public void onMoreClick(View view, LocalSongEntity entity, int position) {
-                SongItemPopupMenu.show((AppCompatActivity) getActivity(), view, entity);
+            public void onMoreClick(View view, final LocalSongEntity entity, int position) {
+                SongItemPopupMenu.show((AppCompatActivity) getActivity(), view, entity, new CollectionSelectDialogFragment.Callback() {
+                    @Override
+                    public void onCollectSelected(LocalCollectionEntity collection) {
+                        mViewModel.collectSong(collection, entity);
+                    }
+                });
             }
         });
 
@@ -95,6 +104,25 @@ public class MainTabSongFragment extends BaseFragment {
             @Override
             public void onChanged(@Nullable List<LocalSongEntity> localSongEntities) {
                 mSongListAdapter.setData(localSongEntities);
+            }
+        });
+
+        mViewModel.getLiveDataCollectSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+                    ToastMaker.showToast(getContext(), getString(R.string.success_add_into_collection));
+
+                    //更新收藏夹封面
+                    EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
+                }
+            }
+        });
+
+        mViewModel.getLiveDataCollectFailMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                ToastMaker.showToast(getContext(), s);
             }
         });
 

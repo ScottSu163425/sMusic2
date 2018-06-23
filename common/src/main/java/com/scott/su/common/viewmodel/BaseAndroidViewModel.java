@@ -14,7 +14,8 @@ import android.support.annotation.NonNull;
 
 public abstract class BaseAndroidViewModel extends AndroidViewModel {
     private Context mContext;
-    private MutableLiveData<String> mLiveDataTip;
+    private MutableLiveData<Boolean> mLiveDataLoading = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLiveDataEmpty = new MutableLiveData<>();
 
 
     protected abstract void start();
@@ -22,15 +23,17 @@ public abstract class BaseAndroidViewModel extends AndroidViewModel {
     public BaseAndroidViewModel(@NonNull Application application) {
         super(application);
         mContext = application.getApplicationContext();
-
-        mLiveDataTip = new MutableLiveData<>();
     }
 
     protected Context getContext() {
         return mContext;
     }
 
-    public MutableLiveData<String> getLiveDataTip() {
-        return mLiveDataTip;
+    public MutableLiveData<Boolean> getLiveDataLoading() {
+        return mLiveDataLoading;
+    }
+
+    public MutableLiveData<Boolean> getLiveDataEmpty() {
+        return mLiveDataEmpty;
     }
 }

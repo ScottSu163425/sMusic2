@@ -39,5 +39,10 @@
     <string name="error_collection_name_exist">收藏夹名称已存在</string>
     <string name="remove_collection">移除收藏夹</string>
     <string name="tip_remove_collection">是否移除收藏夹？</string>
+    <string name="select_collection">选择收藏夹</string>
+    <string name="error_already_exist_in_collection">收藏夹中已存在</string>
+    <string name="success_add_into_collection">成功添加到收藏夹</string>
+    <string name="error_empty_collection_to_add">你还没有创建任何收藏夹</string>
+    <string name="empty_collections">没有任何收藏夹</string>
 
 </resources>

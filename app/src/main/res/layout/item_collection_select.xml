@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.scott.su.smusic2.data.entity.LocalCollectionEntity"/>
+    </data>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundContent"
+        android:foreground="?attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipChildren="false">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginBottom="@dimen/padding_xs"
+                android:layout_marginLeft="@dimen/padding_xs"
+                android:layout_marginTop="@dimen/padding_xs"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/pic_default_cover_album"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/padding_xs"
+                android:singleLine="true"
+                android:text="@{entity.collectionName}"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/text_size_body"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

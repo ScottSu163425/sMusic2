@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
+import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.db.AppDatabase;
 import com.scott.su.smusic2.data.source.local.db.LocalCollectionDao;
 
@@ -55,13 +56,8 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
 
         //获取并设置封面路径
         for (LocalCollectionEntity collectionEntity : list) {
-            String[] songIdArr = collectionEntity.getCollectionSongIdArr();
-
-            if (songIdArr != null && songIdArr.length > 0) {
-                String coverSongId = songIdArr[0];
-
-                collectionEntity.setCoverPath(LocalSongHelper.getInstance().getAlbumCoverPathBySongId(context, coverSongId));
-            }
+            String coverSongId = collectionEntity.getLastAddedSongId();
+            collectionEntity.setCoverPath(LocalSongHelper.getInstance().getAlbumCoverPathBySongId(context, coverSongId));
         }
 
         List<LocalCollectionEntity> listOrdered = new ArrayList<>();
@@ -77,6 +73,17 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     @Override
     public void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
         mCollectionDao.removeCollection(entity);
+    }
+
+    @Override
+    public boolean addSongIntoCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection, @NonNull LocalSongEntity song) {
+        if (collection.containSong(song.getSongId())) {
+            return false;
+        }
+
+        collection.addSongIntoCollection(song.getSongId());
+        mCollectionDao.updateCollection(collection);
+        return true;
     }
 
     @Override

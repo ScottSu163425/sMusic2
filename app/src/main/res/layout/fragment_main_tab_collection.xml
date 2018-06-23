@@ -23,6 +23,23 @@
             android:paddingLeft="@dimen/padding_xxs"
             android:paddingRight="@dimen/padding_xxs"
             android:paddingTop="@dimen/padding_xxs"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/padding_s"
+            android:layout_marginLeft="@dimen/padding_s"
+            android:layout_marginRight="@dimen/padding_s"
+            android:layout_marginTop="@dimen/padding_xxs"
+            app:cardBackgroundColor="@color/backgroundContent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/empty_collections"/>
+        </android.support.v7.widget.CardView>
     </FrameLayout>
 
 </layout>

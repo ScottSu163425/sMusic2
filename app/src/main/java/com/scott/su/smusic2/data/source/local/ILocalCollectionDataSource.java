@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
+import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
 import java.util.List;
 
@@ -24,5 +25,6 @@ public interface ILocalCollectionDataSource {
 
     void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity);
 
-
+    boolean addSongIntoCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection,
+                                  @NonNull LocalSongEntity song);
 }

@@ -42,7 +42,7 @@ public class LocalCollectionEntity implements Serializable {
     }
 
     public String getCollectionSongIds() {
-        return collectionSongIds;
+        return collectionSongIds == null ? "" : collectionSongIds;
     }
 
     public void setCollectionSongIds(String collectionSongIds) {
@@ -113,6 +113,20 @@ public class LocalCollectionEntity implements Serializable {
 
         getCollectionSongIds().replace(songId + SEPARATOR, "");
         return true;
+    }
+
+    public void clearSongs() {
+        collectionSongIds = null;
+    }
+
+    public String getLastAddedSongId() {
+        if (empty()) {
+            return "";
+        }
+
+        String[] idArr = getCollectionSongIds().split(SEPARATOR);
+
+        return idArr[idArr.length - 1];
     }
 
 }

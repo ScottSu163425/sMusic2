@@ -22,12 +22,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class CollectionCreateViewModel extends BaseAndroidViewModel {
-    private MutableLiveData<Boolean> mLiveDataCreateCollectionSuccess;
+    private MutableLiveData<Boolean> mLiveDataCreateCollectionSuccess= new MutableLiveData<>();
+    private MutableLiveData<String> mLiveDataCreateCollectionFailMessage= new MutableLiveData<>();
 
     public CollectionCreateViewModel(@NonNull Application application) {
         super(application);
-
-        mLiveDataCreateCollectionSuccess = new MutableLiveData<>();
     }
 
     @Override
@@ -37,6 +36,10 @@ public class CollectionCreateViewModel extends BaseAndroidViewModel {
 
     public MutableLiveData<Boolean> getLiveDataCreateCollectionSuccess() {
         return mLiveDataCreateCollectionSuccess;
+    }
+
+    public MutableLiveData<String> getLiveDataCreateCollectionFailMessage() {
+        return mLiveDataCreateCollectionFailMessage;
     }
 
     public void saveNewCollection(final String collectionName) {
@@ -68,7 +71,8 @@ public class CollectionCreateViewModel extends BaseAndroidViewModel {
                         if (success) {
                             mLiveDataCreateCollectionSuccess.setValue(true);
                         } else {
-                            getLiveDataTip().setValue(getContext().getString(R.string.error_collection_name_exist));
+                            getLiveDataCreateCollectionFailMessage()
+                                    .setValue(getContext().getString(R.string.error_collection_name_exist));
                         }
                     }
                 });

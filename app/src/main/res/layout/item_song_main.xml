@@ -30,6 +30,7 @@
                 android:layout_marginLeft="@dimen/padding_xs"
                 android:layout_marginTop="@dimen/padding_xs"
                 android:scaleType="centerCrop"
+                tools:src="@drawable/pic_default_cover_album"
                 android:transitionName="@string/transition_name_cover"/>
 
             <LinearLayout

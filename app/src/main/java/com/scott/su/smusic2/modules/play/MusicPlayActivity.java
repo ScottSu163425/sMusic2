@@ -539,6 +539,8 @@ public class MusicPlayActivity extends BaseActivity {
 
         if (positionCurrentPlaying != mBinding.vpSongCover.getCurrentItem()) {
             mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, true);
+            mBinding.ivCover.setVisibility(View.GONE);
+            mBinding.viewMask.setVisibility(View.GONE);
         }
 
         mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);

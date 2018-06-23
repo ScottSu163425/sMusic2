@@ -254,7 +254,6 @@
             android:background="#99000000"
             android:visibility="gone"/>
 
-
         <android.support.v7.widget.CardView
             android:id="@+id/layout_music_play_queue"
             android:layout_width="match_parent"

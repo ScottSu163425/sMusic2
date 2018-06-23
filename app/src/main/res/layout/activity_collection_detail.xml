@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.scott.su.smusic2.modules.album.AlbumDetailViewModel"/>
+            type="com.scott.su.smusic2.modules.collection.detail.CollectionDetailViewModel"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -30,7 +30,6 @@
                 app:collapsedTitleGravity="left"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="left|bottom"
-                android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <android.support.percent.PercentFrameLayout
@@ -45,7 +44,6 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
-                        android:fitsSystemWindows="true"
                         android:src="@drawable/pic_default_cover_album"
                         android:transitionName="@string/transition_name_cover"
                         app:layout_aspectRatio="128%"
@@ -71,11 +69,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_s"
+            android:fitsSystemWindows="true"
             android:src="@drawable/ic_play_arrow_white"
             android:transitionName="@string/transition_name_fab"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="normal"
-            app:layout_anchor="@id/collapsing_toolbar_layout"
+            app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|right"/>
 
         <!--<android.support.v7.widget.RecyclerView-->

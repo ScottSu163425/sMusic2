@@ -2,6 +2,9 @@ package com.scott.su.smusic2;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
@@ -20,8 +23,11 @@ import java.util.List;
  */
 
 public class App extends Application {
-
     private List<Activity> mActivities = new ArrayList<>();
+
+    private static final String NOTIFICATION_CHANNEL_ID_SERVICE = "com.mypackage.service";
+    private static final String NOTIFICATION_CHANNEL_ID_TASK = "com.mypackage.download_info";
+
 
     @Override
     public void onCreate() {
@@ -46,6 +52,14 @@ public class App extends Application {
         MusicPlayCallbackBus.release(getApplicationContext());
 
         super.onTerminate();
+    }
+
+    private void initChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_SERVICE, "App Service", NotificationManager.IMPORTANCE_DEFAULT));
+            nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK, "Download Info", NotificationManager.IMPORTANCE_DEFAULT));
+        }
     }
 
     private ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new ActivityLifecycleCallbacks() {

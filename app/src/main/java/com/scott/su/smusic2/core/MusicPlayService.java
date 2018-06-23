@@ -1,5 +1,7 @@
 package com.scott.su.smusic2.core;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -23,6 +26,9 @@ import com.scott.su.smusic2.modules.play.MusicPlayActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_DEFAULT;
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_LOW;
 import static com.scott.su.smusic2.core.MusicPlayConstants.KEY_EXTRA_COMMAND_CODE;
 
 /**
@@ -68,7 +74,7 @@ public class MusicPlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     private void registerReceivers() {
@@ -103,7 +109,7 @@ public class MusicPlayService extends Service {
      * 更新状态栏通知
      */
     private void updateNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
 
         Intent intentNotificationClick = new Intent();
         intentNotificationClick.setAction(NotificationClickReceiver.ACTION);
@@ -111,6 +117,7 @@ public class MusicPlayService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, ++mRequestCode,
                 intentNotificationClick, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        builder.setChannelId(getChannelId());
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_notification_music_play);
         builder.setContent(getNotificationContentView());
@@ -121,6 +128,31 @@ public class MusicPlayService extends Service {
 
         mNotificationManager.notify(ID_NOTIFICATION, builder.build());
         startForeground(ID_NOTIFICATION, builder.build());
+    }
+
+    /**
+     * 8.0以后，开启前台服务需要申请ChannelId，否则会抛异常
+     *  android.app.RemoteServiceException:
+     *  Bad notification for startForeground: java.lang.RuntimeException: invalid channel for service notification:
+     * @return
+     */
+    private String getChannelId() {
+        String channelId = getPackageName();
+        String channelName = getString(R.string.app_name);
+        NotificationChannel notificationChannel = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(channelId, channelName, IMPORTANCE_LOW);
+            notificationChannel.enableLights(false);
+            notificationChannel.enableVibration(false);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(false);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(notificationChannel);
+        }
+
+        return channelId;
     }
 
     private RemoteViews getNotificationContentView() {

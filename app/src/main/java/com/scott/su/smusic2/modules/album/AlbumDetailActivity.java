@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
@@ -55,7 +56,7 @@ public class AlbumDetailActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_album_detail);
 
-        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20);
+        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20 );
 
         mAlbumId = getIntent().getStringExtra(KEY_EXTRA_ALBUM_ID);
 

@@ -27,6 +27,8 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -68,7 +70,7 @@ public class MusicPlayActivity extends BaseActivity {
     private static final String KEY_EXTRA_SONG_LIST = "KEY_EXTRA_SONG_LIST";
     private static final String KEY_EXTRA_SONG = "KEY_EXTRA_SONG";
 
-    private static final int DURATION_REVEAL = 1000;
+    private static final int DURATION_REVEAL = 1200;
 
 
     public static void start(Context context, ArrayList<LocalSongEntity> songList,
@@ -110,6 +112,13 @@ public class MusicPlayActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide slide = new Slide(Gravity.BOTTOM);
+            getWindow().setEnterTransition(slide);
+            slide.excludeTarget(android.R.id.statusBarBackground, true);
+            slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        }
 
         mSongList = (List<LocalSongEntity>) getIntent().getSerializableExtra(KEY_EXTRA_SONG_LIST);
         mSongPlayingInit = (LocalSongEntity) getIntent().getSerializableExtra(KEY_EXTRA_SONG);
@@ -539,8 +548,6 @@ public class MusicPlayActivity extends BaseActivity {
 
         if (positionCurrentPlaying != mBinding.vpSongCover.getCurrentItem()) {
             mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, true);
-            mBinding.ivCover.setVisibility(View.GONE);
-            mBinding.viewMask.setVisibility(View.GONE);
         }
 
         mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);

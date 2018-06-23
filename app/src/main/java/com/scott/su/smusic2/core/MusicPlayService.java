@@ -117,7 +117,7 @@ public class MusicPlayService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, ++mRequestCode,
                 intentNotificationClick, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        builder.setChannelId(getChannelId());
+        builder.setChannelId(getChannelId());//8.0
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_notification_music_play);
         builder.setContent(getNotificationContentView());

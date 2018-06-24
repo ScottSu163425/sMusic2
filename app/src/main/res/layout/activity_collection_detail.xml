@@ -27,6 +27,7 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 app:collapsedTitleGravity="left"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="left|bottom"
@@ -43,6 +44,7 @@
                         android:id="@+id/iv_cover"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:fitsSystemWindows="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/pic_default_cover_album"
                         android:transitionName="@string/transition_name_cover"
@@ -69,20 +71,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_s"
-            android:fitsSystemWindows="true"
             android:src="@drawable/ic_play_arrow_white"
             android:transitionName="@string/transition_name_fab"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="normal"
-            app:layout_anchor="@id/app_bar"
+            app:layout_anchor="@id/collapsing_toolbar_layout"
             app:layout_anchorGravity="bottom|right"/>
 
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:clipChildren="false"-->
-        <!--android:clipToPadding="false"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -19,7 +19,7 @@
 
         <variable
             name="callback"
-            type="com.scott.su.smusic2.modules.play.MusicPlayQueueListAdapter.Callback"/>
+            type="com.scott.su.smusic2.modules.common.CommonSongListAdapter.Callback"/>
 
     </data>
 

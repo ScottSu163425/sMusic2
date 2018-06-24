@@ -29,7 +29,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.transition.Slide;
 import android.transition.Transition;
-import android.transition.TransitionListenerAdapter;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +54,7 @@ import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.ActivityMusicPlayBinding;
 import com.scott.su.smusic2.modules.collection.select.CollectionSelectDialogFragment;
+import com.scott.su.smusic2.modules.common.CommonSongListAdapter;
 import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,7 +105,7 @@ public class MusicPlayActivity extends BaseActivity {
     private MusicPlayCallback mMusicPlayCallback;
     private MusicPlayCoverPageAdapter mCoverPageAdapter;
     private BottomSheetBehavior<CardView> mBehaviorPlayQueue;
-    private MusicPlayQueueListAdapter mPlayQueueListAdapter;
+    private CommonSongListAdapter mPlayQueueSongListAdapter;
     private boolean mDraggingSeekBar;
     private boolean mEnterTransitionEnd;
 
@@ -211,7 +211,6 @@ public class MusicPlayActivity extends BaseActivity {
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean) {
                     ToastMaker.showToast(getActivity(), getString(R.string.success_add_into_collection));
-
                     //更新收藏夹封面
                     EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
                 }
@@ -405,8 +404,8 @@ public class MusicPlayActivity extends BaseActivity {
             }
         });
 
-        mPlayQueueListAdapter = new MusicPlayQueueListAdapter(getActivity());
-        mPlayQueueListAdapter.setCallback(new MusicPlayQueueListAdapter.Callback() {
+        mPlayQueueSongListAdapter = new CommonSongListAdapter(getActivity());
+        mPlayQueueSongListAdapter.setCallback(new CommonSongListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, LocalSongEntity entity, int position) {
                 playSong(entity);
@@ -417,9 +416,9 @@ public class MusicPlayActivity extends BaseActivity {
                 showItemMenu(itemView, entity);
             }
         });
-        mPlayQueueListAdapter.setData(mSongList);
+        mPlayQueueSongListAdapter.setData(mSongList);
         mBinding.rvPlayQueue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mBinding.rvPlayQueue.setAdapter(mPlayQueueListAdapter);
+        mBinding.rvPlayQueue.setAdapter(mPlayQueueSongListAdapter);
 
         mBinding.viewMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -596,7 +595,7 @@ public class MusicPlayActivity extends BaseActivity {
             mBinding.vpSongCover.setCurrentItem(positionCurrentPlaying, true);
         }
 
-        mPlayQueueListAdapter.setSingleSelectedPosition(positionCurrentPlaying);
+        mPlayQueueSongListAdapter.setSingleSelectedPosition(positionCurrentPlaying);
 
         mBinding.tvTitle.setText(currentPlayingSong.getTitle());
         mBinding.tvArtist.setText(currentPlayingSong.getArtist());

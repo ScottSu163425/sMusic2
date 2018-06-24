@@ -1,4 +1,4 @@
-package com.scott.su.smusic2.modules.play;
+package com.scott.su.smusic2.modules.common;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -11,25 +11,25 @@ import com.scott.su.common.adapter.BaseRecyclerViewAdapter;
 import com.scott.su.common.adapter.BaseRecyclerViewHolder;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.databinding.ItemSongPlayQueueBinding;
+import com.scott.su.smusic2.databinding.ItemSongCommonBinding;
 
 /**
- * 描述: 播放列表适配器
+ * 描述: 一般歌曲列表适配器
  * 作者: su
  * 日期: 2018/5/14
  */
 
-public class MusicPlayQueueListAdapter
-        extends BaseRecyclerViewAdapter<LocalSongEntity, MusicPlayQueueListAdapter.VH> {
+public class CommonSongListAdapter
+        extends BaseRecyclerViewAdapter<LocalSongEntity, CommonSongListAdapter.VH> {
 
 
-    public MusicPlayQueueListAdapter(Context context) {
+    public CommonSongListAdapter(Context context) {
         super(context);
     }
 
     @Override
     protected VH onCreateVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
-        return new VH(inflater.inflate(R.layout.item_song_play_queue, parent, false));
+        return new VH(inflater.inflate(R.layout.item_song_common, parent, false));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MusicPlayQueueListAdapter
     }
 
     class VH extends BaseRecyclerViewHolder<LocalSongEntity> {
-        private ItemSongPlayQueueBinding binding;
+        private ItemSongCommonBinding binding;
 
         public VH(View itemView) {
             super(itemView);

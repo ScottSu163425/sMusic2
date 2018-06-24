@@ -108,7 +108,7 @@ public class MainTabCollectionFragment extends BaseFragment {
     }
 
     private void popMenu(View anchor, final LocalCollectionEntity entity) {
-        PopupMenuHelper.popup(getActivity(), anchor, new int[]{1}, new String[]{getString(R.string.remove_collection)},
+        PopupMenuHelper.popup(getActivity(), anchor, new int[]{1}, new String[]{getString(R.string.delete_collection)},
                 new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {

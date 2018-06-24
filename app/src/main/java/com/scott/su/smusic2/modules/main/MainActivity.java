@@ -47,6 +47,9 @@ import java.util.List;
  */
 
 public class MainActivity extends BaseActivity {
+    private static final String KEY_EXTRA_RECREATE = "KEY_EXTRA_RECREATE";
+    private static final String KEY_EXTRA_TAB_INDEX = "KEY_EXTRA_TAB_INDEX";
+
     public static void start(Context context) {
         context.startActivity(getStartIntent(context));
     }
@@ -133,6 +136,10 @@ public class MainActivity extends BaseActivity {
                 mBinding.toolbar, R.string.drawer_open, R.string.drawer_close);
         mBinding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        if (getIntent().getBooleanExtra(KEY_EXTRA_RECREATE, false)) {
+            mBinding.drawerLayout.openDrawer(Gravity.START);
+        }
     }
 
     private void initViewPager() {
@@ -182,6 +189,8 @@ public class MainActivity extends BaseActivity {
         });
         mBinding.vpMain.setAdapter(mViewPagerAdapter);
         mBinding.tabLayoutMain.setupWithViewPager(mBinding.vpMain);
+
+        mBinding.vpMain.setCurrentItem(getIntent().getIntExtra(KEY_EXTRA_TAB_INDEX, 0), false);
     }
 
     @Override
@@ -241,6 +250,8 @@ public class MainActivity extends BaseActivity {
     private void recreateActivity(boolean isForNightMode) {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(KEY_EXTRA_RECREATE, true);
+        intent.putExtra(KEY_EXTRA_TAB_INDEX, mBinding.vpMain.getCurrentItem());
         startActivity(intent);
 
         if (isForNightMode) {

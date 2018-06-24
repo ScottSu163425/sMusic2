@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.SimpleCallback;
 import com.scott.su.common.manager.ActivityStarter;
@@ -22,12 +21,14 @@ import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
+import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
 import com.scott.su.smusic2.databinding.ActivityCollectionDetailBinding;
-import com.scott.su.smusic2.modules.collection.create.CollectionCreateViewModel;
 import com.scott.su.smusic2.modules.collection.select.CollectionSelectDialogFragment;
 import com.scott.su.smusic2.modules.common.CommonSongListAdapter;
 import com.scott.su.smusic2.modules.common.SongItemPopupMenu;
 import com.scott.su.smusic2.modules.play.MusicPlayActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class CollectionDetailActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+        setSupportActionBar(mBinding.toolbar);
 
         mSongListAdapter = new CommonSongListAdapter(getActivity());
         mSongListAdapter.setCallback(new CommonSongListAdapter.Callback() {
@@ -105,6 +107,12 @@ public class CollectionDetailActivity extends BaseActivity {
                 setUpCollectionSongs(localSongEntities);
             }
         });
+        mViewModel.getLiveDataRemoveSongSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
+            }
+        });
 
         mViewModel.start();
     }
@@ -121,9 +129,9 @@ public class CollectionDetailActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_clear_collect) {
-            ToastMaker.showToast(getApplicationContext(),"清空");
+            ToastMaker.showToast(getApplicationContext(), "清空");
         } else if (id == R.id.action_delete_collect) {
-            ToastMaker.showToast(getApplicationContext(),"删除");
+            ToastMaker.showToast(getApplicationContext(), "删除");
         }
 
         return true;

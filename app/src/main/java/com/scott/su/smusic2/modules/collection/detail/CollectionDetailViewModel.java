@@ -31,6 +31,7 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
     private String mCollectionId;
     private MutableLiveData<LocalCollectionEntity> mLiveDataCollection = new MutableLiveData<>();
     private MutableLiveData<List<LocalSongEntity>> mLiveDataCollectionSongs = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLiveDataRemoveSongSuccess = new MutableLiveData<>();
 
 
     public CollectionDetailViewModel(@NonNull Application application) {
@@ -58,6 +59,10 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
         return mLiveDataCollectionSongs;
     }
 
+    public MutableLiveData<Boolean> getLiveDataRemoveSongSuccess() {
+        return mLiveDataRemoveSongSuccess;
+    }
+
     public void removeSong(@NonNull final LocalSongEntity song) {
         final LocalCollectionEntity collection = mLiveDataCollection.getValue();
 
@@ -75,6 +80,8 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
                 .subscribe(new Consumer<LocalCollectionEntity>() {
                     @Override
                     public void accept(LocalCollectionEntity collectionEntity) throws Exception {
+                        mLiveDataCollection.setValue(collection);
+                        mLiveDataRemoveSongSuccess.setValue(true);
                         fetchCollection();
                     }
                 });

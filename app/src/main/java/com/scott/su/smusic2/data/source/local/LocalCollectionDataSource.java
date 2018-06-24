@@ -93,8 +93,8 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
-    public void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
-        mCollectionDao.removeCollection(entity);
+    public void deleteCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
+        mCollectionDao.deleteCollection(entity);
     }
 
     @Override
@@ -117,6 +117,12 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
         collection.removeSong(song.getSongId());
         mCollectionDao.updateCollection(collection);
         return true;
+    }
+
+    @Override
+    public void clearSongsFromCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection) {
+        collection.clearSongs();
+        mCollectionDao.updateCollection(collection);
     }
 
     @Override

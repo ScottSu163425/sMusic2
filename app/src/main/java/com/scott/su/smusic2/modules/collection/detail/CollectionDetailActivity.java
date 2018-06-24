@@ -3,6 +3,7 @@ package com.scott.su.smusic2.modules.collection.detail;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.view.View;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.SimpleCallback;
 import com.scott.su.common.manager.ActivityStarter;
+import com.scott.su.common.manager.AlertDialogHelper;
 import com.scott.su.common.manager.ImageLoader;
+import com.scott.su.common.manager.SnackBarMaker;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
@@ -70,14 +73,6 @@ public class CollectionDetailActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_collection_detail);
 
-        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        setSupportActionBar(mBinding.toolbar);
-
         mSongListAdapter = new CommonSongListAdapter(getActivity());
         mSongListAdapter.setCallback(new CommonSongListAdapter.Callback() {
             @Override
@@ -92,6 +87,15 @@ public class CollectionDetailActivity extends BaseActivity {
         });
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBinding.rv.setAdapter(mSongListAdapter);
+
+        mBinding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FAB可见说明收藏夹不为空
+                MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mSongListAdapter.getData(),
+                        mSongListAdapter.getData().get(0), new View[]{mBinding.ivCover});
+            }
+        });
 
         mViewModel = ViewModelProviders.of(this).get(CollectionDetailViewModel.class);
         mViewModel.setCollectionId(getIntent().getStringExtra(KEY_EXTRA_COLLECTION_ID));
@@ -113,6 +117,22 @@ public class CollectionDetailActivity extends BaseActivity {
                 EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
             }
         });
+        mViewModel.getLiveDataClearSongSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                mSongListAdapter.clear();
+                ImageLoader.load(getApplicationContext(), "", mBinding.ivCover);
+                mBinding.fab.setVisibility(View.GONE);
+                EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
+            }
+        });
+        mViewModel.getLiveDataDeleteCollectionSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                EventBus.getDefault().post(new CollectionsNeedRefreshEvent());
+                finish();
+            }
+        });
 
         mViewModel.start();
     }
@@ -129,9 +149,24 @@ public class CollectionDetailActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_clear_collect) {
-            ToastMaker.showToast(getApplicationContext(), "清空");
+            if (mSongListAdapter.isEmpty()) {
+                return true;
+            }
+
+            AlertDialogHelper.show(getActivity(), getString(R.string.ask_clear_collection_songs), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mViewModel.clearSong();
+                }
+            });
+
         } else if (id == R.id.action_delete_collect) {
-            ToastMaker.showToast(getApplicationContext(), "删除");
+            AlertDialogHelper.show(getActivity(), getString(R.string.ask_delete_collection), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mViewModel.deleteCollection();
+                }
+            });
         }
 
         return true;
@@ -139,11 +174,24 @@ public class CollectionDetailActivity extends BaseActivity {
 
     private void setUpCollection(@NonNull LocalCollectionEntity collection) {
         ImageLoader.load(getApplicationContext(), collection.getCoverPath(), mBinding.ivCover);
+
         mBinding.toolbar.setTitle(collection.getCollectionName());
+        setSupportActionBar(mBinding.toolbar);
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpCollectionSongs(@NonNull List<LocalSongEntity> songs) {
         mSongListAdapter.setData(songs);
+        mBinding.fab.setVisibility(mSongListAdapter.isEmpty() ? View.GONE : View.VISIBLE);
+
+        if (mSongListAdapter.isEmpty()) {
+            SnackBarMaker.showSnackBar(mBinding.rv, getString(R.string.empty_collection_song));
+        }
     }
 
     private void playSong(@NonNull LocalSongEntity song, int position) {

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import com.scott.su.common.fragment.BaseFragment;
 import com.scott.su.common.manager.AlertDialogHelper;
 import com.scott.su.common.manager.PopupMenuHelper;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.event.CollectionsNeedRefreshEvent;
@@ -115,7 +113,7 @@ public class MainTabCollectionFragment extends BaseFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (1 == item.getItemId()) {
-                            AlertDialogHelper.show(getActivity(), getString(R.string.tip_remove_collection),
+                            AlertDialogHelper.show(getActivity(), getString(R.string.ask_remove_collection),
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

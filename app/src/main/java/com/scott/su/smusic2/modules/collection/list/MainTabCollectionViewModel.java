@@ -54,7 +54,7 @@ public class MainTabCollectionViewModel extends BaseAndroidViewModel {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
                 LocalCollectionDataSource.getInstance(getContext())
-                        .removeCollection(getContext(),entity);
+                        .deleteCollection(getContext(),entity);
                 emitter.onNext(true);
                 emitter.onComplete();
             }

@@ -116,7 +116,7 @@ public class LocalCollectionEntity implements Serializable {
     }
 
     public void clearSongs() {
-        collectionSongIds = null;
+        setCollectionSongIds("");
     }
 
     public String getLastAddedSongId() {

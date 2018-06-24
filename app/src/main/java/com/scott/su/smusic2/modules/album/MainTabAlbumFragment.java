@@ -18,6 +18,7 @@ import com.scott.su.smusic2.databinding.FragmentMainTabAlbumBinding;
 
 import java.util.List;
 
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
 
 /**
@@ -61,7 +62,7 @@ public class MainTabAlbumFragment extends BaseFragment {
         });
 
         mBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mBinding.rv.setAdapter(new SlideInRightAnimationAdapter(mAlbumListAdapter));
+        mBinding.rv.setAdapter(new ScaleInAnimationAdapter(mAlbumListAdapter));
 
         mViewModel = ViewModelProviders.of(this).get(MainTabAlbumViewModel.class);
         mViewModel.getLiveDataSongList()

@@ -30,5 +30,5 @@ public interface LocalCollectionDao {
     void updateCollection(@NonNull LocalCollectionEntity entity);
 
     @Delete
-    void removeCollection(@NonNull LocalCollectionEntity entity);
+    void deleteCollection(@NonNull LocalCollectionEntity entity);
 }

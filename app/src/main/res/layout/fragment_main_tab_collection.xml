@@ -17,27 +17,25 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingLeft="@dimen/padding_xs"
             android:paddingRight="@dimen/padding_xs"/>
 
-        <android.support.v7.widget.CardView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/layout_empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/padding_s"
-            android:layout_marginLeft="@dimen/padding_s"
-            android:layout_marginRight="@dimen/padding_s"
-            app:cardBackgroundColor="@color/backgroundContent">
+            android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="@string/empty_collections"/>
-        </android.support.v7.widget.CardView>
+                android:gravity="center"
+                android:text="@string/empty_collections"
+                android:textColor="@color/textSecondary"/>
+        </android.support.v4.widget.NestedScrollView>
     </FrameLayout>
 
 </layout>

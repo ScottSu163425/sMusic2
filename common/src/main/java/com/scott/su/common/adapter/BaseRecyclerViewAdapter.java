@@ -91,8 +91,8 @@ public abstract class BaseRecyclerViewAdapter<E, VH extends BaseRecyclerViewHold
     }
 
     public void setData(@NonNull List<E> dataList) {
-        if (dataList == null /*|| dataList.isEmpty()*/) {
-            return;
+        if (dataList == null) {
+            dataList = new ArrayList<>();
         }
 
         int prevSize = getData().size();

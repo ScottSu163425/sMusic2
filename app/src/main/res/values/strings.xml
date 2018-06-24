@@ -41,11 +41,14 @@
     <string name="tip_input_collection_name">请输入要创建收藏夹的名称</string>
     <string name="error_collection_name_exist">收藏夹名称已存在</string>
     <string name="remove_collection">移除收藏夹</string>
-    <string name="tip_remove_collection">是否移除收藏夹？</string>
+    <string name="ask_remove_collection">是否移除收藏夹？</string>
     <string name="select_collection">选择收藏夹</string>
     <string name="error_already_exist_in_collection">收藏夹中已存在</string>
     <string name="success_add_into_collection">成功添加到收藏夹</string>
     <string name="error_empty_collection_to_add">你还没有创建任何收藏夹</string>
     <string name="empty_collections">没有任何收藏夹</string>
+    <string name="ask_clear_collection_songs">清空收藏夹内的所有歌曲?</string>
+    <string name="ask_delete_collection">删除这个收藏夹?</string>
+    <string name="empty_collection_song">收藏夹内是空的</string>
 
 </resources>

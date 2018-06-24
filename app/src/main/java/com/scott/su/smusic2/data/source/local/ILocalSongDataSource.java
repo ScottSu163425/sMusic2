@@ -26,6 +26,8 @@ public interface ILocalSongDataSource {
 
     LocalSongEntity getSongById(@NonNull Context context,@NonNull String songId);
 
+    List<LocalSongEntity> getSongsById(@NonNull Context context,@NonNull String[] idArr);
+
     /**
      * 获取所有本地音乐专辑
      *

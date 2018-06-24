@@ -3,6 +3,7 @@ package com.scott.su.smusic2.data.source.local;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
@@ -71,6 +72,27 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
+    public LocalCollectionEntity getAllCollection(@NonNull Context context, @NonNull String collectionId) {
+        if (TextUtils.isEmpty(collectionId)) {
+            return null;
+        }
+
+        List<LocalCollectionEntity> list = getAllCollections(context);
+
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        for (LocalCollectionEntity collectionEntity : list) {
+            if (collectionId.equals(collectionEntity.getCollectionId())) {
+                return collectionEntity;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
         mCollectionDao.removeCollection(entity);
     }
@@ -82,6 +104,17 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
         }
 
         collection.addSongIntoCollection(song.getSongId());
+        mCollectionDao.updateCollection(collection);
+        return true;
+    }
+
+    @Override
+    public boolean removeSongFromCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection, @NonNull LocalSongEntity song) {
+        if (!collection.containSong(song.getSongId())) {
+            return false;
+        }
+
+        collection.removeSong(song.getSongId());
         mCollectionDao.updateCollection(collection);
         return true;
     }

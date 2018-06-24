@@ -5,8 +5,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.text.TextUtils;
 
+import com.scott.su.common.interfaces.Judgment;
+import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.TimeUtil;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -131,6 +134,34 @@ public class LocalSongHelper implements ILocalSongDataSource {
         }
 
         return null;
+    }
+
+    @Override
+    public List<LocalSongEntity> getSongsById(@NonNull Context context, @NonNull final String[] idArr) {
+        List<LocalSongEntity> list = new ArrayList<>();
+
+        if (idArr == null || idArr.length == 0) {
+            return list;
+        }
+
+        List<LocalSongEntity> songs = getAllSongs(context);
+        if (ListUtil.isEmpty(songs)) {
+            return list;
+        }
+
+        list = ListUtil.filter(songs, new Judgment<LocalSongEntity>() {
+            @Override
+            public boolean test(LocalSongEntity obj) {
+                for (int i = 0, n = idArr.length; i < n; i++) {
+                    if (idArr[i].equals(obj.getSongId())) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        return list;
     }
 
     @Override

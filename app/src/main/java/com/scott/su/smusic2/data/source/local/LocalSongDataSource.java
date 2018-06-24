@@ -11,6 +11,7 @@ import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.db.AppDatabase;
 import com.scott.su.smusic2.data.source.local.db.LocalCollectionDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  * 日期: 2018/4/30
  */
 
-public class LocalSongDataSource implements IDataSource {
+public class LocalSongDataSource implements ILocalSongDataSource {
     private static LocalSongDataSource sInstance;
 
 
@@ -45,6 +46,11 @@ public class LocalSongDataSource implements IDataSource {
     @Override
     public LocalSongEntity getSongById(@NonNull Context context, @NonNull String songId) {
         return LocalSongHelper.getInstance().getSongById(context, songId);
+    }
+
+    @Override
+    public List<LocalSongEntity> getSongsById(@NonNull Context context, @NonNull String[] idArr) {
+        return LocalSongHelper.getInstance().getSongsById(context, idArr);
     }
 
     @Override

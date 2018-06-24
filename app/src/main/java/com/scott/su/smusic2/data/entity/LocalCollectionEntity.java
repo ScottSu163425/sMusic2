@@ -111,7 +111,7 @@ public class LocalCollectionEntity implements Serializable {
             return false;
         }
 
-        getCollectionSongIds().replace(songId + SEPARATOR, "");
+        setCollectionSongIds(getCollectionSongIds().replace(SEPARATOR + songId, ""));
         return true;
     }
 

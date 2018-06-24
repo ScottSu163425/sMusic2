@@ -16,7 +16,28 @@ public class ListUtil {
     private ListUtil() {
     }
 
-    public static <E> boolean isInList(List<E> list, Judgment<E> judgment) {
+    public static <E> boolean isEmpty(@NonNull List<E> list) {
+        return (list == null) || list.isEmpty();
+    }
+
+    public static <E> void reverse(@NonNull List<E> list) {
+        if (isEmpty(list)) {
+            return;
+        }
+
+        List<E> listReversed = new ArrayList<>();
+
+        for (int i = list.size()-1; i >= 0; i--) {
+            listReversed.add(list.get(i));
+        }
+
+        list.clear();
+        list.addAll(listReversed);
+
+        return;
+    }
+
+    public static <E> boolean isInList(@NonNull List<E> list, @NonNull Judgment<E> judgment) {
 //        return !filter(list, judgment).isEmpty();
         return getPositionIntList(list, judgment) != POSITION_NONE;
     }
@@ -29,7 +50,7 @@ public class ListUtil {
      * @param <E>
      * @return 不为null的集合
      */
-    public static <E> List<E> filter(List<E> list, Judgment<E> judgment) {
+    public static <E> List<E> filter(@NonNull List<E> list, @NonNull Judgment<E> judgment) {
         List<E> listMatched = new ArrayList<>();
 
         if (list != null && !list.isEmpty() && judgment != null) {
@@ -51,7 +72,7 @@ public class ListUtil {
      * @param <E>
      * @return
      */
-    public static <E> int getPositionIntList(List<E> list, Judgment<E> judgment) {
+    public static <E> int getPositionIntList(@NonNull List<E> list, @NonNull Judgment<E> judgment) {
         if (list == null || list.isEmpty()) {
             return POSITION_NONE;
         }

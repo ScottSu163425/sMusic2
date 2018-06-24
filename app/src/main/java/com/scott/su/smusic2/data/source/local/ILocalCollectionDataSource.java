@@ -23,8 +23,13 @@ public interface ILocalCollectionDataSource {
 
     List<LocalCollectionEntity> getAllCollections(@NonNull Context context);
 
+    LocalCollectionEntity getAllCollection(@NonNull Context context, @NonNull String collectionId);
+
     void removeCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity);
 
     boolean addSongIntoCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection,
                                   @NonNull LocalSongEntity song);
+
+    boolean removeSongFromCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection,
+                                     @NonNull LocalSongEntity song);
 }

@@ -9,6 +9,9 @@
     <string name="action_search">搜索</string>
     <string name="action_more">更多</string>
     <string name="action_collect">加入收藏夹</string>
+    <string name="action_remove_from_collect">从收藏夹中移除</string>
+    <string name="action_clear_collect">清空收藏夹</string>
+    <string name="action_delete_collect">删除收藏夹</string>
     <string name="action_check_album">查看专辑</string>
     <string name="action_check_song_info">查看歌曲信息</string>
 

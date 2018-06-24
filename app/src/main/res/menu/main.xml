@@ -8,6 +8,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:title="@string/action_search"
+        android:title="@string/action_more"
         app:showAsAction="never"/>
 </menu>

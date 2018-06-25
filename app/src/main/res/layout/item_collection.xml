@@ -61,7 +61,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="@dimen/padding_xs"
-                    android:tint="@color/iconTint"
+                    android:tint="@color/iconTintBlack"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more_vert_black"/>
             </FrameLayout>

@@ -28,6 +28,7 @@ import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.ActivityMainBinding;
+import com.scott.su.smusic2.modules.about.AboutActivity;
 import com.scott.su.smusic2.modules.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.collection.create.CollectionCreateActivity;
 import com.scott.su.smusic2.modules.collection.list.MainTabCollectionFragment;
@@ -116,7 +117,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showFabIfNeed() {
-        int position =mBinding.vpMain.getCurrentItem();
+        int position = mBinding.vpMain.getCurrentItem();
         if (position == INDEX_TAB_SONG) {
             showFabForSwitchingPage(R.drawable.ic_play_arrow_white);
             showFabForScrolling();
@@ -224,6 +225,8 @@ public class MainActivity extends BaseActivity {
 
         if (R.id.action_search == id) {
             ToastMaker.showToast(getActivity(), "search");
+        } else if (R.id.action_about == id) {
+            AboutActivity.start(this);
         }
         return true;
     }

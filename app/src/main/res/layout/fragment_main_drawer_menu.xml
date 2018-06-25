@@ -43,7 +43,7 @@
                 android:paddingTop="@dimen/padding_xs">
 
                 <RelativeLayout
-                    android:id="@+id/rl_item_statistic"
+                    android:id="@+id/view_statistic"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
@@ -56,13 +56,13 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
                         android:src="@drawable/ic_menu_item_drawer_statistic"
-                        android:tint="@color/iconTint"/>
+                        android:tint="@color/iconTintBlack"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:layout_marginLeft="@dimen/padding_xxl"
                         android:text="@string/menu_item_statistic"
                         android:textColor="@color/textPrimary"
                         android:textSize="@dimen/text_size_menu"/>
@@ -80,13 +80,13 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginLeft="@dimen/padding_s"
                         android:src="@drawable/ic_menu_item_drawer_night_mode"
-                        android:tint="@color/iconTint"/>
+                        android:tint="@color/iconTintBlack"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:layout_marginLeft="@dimen/padding_xxl"
                         android:text="@string/night_mode"
                         android:textColor="@color/textPrimary"
                         android:textSize="@dimen/text_size_menu"/>
@@ -101,7 +101,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_item_language"
+                    android:id="@+id/view_language"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
@@ -114,20 +114,20 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
                         android:src="@drawable/ic_close_black"
-                        android:tint="@color/iconTint"/>
+                        android:tint="@color/iconTintBlack"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:layout_marginLeft="@dimen/padding_xxl"
                         android:text="@string/language"
                         android:textColor="@color/textPrimary"
                         android:textSize="@dimen/text_size_menu"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_item_settings"
+                    android:id="@+id/view_about"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_item_s"
                     android:clickable="true"
@@ -139,14 +139,14 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"
-                        android:tint="@color/iconTint"/>
+                        android:src="@drawable/ic_android_black"
+                        android:tint="@color/iconTintBlack"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xl"
+                        android:layout_marginLeft="@dimen/padding_xxl"
                         android:text="@string/about"
                         android:textColor="@color/textPrimary"
                         android:textSize="@dimen/text_size_menu"/>

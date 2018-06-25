@@ -47,7 +47,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
-                    android:tint="@color/iconTint"
+                    android:tint="@color/iconTintBlack"
                     android:src="@drawable/ic_volume_up_black"
                     android:visibility="@{position==positionSingleSelected?View.VISIBLE:View.GONE}"/>
 
@@ -110,7 +110,7 @@
                     android:layout_width="@dimen/height_item_xs"
                     android:layout_height="@dimen/height_item_xs"
                     android:layout_gravity="center"
-                    android:tint="@color/iconTint"
+                    android:tint="@color/iconTintBlack"
                     android:src="@drawable/ic_more_vert_black" />
             </FrameLayout>
 

@@ -7,7 +7,8 @@
     <color name="colorImpactDark">@color/colorPrimaryDark</color>
 
     <color name="greyTranslucent">#05000000</color>
-    <color name="iconTint">#99000000</color>
+    <color name="iconTintBlack">#99000000</color>
+    <color name="iconTintGray">#88aaaaaa</color>
 
 
     <color name="musicPlayDefaultPanelBackgroundColor">@color/white</color>

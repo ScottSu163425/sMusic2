@@ -70,6 +70,27 @@ public class SongItemPopupMenu {
                 return true;
             }
         });
-
     }
+
+    public static void showForAlbum(final AppCompatActivity activity, View anchor, final LocalSongEntity song,
+                                    @NonNull final CollectionSelectDialogFragment.Callback callback) {
+        PopupMenuHelper.popup(activity, anchor, R.menu.more_song_item_album, new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.action_collect) {
+                    CollectionSelectDialogFragment dialog = CollectionSelectDialogFragment.newInstance();
+                    dialog.setCallback(callback);
+                    dialog.show(activity);
+                } else if (id == R.id.action_check_song_info) {
+                    SongInfoDialogFragment.newInstance(song).show(activity);
+                }
+
+                return true;
+            }
+        });
+    }
+
+
 }

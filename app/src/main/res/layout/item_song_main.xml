@@ -78,7 +78,7 @@
                     android:layout_width="@dimen/height_item_xs"
                     android:layout_height="@dimen/height_item_xs"
                     android:layout_gravity="center"
-                    android:tint="@color/iconTint"
+                    android:tint="@color/iconTintBlack"
                     android:src="@drawable/ic_more_vert_black"/>
             </FrameLayout>
 

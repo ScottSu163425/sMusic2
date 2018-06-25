@@ -14,6 +14,7 @@ import com.scott.su.common.util.ScreenUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.databinding.FragmentMainDrawerMenuBinding;
+import com.scott.su.smusic2.modules.about.AboutActivity;
 import com.scott.su.smusic2.modules.main.NightModeChangedEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,12 +50,18 @@ public class MainDrawerMenuFragment extends BaseFragment {
         mDrawerMenuViewModel = ViewModelProviders.of(this).get(MainDrawerMenuViewModel.class);
 
         mDrawerMenuBinding.switchNightMode.setChecked(AppConfig.getInstance().isNightModeOn());
-
         mDrawerMenuBinding.switchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 AppConfig.getInstance().setNightMode(isChecked);
                 EventBus.getDefault().post(new NightModeChangedEvent(isChecked));
+            }
+        });
+
+        mDrawerMenuBinding.viewAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutActivity.start(getActivity());
             }
         });
     }

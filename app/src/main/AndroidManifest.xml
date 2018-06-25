@@ -50,6 +50,10 @@
             android:name=".modules.song.select.LocalSongSelectActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".modules.about.AboutActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

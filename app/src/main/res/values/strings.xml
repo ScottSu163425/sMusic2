@@ -6,6 +6,13 @@
     <string name="transition_name_fab">transition_name_fab</string>
 
 
+    <string name="author_name">su</string>
+    <string name="author_email">scottsu163425_gmail_com</string>
+    <string name="author_place">福州·中国</string>
+    <string name="author_home_page_url">https://github.com/ScottSu163425</string>
+    <string name="app_home_page_url">https://github.com/ScottSu163425/sMusic2</string>
+
+
     <string name="action_search">搜索</string>
     <string name="action_more">更多</string>
     <string name="action_collect">加入收藏夹</string>
@@ -50,5 +57,10 @@
     <string name="ask_clear_collection_songs">清空收藏夹内的所有歌曲?</string>
     <string name="ask_delete_collection">删除这个收藏夹?</string>
     <string name="empty_collection_song">收藏夹内是空的</string>
+    <string name="author">作者</string>
+    <string name="homePage">主页</string>
+    <string name="version">版本</string>
+    <string name="app_home_page">项目主页</string>
+    <string name="license">许可信息</string>
 
 </resources>

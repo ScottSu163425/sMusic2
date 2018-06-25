@@ -190,7 +190,7 @@ public class AlbumDetailActivity extends BaseActivity {
     }
 
     private void showItemMenu(View anchor, final LocalSongEntity song) {
-        SongItemPopupMenu.show(getActivity(), anchor, song, new CollectionSelectDialogFragment.Callback() {
+        SongItemPopupMenu.showForAlbum(getActivity(), anchor, song, new CollectionSelectDialogFragment.Callback() {
             @Override
             public void onCollectSelected(LocalCollectionEntity collection) {
                 mViewModel.collectSong(collection, song);

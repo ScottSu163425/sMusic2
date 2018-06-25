@@ -6,14 +6,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.SimpleCallback;
 import com.scott.su.common.manager.ActivityStarter;
@@ -92,8 +98,7 @@ public class CollectionDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //FAB可见说明收藏夹不为空
-                MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mSongListAdapter.getData(),
-                        mSongListAdapter.getData().get(0), new View[]{mBinding.ivCover});
+                playSong(mSongListAdapter.getData().get(0), 0);
             }
         });
 
@@ -183,6 +188,42 @@ public class CollectionDetailActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        updateToolbarColor(collection.getCoverPath());
+    }
+
+    /**
+     * 设置状态栏、标题栏背景色与封面色调一致
+     *
+     * @param coverPath
+     */
+    private void updateToolbarColor(@Nullable String coverPath) {
+        final int colorDefault = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+
+        final boolean userDefault = TextUtils.isEmpty(coverPath);
+        final Bitmap bitmap = userDefault ? BitmapFactory.decodeResource(getResources(), R.drawable.pic_default_cover_album)
+                : BitmapFactory.decodeFile(coverPath);
+
+        Palette.from(bitmap)
+                .generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(@NonNull Palette palette) {
+                        //获取背景色
+                        int color;
+
+                        Palette.Swatch swatch1 = palette.getMutedSwatch();
+                        Palette.Swatch swatch2 = palette.getVibrantSwatch();
+                        Palette.Swatch swatch3 = palette.getDominantSwatch();
+
+                        color = swatch1 != null ? swatch1.getRgb()
+                                : (swatch2 != null ? swatch2.getRgb()
+                                : (swatch3 != null ? swatch3.getRgb() : colorDefault));
+
+                        StatusBarUtil.setColor(getActivity(), color);
+                        mBinding.collapsingToolbarLayout.setContentScrimColor(color);
+                        mBinding.collapsingToolbarLayout.setStatusBarScrimColor(color);
+                    }
+                });
     }
 
     private void setUpCollectionSongs(@NonNull List<LocalSongEntity> songs) {

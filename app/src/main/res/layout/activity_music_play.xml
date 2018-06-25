@@ -201,6 +201,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_marginLeft="@dimen/padding_xs"
                                 android:layout_marginRight="@dimen/padding_xs"
+                                android:transitionName="@string/transition_name_fab"
                                 android:src="@drawable/ic_pause_black"
                                 app:backgroundTint="@color/white"
                                 app:fabSize="normal"
@@ -320,7 +321,7 @@
                                 android:singleLine="true"
                                 android:text="周杰棍"
                                 android:textColor="@color/textPrimary"
-                                android:textSize="@dimen/text_size_subhead"/>
+                                android:textSize="@dimen/text_size_title"/>
 
                             <TextView
                                 android:id="@+id/tv_artist"

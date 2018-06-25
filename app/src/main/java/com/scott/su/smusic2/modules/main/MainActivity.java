@@ -109,6 +109,24 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        showFabIfNeed();
+    }
+
+    private void showFabIfNeed() {
+        int position =mBinding.vpMain.getCurrentItem();
+        if (position == INDEX_TAB_SONG) {
+            showFabForSwitchingPage(R.drawable.ic_play_arrow_white);
+            showFabForScrolling();
+        } else if (position == INDEX_TAB_COLLECTION) {
+            showFabForSwitchingPage(R.drawable.ic_add_white);
+            showFabForScrolling();
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 

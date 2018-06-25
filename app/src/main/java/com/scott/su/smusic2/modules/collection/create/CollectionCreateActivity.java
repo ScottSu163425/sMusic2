@@ -1,5 +1,7 @@
 package com.scott.su.smusic2.modules.collection.create;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.ActivityStarter;
@@ -157,6 +160,9 @@ public class CollectionCreateActivity extends BaseActivity {
                     @Override
                     public void onAnimStart() {
                         mAnimatingIn = true;
+
+                        mBinding.fab.setScaleX(0);
+                        mBinding.fab.setScaleY(0);
                     }
 
                     @Override
@@ -193,14 +199,27 @@ public class CollectionCreateActivity extends BaseActivity {
                                 null, new CirclarRevealUtil.SimpleAnimListener() {
                                     @Override
                                     public void onAnimStart() {
-
                                     }
 
                                     @Override
                                     public void onAnimEnd() {
-                                        mAnimatingOut = false;
 
-                                        exit();
+                                        mBinding.fab.animate()
+                                                .setDuration(400)
+                                                .setInterpolator(new OvershootInterpolator())
+                                                .scaleX(1.0f)
+                                                .scaleY(1.0f)
+                                                .setListener(new AnimatorListenerAdapter() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+                                                        super.onAnimationEnd(animation);
+
+                                                        mAnimatingOut = false;
+                                                        exit();
+                                                    }
+                                                })
+                                                .start();
+
                                     }
                                 }, true);
                     }

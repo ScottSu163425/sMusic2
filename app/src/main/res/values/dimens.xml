@@ -7,7 +7,7 @@
     <dimen name="height_margin_top_main_tab">104dp</dimen><!--留10dp空隙-->
 
     <dimen name="height_cover_item_song">52dp</dimen>
-    <dimen name="height_peek_play_queue">72dp</dimen>
+    <dimen name="height_peek_play_queue">96dp</dimen>
     <dimen name="height_cover_item_album">120dp</dimen>
     <dimen name="height_seekbar_music_play">20dp</dimen>
 </resources>

@@ -29,14 +29,13 @@
             android:layout_gravity="center"
             android:clickable="true"
             android:visibility="invisible"
-            app:cardElevation="@dimen/padding_m"
             app:layout_aspectRatio="128%"
             app:layout_widthPercent="78%">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"/>
+                android:background="@color/colorImpact"/>
 
             <LinearLayout
                 android:id="@+id/layout_body"
@@ -79,8 +78,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_collection_name"
-                        android:maxLines="1"
                         android:maxLength="16"
+                        android:maxLines="1"
                         android:textColor="@color/textPrimary"
                         android:textSize="@dimen/text_size_title"/>
                 </android.support.design.widget.TextInputLayout>
@@ -94,7 +93,7 @@
                     android:id="@+id/btn_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_color_primary"
+                    android:background="@drawable/selector_color_impact"
                     android:gravity="center"
                     android:padding="@dimen/padding_xs"
                     android:text="@string/confirm"
@@ -110,7 +109,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/padding_s"
             android:transitionName="@string/transition_name_fab"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorImpact"
             app:fabSize="normal"/>
 
 

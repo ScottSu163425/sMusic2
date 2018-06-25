@@ -22,7 +22,6 @@ import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.smusic2.R;
-import com.scott.su.smusic2.core.MusicPlayController;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
@@ -144,10 +143,10 @@ public class AlbumDetailActivity extends BaseActivity {
         }
 
         mAlbumEntity = albumEntity;
+        mBinding.tvAlbum.setText(albumEntity.getTitle());
         mSongListAdapter.setData(albumEntity.getAlbumSongs());
 
         ImageLoader.load(getApplicationContext(), albumEntity.getAlbumCoverPath(), mBinding.ivCover);
-        mBinding.toolbar.setTitle(albumEntity.getTitle());
 
         updateToolbarColor(albumEntity.getAlbumCoverPath());
     }
@@ -180,8 +179,7 @@ public class AlbumDetailActivity extends BaseActivity {
                                 : (swatch3 != null ? swatch3.getRgb() : colorDefault));
 
                         StatusBarUtil.setColor(getActivity(), color);
-                        mBinding.collapsingToolbarLayout.setContentScrimColor(color);
-                        mBinding.collapsingToolbarLayout.setStatusBarScrimColor(color);
+                        mBinding.tvAlbum.setBackgroundColor(color);
                     }
                 });
     }

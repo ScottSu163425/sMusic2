@@ -33,6 +33,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 
 import com.jaeger.library.StatusBarUtil;
@@ -362,7 +363,7 @@ public class MusicPlayActivity extends BaseActivity {
      * 初始化播放列表相关
      */
     private void initPlayQueue() {
-        mBinding.cardCurrentPlaying.setOnClickListener(new View.OnClickListener() {
+        mBinding.layoutCurrentPlaying.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 togglePlayQueue();
@@ -374,26 +375,31 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBinding.cardCurrentPlaying.setCardElevation(0);
-                    mBinding.rvPlayQueue.setAlpha(0);
-                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
-                    mBinding.viewMaskContent.setVisibility(View.GONE);
-                }
+//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+//                    mBinding.rvPlayQueue.setAlpha(0);
+//                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
+//                    mBinding.viewMaskContent.setVisibility(View.GONE);
+//                }
 
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                final float factorIn = slideOffset;
-                final float factorOut = 1 - slideOffset;
+//                final float factorIn = slideOffset;
+//                final float factorOut = 1 - slideOffset;
+//
+//                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
+//                mBinding.viewMaskContent.setAlpha(factorIn);
+//
+//                mBinding.rvPlayQueue.setAlpha(factorIn);
+//                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
+            }
+        });
 
-                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
-                mBinding.viewMaskContent.setAlpha(factorIn);
-
-                mBinding.cardCurrentPlaying.setCardElevation(factorIn * 12);
-                mBinding.rvPlayQueue.setAlpha(factorIn);
-                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
+        mBinding.spacePeek.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mBehaviorPlayQueue.setPeekHeight(mBinding.spacePeek.getMeasuredHeight());
             }
         });
 
@@ -605,7 +611,7 @@ public class MusicPlayActivity extends BaseActivity {
         mBinding.sbProgress.setMax((int) currentPlayingSong.getDuration());
         mBinding.sbProgress.setProgress(0);
 
-        TransitionManager.beginDelayedTransition(mBinding.cardCurrentPlaying);
+        TransitionManager.beginDelayedTransition(mBinding.layoutCurrentPlaying);
 
         updatePanelBackgroundColorByCover(currentPlayingSong.getAlbumCoverPath());
     }

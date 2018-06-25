@@ -43,7 +43,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/pic_default_cover_album"
                         android:transitionName="@string/transition_name_cover"
-                        app:layout_aspectRatio="92%"
+                        app:layout_aspectRatio="90%"
                         app:layout_widthPercent="100%"/>
 
                 </android.support.percent.PercentFrameLayout>

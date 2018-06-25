@@ -21,34 +21,22 @@
             android:layout_height="wrap_content"
             app:theme="@style/AppTheme.AppBarOverlay">
 
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar_layout"
+            <android.support.percent.PercentFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:collapsedTitleGravity="left"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleGravity="left|bottom"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false">
+                android:background="@color/background"
+                app:layout_collapseMode="parallax">
 
-                <android.support.percent.PercentFrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
-                    app:layout_collapseMode="parallax">
-
-                    <ImageView
-                        android:id="@+id/iv_cover"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/pic_default_cover_album"
-                        android:transitionName="@string/transition_name_cover"
-                        app:layout_aspectRatio="92%"
-                        app:layout_widthPercent="100%"/>
-                </android.support.percent.PercentFrameLayout>
+                <ImageView
+                    android:id="@+id/iv_cover"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pic_default_cover_album"
+                    android:transitionName="@string/transition_name_cover"
+                    app:layout_aspectRatio="90%"
+                    app:layout_widthPercent="100%"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -58,28 +46,29 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="?attr/homeAsUpIndicator"
                     app:popupTheme="@style/AppTheme.PopupOverlay"/>
-            </android.support.design.widget.CollapsingToolbarLayout>
+            </android.support.percent.PercentFrameLayout>
+
+            <TextView
+                android:id="@+id/tv_album"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_m"
+                android:paddingLeft="@dimen/padding_s"
+                android:paddingRight="@dimen/padding_s"
+                android:paddingTop="@dimen/padding_m"
+                android:text="烟火里的尘埃"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title"/>
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.CardView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/padding_xs"
-            android:layout_marginLeft="@dimen/padding_s"
-            android:layout_marginRight="@dimen/padding_s"
-            android:layout_marginTop="@dimen/padding_xs"
-            app:behavior_overlapTop="64dp"
-            app:cardBackgroundColor="@color/backgroundContent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:behavior_overlapTop="@dimen/height_header_overlap_main"/>
-        </android.support.v7.widget.CardView>
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:behavior_overlapTop="@dimen/height_header_overlap_main"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

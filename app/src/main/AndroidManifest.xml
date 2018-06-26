@@ -54,6 +54,11 @@
             android:name=".modules.about.AboutActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".modules.search.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.scott.su.common.util.ListUtil;
-import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 import com.scott.su.smusic2.data.source.local.LocalCollectionDataSource;
@@ -149,7 +148,7 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
                 .map(new Function<String, LocalCollectionEntity>() {
                     @Override
                     public LocalCollectionEntity apply(@io.reactivex.annotations.NonNull String string) throws Exception {
-                        return LocalCollectionDataSource.getInstance(getContext()).getAllCollection(getContext(), string);
+                        return LocalCollectionDataSource.getInstance(getContext()).getCollection(getContext(), string);
                     }
                 })
                 .subscribeOn(Schedulers.io())

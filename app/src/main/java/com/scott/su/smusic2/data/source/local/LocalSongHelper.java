@@ -254,4 +254,43 @@ public class LocalSongHelper implements ILocalSongDataSource {
         return song.getAlbumCoverPath();
     }
 
+    @Override
+    public List<LocalSongEntity> searchSong(@NonNull Context context, @NonNull String keyword) {
+        List<LocalSongEntity> listAll = getAllSongs(context);
+        List<LocalSongEntity> listResult = new ArrayList<>();
+
+        if (listAll != null && !listAll.isEmpty()) {
+            for (int i = 0, n = listAll.size(); i < n; i++) {
+                LocalSongEntity song = listAll.get(i);
+
+                if (song.getTitle().contains(keyword)
+                        || song.getAlbum().contains(keyword)
+                        || song.getArtist().contains(keyword)) {
+                    listResult.add(song);
+                }
+            }
+        }
+
+        return listResult;
+    }
+
+    @Override
+    public List<LocalAlbumEntity> searchAlbum(@NonNull Context context, @NonNull String keyword) {
+        List<LocalAlbumEntity> listAll = getAllAlbums(context);
+        List<LocalAlbumEntity> listResult = new ArrayList<>();
+
+        if (listAll != null && !listAll.isEmpty()) {
+            for (int i = 0, n = listAll.size(); i < n; i++) {
+                LocalAlbumEntity album = listAll.get(i);
+
+                if (album.getTitle().contains(keyword)
+                        || album.getArtist().contains(keyword)) {
+                    listResult.add(album);
+                }
+            }
+        }
+
+        return listResult;
+    }
+
 }

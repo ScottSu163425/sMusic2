@@ -23,16 +23,15 @@
     <string name="action_check_song_info">查看歌曲信息</string>
 
 
-    <string name="tab_main_recommend">推荐</string>
-    <string name="tab_main_song">歌曲</string>
-    <string name="tab_main_collection">收藏</string>
-    <string name="tab_main_album">专辑</string>
+    <string name="song">歌曲</string>
+    <string name="collection">收藏</string>
+    <string name="album">专辑</string>
+
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="tip_exit">退出应用?</string>
     <string name="song_name">歌曲名</string>
     <string name="artist">艺术家</string>
-    <string name="album">专辑</string>
     <string name="song_duration">时长</string>
     <string name="file_size">文件大小</string>
     <string name="file_path">文件路径</string>
@@ -62,5 +61,7 @@
     <string name="version">版本</string>
     <string name="app_home_page">项目主页</string>
     <string name="license">许可信息</string>
+    <string name="hint_search">歌曲/收藏夹/专辑/艺术家</string>
+    <string name="error_empty_search">请输入一个搜索关键字</string>
 
 </resources>

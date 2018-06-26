@@ -1,17 +1,11 @@
 package com.scott.su.smusic2.data.source.local;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
-import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
-import com.scott.su.smusic2.data.source.local.db.AppDatabase;
-import com.scott.su.smusic2.data.source.local.db.LocalCollectionDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,6 +65,16 @@ public class LocalSongDataSource implements ILocalSongDataSource {
     @Override
     public String getAlbumCoverPathBySongId(@NonNull Context context, @NonNull String songId) {
         return LocalSongHelper.getInstance().getAlbumCoverPathBySongId(context, songId);
+    }
+
+    @Override
+    public List<LocalSongEntity> searchSong(@NonNull Context context, @NonNull String keyword) {
+        return LocalSongHelper.getInstance().searchSong(context, keyword);
+    }
+
+    @Override
+    public List<LocalAlbumEntity> searchAlbum(@NonNull Context context, @NonNull String keyword) {
+        return LocalSongHelper.getInstance().searchAlbum(context, keyword);
     }
 
 }

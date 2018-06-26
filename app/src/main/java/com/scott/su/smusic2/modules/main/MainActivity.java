@@ -23,7 +23,6 @@ import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.FragmentHelper;
 import com.scott.su.common.manager.SnackBarMaker;
-import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
@@ -33,6 +32,7 @@ import com.scott.su.smusic2.modules.album.MainTabAlbumFragment;
 import com.scott.su.smusic2.modules.collection.create.CollectionCreateActivity;
 import com.scott.su.smusic2.modules.collection.list.MainTabCollectionFragment;
 import com.scott.su.smusic2.modules.drawer.MainDrawerMenuFragment;
+import com.scott.su.smusic2.modules.search.SearchActivity;
 import com.scott.su.smusic2.modules.song.list.MainTabSongFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -177,10 +177,9 @@ public class MainActivity extends BaseActivity {
         mViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mViewPagerAdapter.setFragments(mListTabContentFragment);
         mViewPagerAdapter.setTitles(new String[]{
-//                getString(R.string.tab_main_recommend),
-                getString(R.string.tab_main_song),
-                getString(R.string.tab_main_collection),
-                getString(R.string.tab_main_album)});
+                getString(R.string.song),
+                getString(R.string.collection),
+                getString(R.string.collection)});
         mBinding.vpMain.setOffscreenPageLimit(mListTabContentFragment.size());
         mBinding.vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -224,7 +223,7 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (R.id.action_search == id) {
-            ToastMaker.showToast(getActivity(), "search");
+            SearchActivity.start(this);
         } else if (R.id.action_about == id) {
             AboutActivity.start(this);
         }

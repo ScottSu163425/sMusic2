@@ -23,7 +23,7 @@ public interface ILocalCollectionDataSource {
 
     List<LocalCollectionEntity> getAllCollections(@NonNull Context context);
 
-    LocalCollectionEntity getAllCollection(@NonNull Context context, @NonNull String collectionId);
+    LocalCollectionEntity getCollection(@NonNull Context context, @NonNull String collectionId);
 
     boolean addSongIntoCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection,
                                   @NonNull LocalSongEntity song);
@@ -34,4 +34,7 @@ public interface ILocalCollectionDataSource {
     void clearSongsFromCollection(@NonNull Context context, @NonNull LocalCollectionEntity collection);
 
     void deleteCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity);
+
+    List<LocalCollectionEntity> search(@NonNull Context context, @NonNull String keyword);
+
 }

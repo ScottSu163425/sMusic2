@@ -1,6 +1,7 @@
 package com.scott.su.smusic2.modules.collection.list;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.scott.su.common.adapter.BaseRecyclerViewHolder;
 import com.scott.su.common.manager.ImageLoader;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.entity.LocalCollectionEntity;
+import com.scott.su.smusic2.databinding.ItemCollectionBinding;
 
 /**
  * 描述: 收藏列表适配器
@@ -42,38 +44,37 @@ public abstract class MainTabCollectionListAdapter
     }
 
     class VH extends BaseRecyclerViewHolder<LocalCollectionEntity> {
-        private ImageView ivCover;
-        private TextView tvTitle;
-        private View viewMore;
+        private ItemCollectionBinding mBinding;
 
 
         public VH(View itemView) {
             super(itemView);
 
-            ivCover = (ImageView) findViewById(R.id.iv_cover);
-            tvTitle = (TextView) findViewById(R.id.tv_title);
-            viewMore = findViewById(R.id.view_more);
+            mBinding = DataBindingUtil.bind(itemView);
         }
 
         @Override
         public void bind(final LocalCollectionEntity entity, final int position) {
-            ImageLoader.load(getContext(), entity.getCoverPath(), ivCover,
+            mBinding.setEntity(entity);
+
+            ImageLoader.load(getContext(), entity.getCoverPath(), mBinding.ivCover,
                     R.drawable.pic_default_cover_album, R.drawable.pic_default_cover_album, true);
-            tvTitle.setText(entity.getCollectionName());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClick(v, ivCover, entity, position);
+                    onItemClick(v, mBinding.ivCover, entity, position);
                 }
             });
 
-            viewMore.setOnClickListener(new View.OnClickListener() {
+            mBinding.viewMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onMoreClick(v, entity, position);
                 }
             });
+
+            mBinding.executePendingBindings();
         }
     }
 

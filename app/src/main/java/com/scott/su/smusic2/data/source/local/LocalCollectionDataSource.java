@@ -72,20 +72,18 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     }
 
     @Override
-    public LocalCollectionEntity getAllCollection(@NonNull Context context, @NonNull String collectionId) {
+    public LocalCollectionEntity getCollection(@NonNull Context context, @NonNull String collectionId) {
         if (TextUtils.isEmpty(collectionId)) {
             return null;
         }
 
         List<LocalCollectionEntity> list = getAllCollections(context);
 
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-
-        for (LocalCollectionEntity collectionEntity : list) {
-            if (collectionId.equals(collectionEntity.getCollectionId())) {
-                return collectionEntity;
+        if (list != null && !list.isEmpty()) {
+            for (LocalCollectionEntity collectionEntity : list) {
+                if (collectionId.equals(collectionEntity.getCollectionId())) {
+                    return collectionEntity;
+                }
             }
         }
 
@@ -95,6 +93,24 @@ public class LocalCollectionDataSource implements ILocalCollectionDataSource {
     @Override
     public void deleteCollection(@NonNull Context context, @NonNull LocalCollectionEntity entity) {
         mCollectionDao.deleteCollection(entity);
+    }
+
+    @Override
+    public List<LocalCollectionEntity> search(@NonNull Context context, @NonNull String keyword) {
+        List<LocalCollectionEntity> listAll = getAllCollections(context);
+        List<LocalCollectionEntity> listResult = new ArrayList<>();
+
+        if (listAll != null && !listAll.isEmpty()) {
+            for (int i = 0, n = listAll.size(); i < n; i++) {
+                LocalCollectionEntity entity = listAll.get(i);
+
+                if (entity.getCollectionName().contains(keyword)) {
+                    listResult.add(entity);
+                }
+            }
+        }
+
+        return listResult;
     }
 
     @Override

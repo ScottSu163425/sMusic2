@@ -24,9 +24,9 @@ public interface ILocalSongDataSource {
      */
     List<LocalSongEntity> getAllSongs(@NonNull Context context);
 
-    LocalSongEntity getSongById(@NonNull Context context,@NonNull String songId);
+    LocalSongEntity getSongById(@NonNull Context context, @NonNull String songId);
 
-    List<LocalSongEntity> getSongsById(@NonNull Context context,@NonNull String[] idArr);
+    List<LocalSongEntity> getSongsById(@NonNull Context context, @NonNull String[] idArr);
 
     /**
      * 获取所有本地音乐专辑
@@ -48,5 +48,9 @@ public interface ILocalSongDataSource {
     String getAlbumCoverPathByAlbumId(@NonNull Context context, @NonNull String albumId);
 
     String getAlbumCoverPathBySongId(@NonNull Context context, @NonNull String songId);
+
+    List<LocalSongEntity> searchSong(@NonNull Context context, @NonNull String keyword);
+
+    List<LocalAlbumEntity> searchAlbum(@NonNull Context context, @NonNull String keyword);
 
 }

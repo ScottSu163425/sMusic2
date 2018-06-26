@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_xs"
-        android:layout_marginLeft="@dimen/padding_xxs"
-        android:layout_marginRight="@dimen/padding_xxs"
+        android:layout_marginLeft="@dimen/padding_xs"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/backgroundContent">
 
@@ -55,15 +54,6 @@
                     android:text="@{entity.collectionName}"
                     android:textColor="@color/textPrimary"/>
 
-                <ImageView
-                    android:id="@+id/view_more"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="@dimen/padding_xs"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_more_vert_black"
-                    android:tint="@color/iconTintBlack"/>
             </FrameLayout>
         </LinearLayout>
 

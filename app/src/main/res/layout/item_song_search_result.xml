@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.scott.su.smusic2.data.entity.LocalSongEntity"/>
+    </data>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundContent"
+        android:foreground="?attr/selectableItemBackground">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="@dimen/height_cover_item_song"
+                android:layout_height="@dimen/height_cover_item_song"
+                android:layout_marginBottom="@dimen/padding_xs"
+                android:layout_marginLeft="@dimen/padding_xs"
+                android:layout_marginTop="@dimen/padding_xs"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_name_cover"
+                tools:src="@drawable/pic_default_cover_album"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/view_more"
+                android:layout_toRightOf="@+id/iv_cover"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_xs">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{entity.title}"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_body"/>
+
+                <TextView
+                    android:id="@+id/tv_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/padding_xxs"
+                    android:singleLine="true"
+                    android:text="@{entity.artist}"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="@dimen/text_size_caption"/>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_divider_line_s"
+                android:layout_below="@+id/iv_cover"
+                android:background="@color/dividerLine"/>
+        </RelativeLayout>
+
+    </FrameLayout>
+</layout>

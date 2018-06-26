@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.transition.Explode;
 import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
@@ -37,6 +39,7 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_about);
+        mBinding.toolbar.setTitle("");
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,11 +48,10 @@ public class AboutActivity extends BaseActivity {
         });
         setSupportActionBar(mBinding.toolbar);
 
-        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20);
         setUpItemClick();
     }
 
-    private void setUpItemClick(){
+    private void setUpItemClick() {
         mBinding.viewAppHomePage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

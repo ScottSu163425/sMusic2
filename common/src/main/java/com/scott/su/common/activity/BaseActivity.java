@@ -1,10 +1,12 @@
 package com.scott.su.common.activity;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
 import android.view.Gravity;
@@ -25,7 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
         } else {
-            if(autoTransition()){
+            if (autoTransition()) {
                 getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
             }
         }
@@ -46,7 +48,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean autoTransition(){
+    @Override
+    public void startActivity(Intent intent) {
+        //以Transition方式启动界面
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    protected boolean autoTransition() {
         return true;
     }
 

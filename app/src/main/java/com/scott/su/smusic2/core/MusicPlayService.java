@@ -369,11 +369,11 @@ public class MusicPlayService extends Service {
                 intentMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 //只跳转到主页
-//                Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
-//                        (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
-//                        mMusicPlayer.getCurrentPlayingSong());
-//                intentPlayDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intentMain.putExtra("intent", intentPlayDetail);
+                Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
+                        (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
+                        mMusicPlayer.getCurrentPlayingSong());
+                intentPlayDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentMain.putExtra("intent", intentPlayDetail);
 
                 startActivity(intentMain);
             }

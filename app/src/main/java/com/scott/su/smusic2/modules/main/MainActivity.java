@@ -2,6 +2,8 @@ package com.scott.su.smusic2.modules.main;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -20,6 +22,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationSet;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
@@ -83,6 +87,8 @@ public class MainActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        launchPlayDetailIfNeed(getIntent());
+
         StatusBarUtil.setColorForDrawerLayout(this, mBinding.drawerLayout,
                 ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), 20);
 
@@ -131,6 +137,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        launchPlayDetailIfNeed(intent);
     }
 
     private void initTitle() {
@@ -216,6 +224,17 @@ public class MainActivity extends BaseActivity {
             AboutActivity.start(this);
         }
         return true;
+    }
+
+    /**
+     * 点击通知，跳转播放详情
+     */
+    private void launchPlayDetailIfNeed(Intent intent) {
+        Intent intentDetail = intent.getParcelableExtra("intent");
+
+        if (intentDetail != null) {
+            startActivity(intentDetail);
+        }
     }
 
     @Override
@@ -310,6 +329,11 @@ public class MainActivity extends BaseActivity {
     private void showFabForSwitchingPage(@DrawableRes final int fabIcon) {
         final int duration = 400;
 
+        //解决快速切换执行旋转动画时，最终旋转角度不正问题；
+        if (mBinding.fabMain.getVisibility() == View.VISIBLE) {
+            mBinding.fabMain.setRotation(0);
+        }
+
         mBinding.fabMain
                 .animate()
                 .setDuration(duration)
@@ -324,7 +348,6 @@ public class MainActivity extends BaseActivity {
                         super.onAnimationStart(animation);
 
                         mBinding.fabMain.setVisibility(View.VISIBLE);
-
                         mBinding.fabMain.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -334,17 +357,10 @@ public class MainActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mBinding.fabMain.setRotation(0);
-                    }
-
-                    @Override
                     public void onAnimationCancel(Animator animation) {
                         super.onAnimationCancel(animation);
                         mBinding.fabMain.setRotation(0);
                     }
-
                 })
                 .start();
     }
@@ -378,7 +394,6 @@ public class MainActivity extends BaseActivity {
                         super.onAnimationCancel(animation);
                         mBinding.fabMain.setRotation(0);
                     }
-
                 })
                 .start();
     }

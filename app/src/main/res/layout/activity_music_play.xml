@@ -126,8 +126,8 @@
                         android:layout_height="wrap_content"
                         android:clipChildren="false"
                         android:clipToPadding="false"
-                        android:paddingBottom="@dimen/padding_l"
-                        android:paddingTop="@dimen/padding_l">
+                        android:paddingBottom="@dimen/padding_xl"
+                        android:paddingTop="@dimen/padding_xl">
 
                         <LinearLayout
                             android:id="@+id/layout_music_play_buttons"
@@ -314,9 +314,8 @@
                                 android:maxLines="1"
                                 android:paddingLeft="26dp"
                                 android:paddingRight="26dp"
-                                android:paddingTop="@dimen/padding_s"
+                                android:paddingTop="@dimen/padding_m"
                                 android:singleLine="true"
-                                android:text="周杰棍"
                                 android:textColor="@color/textPrimary"
                                 android:textSize="@dimen/text_size_title"/>
 
@@ -333,7 +332,6 @@
                                 android:paddingRight="26dp"
                                 android:paddingTop="@dimen/padding_xxs"
                                 android:singleLine="true"
-                                android:text="双杰伦"
                                 android:textColor="@color/textPrimary"
                                 android:textSize="@dimen/text_size_caption"/>
 
@@ -359,15 +357,23 @@
 
                     </FrameLayout>
 
-                    <View
+                    <LinearLayout
+                        android:id="@+id/layout_music_play_queue_peek"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_divider_line"
-                        android:background="@color/dividerLine"/>
+                        android:layout_height="wrap_content"
+                        android:alpha="0"
+                        android:orientation="vertical">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_play_queue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_divider_line_s"
+                            android:background="@color/dividerLine"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_play_queue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 

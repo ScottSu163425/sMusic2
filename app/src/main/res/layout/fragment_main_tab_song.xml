@@ -16,10 +16,10 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_xs"
             android:layout_marginLeft="@dimen/padding_s"
-            android:layout_marginRight="@dimen/padding_s" >
+            android:layout_marginRight="@dimen/padding_s">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"

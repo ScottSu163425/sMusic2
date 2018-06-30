@@ -88,7 +88,7 @@ public class AlbumDetailActivity extends BaseActivity {
         mSongListAdapter.setCallback(new CommonSongListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, LocalSongEntity entity, int position) {
-                playSong(entity, position);
+                playSong(entity);
             }
 
             @Override
@@ -102,7 +102,7 @@ public class AlbumDetailActivity extends BaseActivity {
         mBinding.ivCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSong(mSongListAdapter.getData(0), 0);
+                playSong(mSongListAdapter.getData(0));
             }
         });
 
@@ -182,9 +182,9 @@ public class AlbumDetailActivity extends BaseActivity {
                 });
     }
 
-    private void playSong(@NonNull LocalSongEntity song, int position) {
-        MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mAlbumEntity.getAlbumSongs(), song,
-                position == 0 ? new View[]{mBinding.ivCover} : null);
+    private void playSong(@NonNull LocalSongEntity song) {
+        MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mAlbumEntity.getAlbumSongs(),
+                song, new View[]{mBinding.ivCover});
     }
 
     private void showItemMenu(View anchor, final LocalSongEntity song) {

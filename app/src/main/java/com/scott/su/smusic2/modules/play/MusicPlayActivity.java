@@ -375,24 +375,26 @@ public class MusicPlayActivity extends BaseActivity {
         mBehaviorPlayQueue.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
 //                    mBinding.rvPlayQueue.setAlpha(0);
 //                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
 //                    mBinding.viewMaskContent.setVisibility(View.GONE);
-//                }
+                    mBinding.layoutMusicPlayQueuePeek.setAlpha(0);
+                }
 
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//                final float factorIn = slideOffset;
+                final float factorIn = slideOffset;
 //                final float factorOut = 1 - slideOffset;
-//
+
 //                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
 //                mBinding.viewMaskContent.setAlpha(factorIn);
 //
 //                mBinding.rvPlayQueue.setAlpha(factorIn);
 //                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
+                mBinding.layoutMusicPlayQueuePeek.setAlpha(factorIn);
             }
         });
 

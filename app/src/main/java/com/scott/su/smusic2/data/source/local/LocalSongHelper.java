@@ -149,17 +149,15 @@ public class LocalSongHelper implements ILocalSongDataSource {
             return list;
         }
 
-        list = ListUtil.filter(songs, new Judgment<LocalSongEntity>() {
-            @Override
-            public boolean test(LocalSongEntity obj) {
-                for (int i = 0, n = idArr.length; i < n; i++) {
-                    if (idArr[i].equals(obj.getSongId())) {
-                        return true;
-                    }
+        for (int i = 0, n = idArr.length; i < n; i++) {
+            String songId = idArr[i];
+
+            for (LocalSongEntity song:songs){
+                if(songId.equals(song.getSongId())){
+                    list.add(song);
                 }
-                return false;
             }
-        });
+        }
 
         return list;
     }

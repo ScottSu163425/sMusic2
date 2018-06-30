@@ -1,11 +1,13 @@
 package com.scott.su.smusic2.data.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 描述: 本地音乐收藏实体类

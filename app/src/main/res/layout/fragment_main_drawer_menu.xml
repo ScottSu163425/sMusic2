@@ -43,34 +43,8 @@
                 android:paddingTop="@dimen/padding_xs">
 
                 <RelativeLayout
-                    android:id="@+id/view_statistic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_s"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_menu_item_drawer_statistic"
-                        android:tint="@color/iconTintBlack"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xxl"
-                        android:text="@string/menu_item_statistic"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/text_size_menu"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_s">
+                    android:layout_height="@dimen/height_item_m">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -101,35 +75,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/view_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_s"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_s"
-                        android:src="@drawable/ic_close_black"
-                        android:tint="@color/iconTintBlack"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/padding_xxl"
-                        android:text="@string/language"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/text_size_menu"/>
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/view_about"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_item_s"
+                    android:layout_height="@dimen/height_item_m"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">

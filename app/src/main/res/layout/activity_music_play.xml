@@ -286,7 +286,7 @@
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackgroundBorderless">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/backgroundContent"
@@ -304,49 +304,46 @@
                                 android:src="@drawable/ic_volume_up_black"
                                 android:tint="@color/iconTintBlack"/>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="1"
+                                android:paddingLeft="26dp"
+                                android:paddingRight="26dp"
+                                android:paddingTop="@dimen/padding_s"
+                                android:singleLine="true"
+                                android:text="周杰棍"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_title"/>
 
-                                <TextView
-                                    android:id="@+id/tv_title"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="left"
-                                    android:maxLines="1"
-                                    android:paddingLeft="@dimen/padding_xs"
-                                    android:paddingRight="@dimen/padding_xs"
-                                    android:singleLine="true"
-                                    android:text="周杰棍"
-                                    android:textColor="@color/textPrimary"
-                                    android:textSize="@dimen/text_size_title"/>
-
-                                <TextView
-                                    android:id="@+id/tv_artist"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="left"
-                                    android:maxLines="1"
-                                    android:paddingLeft="@dimen/padding_xs"
-                                    android:paddingRight="@dimen/padding_xs"
-                                    android:paddingTop="@dimen/padding_xxs"
-                                    android:singleLine="true"
-                                    android:text="双杰伦"
-                                    android:textColor="@color/textPrimary"
-                                    android:textSize="@dimen/text_size_caption"/>
-                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_artist"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_title"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="1"
+                                android:paddingBottom="@dimen/padding_s"
+                                android:paddingLeft="26dp"
+                                android:paddingRight="26dp"
+                                android:paddingTop="@dimen/padding_xxs"
+                                android:singleLine="true"
+                                android:text="双杰伦"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_caption"/>
 
                             <FrameLayout
                                 android:id="@+id/view_more"
                                 android:layout_width="@dimen/height_button_s"
                                 android:layout_height="@dimen/height_button_s"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/padding_xxs"
                                 android:clickable="true"
-                                android:layout_marginRight="@dimen/padding_xs"
                                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                                 <ImageView
@@ -357,7 +354,7 @@
                                     android:tint="@color/iconTintBlack"/>
                             </FrameLayout>
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </FrameLayout>
 

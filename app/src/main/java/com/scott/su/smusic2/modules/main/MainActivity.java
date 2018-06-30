@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatDelegate;
+import android.transition.Fade;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,6 +79,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setEnterTransition(new Fade());
+        }
 
         launchPlayDetailIfNeed(getIntent());
 
@@ -267,29 +273,25 @@ public class MainActivity extends BaseActivity {
         recreateActivity(true);
     }
 
-    private void recreateActivity(boolean isForNightMode) {
+    private void recreateActivity(boolean forNightMode) {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(KEY_EXTRA_RECREATE, true);
         intent.putExtra(KEY_EXTRA_TAB_INDEX, mBinding.vpMain.getCurrentItem());
         startActivity(intent);
 
-        if (isForNightMode) {
-            if (AppConfig.getInstance().isNightModeOn()) {
-                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
-            } else {
-                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-            }
-        } /* else {
-            if (AppConfig.isLanguageModeOn(MainActivity.this)) {
-                overridePendingTransition(R.anim.in_left, R.anim.out_right);
-            } else {
-                overridePendingTransition(R.anim.in_right, R.anim.out_left);
-            }
-        }*/
+//        if (forNightMode) {
+//            if (AppConfig.getInstance().isNightModeOn()) {
+//                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+//            } else {
+//                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+//            }
+//        }
     }
 
     private void showFabForScrolling() {
+        mBinding.fabMain.setRotation(0);
+
         mBinding.fabMain
                 .animate()
                 .setDuration(600)
@@ -306,6 +308,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideFabForScrolling() {
+        mBinding.fabMain.setRotation(0);
+
         mBinding.fabMain
                 .animate()
                 .setDuration(600)

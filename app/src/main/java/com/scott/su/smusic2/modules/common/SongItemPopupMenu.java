@@ -38,7 +38,7 @@ public class SongItemPopupMenu {
                 } else if (id == R.id.action_check_song_info) {
                     SongInfoDialogFragment.newInstance(song).show(activity);
                 } else if (id == R.id.action_check_album) {
-                    AlbumDetailActivity.start(activity, song.getAlbumId(), null);
+                    AlbumDetailActivity.start(activity, song.getAlbumId(),null);
                 }
 
                 return true;
@@ -64,7 +64,7 @@ public class SongItemPopupMenu {
                 } else if (id == R.id.action_check_song_info) {
                     SongInfoDialogFragment.newInstance(song).show(activity);
                 } else if (id == R.id.action_check_album) {
-                    AlbumDetailActivity.start(activity, song.getAlbumId(), null);
+                    AlbumDetailActivity.start(activity, song.getAlbumId(),null);
                 }
 
                 return true;

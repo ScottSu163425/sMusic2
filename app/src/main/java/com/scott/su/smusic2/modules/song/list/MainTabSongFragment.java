@@ -147,24 +147,25 @@ public class MainTabSongFragment extends BaseFragment {
             return;
         }
 
-        final LocalSongEntity currentPlayingSong = MusicPlayCallbackBus.getCurrentPlayingSong();
-        final int position = (currentPlayingSong == null) ? mSongListAdapter.getFirstVisiblePosition()
-                : ListUtil.getPositionIntList(mSongListAdapter.getData(), new Judgment<LocalSongEntity>() {
-            @Override
-            public boolean test(LocalSongEntity obj) {
-                return obj.getSongId() == currentPlayingSong.getSongId();
-            }
-        });
+//        final LocalSongEntity currentPlayingSong = MusicPlayCallbackBus.getCurrentPlayingSong();
+        final int position = mSongListAdapter.getFirstVisiblePosition();
+//        final int position = (currentPlayingSong == null) ? mSongListAdapter.getFirstVisiblePosition()
+//                : ListUtil.getPositionIntList(mSongListAdapter.getData(), new Judgment<LocalSongEntity>() {
+//            @Override
+//            public boolean test(LocalSongEntity obj) {
+//                return obj.getSongId() == currentPlayingSong.getSongId();
+//            }
+//        });
 
         mSongListAdapter.scrollToPosition(position, true);
         final ImageView cover = mSongListAdapter.getCoverImageView(position);
-        mBinding.rv.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        mBinding.rv.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 MusicPlayActivity.start(getActivity(), (ArrayList<LocalSongEntity>) mSongListAdapter.getData(),
                         mSongListAdapter.getData(position), new View[]{cover});
-            }
-        }, 200);
+//            }
+//        }, 200);
 
 
     }

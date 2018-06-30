@@ -79,14 +79,14 @@ public class MainTabCollectionFragment extends BaseFragment {
             @Override
             public void onChanged(@Nullable List<LocalCollectionEntity> localCollectionEntities) {
                 mCollectionListAdapter.setData(localCollectionEntities);
-
-                mBinding.layoutEmpty.setVisibility(mCollectionListAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+                showEmptyIfNeed();
             }
         });
         mViewModel.getLiveDataCollectionRemoved().observe(this, new Observer<LocalCollectionEntity>() {
             @Override
             public void onChanged(@Nullable LocalCollectionEntity entity) {
                 mCollectionListAdapter.removeData(entity);
+                showEmptyIfNeed();
             }
         });
 
@@ -105,6 +105,10 @@ public class MainTabCollectionFragment extends BaseFragment {
     @Subscribe
     public void onEventCollectionsNeedRefreshEvent(CollectionsNeedRefreshEvent event) {
         mViewModel.refreshCollectionList();
+    }
+
+    private void showEmptyIfNeed() {
+        mBinding.layoutEmpty.setVisibility(mCollectionListAdapter.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private void popMenu(View anchor, final LocalCollectionEntity entity) {

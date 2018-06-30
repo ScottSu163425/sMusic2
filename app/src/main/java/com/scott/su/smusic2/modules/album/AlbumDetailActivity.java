@@ -77,8 +77,6 @@ public class AlbumDetailActivity extends BaseActivity {
         mAlbumId = getIntent().getStringExtra(KEY_EXTRA_ALBUM_ID);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_album_detail);
 
-//        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 20);
-
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

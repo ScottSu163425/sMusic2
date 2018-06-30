@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import com.scott.su.common.interfaces.Judgment;
 import com.scott.su.common.util.ListUtil;
 import com.scott.su.common.util.TimeUtil;
+import com.scott.su.smusic2.data.cache.CoverPathCache;
+import com.scott.su.smusic2.data.cache.LocalSongEntityCache;
 import com.scott.su.smusic2.data.entity.LocalAlbumEntity;
 import com.scott.su.smusic2.data.entity.LocalSongEntity;
 
@@ -66,13 +68,14 @@ public class LocalSongHelper implements ILocalSongDataSource {
                 continue;
             }
 
-            //Get entity from com.scott.su.smusic.cache directly if it exists in com.scott.su.smusic.cache.
             long songId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-//            LocalSongEntity entityFromCache = LocalSongEntityCache.getInstance().get(songId + "");
-//            if (entityFromCache != null) {
-//                songEntities.add(entityFromCache);
-//                continue;
-//            }
+
+            //从缓存中获取
+            LocalSongEntity entityFromCache = LocalSongEntityCache.getInstance().get(String.valueOf(songId));
+            if (entityFromCache != null) {
+                songList.add(entityFromCache);
+                continue;
+            }
 
             String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
             String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
@@ -97,17 +100,14 @@ public class LocalSongHelper implements ILocalSongDataSource {
             localSongEntity.setFileSize(size);
             localSongEntity.setFilePath(path);
 
-            //Get and set covert path from LruCache if exists,otherwise com.scott.su.smusic.cache it.
-//            String coverPath = CoverPathCache.getInstance().get(albumId + "");
-//            if (TextUtils.isEmpty(coverPath)) {
-//                coverPath = localAlbumModel.getAlbumCoverPathByAlbumId(context, albumId);
-//                CoverPathCache.getInstance().put(albumId + "", coverPath);
-//            }
+            String coverPath = CoverPathCache.getInstance().get(String.valueOf(songId));
+            if (TextUtils.isEmpty(coverPath)) {
+                coverPath = getAlbumCoverPathByAlbumId(context, String.valueOf(albumId));
+                CoverPathCache.getInstance().put(String.valueOf(songId), coverPath);
+            }
 
-            localSongEntity.setAlbumCoverPath(getAlbumCoverPathByAlbumId(context, String.valueOf(albumId)));
-
-            //Put the whole entity into the com.scott.su.smusic.cache;
-//            LocalSongEntityCache.getInstance().put(songId + "", localSongEntity);
+            localSongEntity.setAlbumCoverPath(coverPath);
+            LocalSongEntityCache.getInstance().put(String.valueOf(songId), localSongEntity);
 
             songList.add(localSongEntity);
         }
@@ -245,13 +245,21 @@ public class LocalSongHelper implements ILocalSongDataSource {
 
     @Override
     public String getAlbumCoverPathBySongId(Context context, @NonNull String songId) {
+        String coverPath = CoverPathCache.getInstance().get(songId);
+
+        if (!TextUtils.isEmpty(coverPath)) {
+            return coverPath;
+        }
+
         LocalSongEntity song = getSongById(context, songId);
 
         if (song == null) {
             return null;
         }
 
-        return song.getAlbumCoverPath();
+        coverPath = song.getAlbumCoverPath();
+        CoverPathCache.getInstance().put(songId, coverPath);
+        return coverPath;
     }
 
     @Override

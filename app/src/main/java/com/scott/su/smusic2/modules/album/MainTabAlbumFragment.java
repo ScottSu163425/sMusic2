@@ -19,7 +19,6 @@ import com.scott.su.smusic2.databinding.FragmentMainTabAlbumBinding;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
 
 /**
  * 描述:
@@ -57,7 +56,7 @@ public class MainTabAlbumFragment extends BaseFragment {
         mAlbumListAdapter.setCallback(new MainTabAlbumListAdapter.Callback() {
             @Override
             public void onItemClick(View itemView, ImageView cover, LocalAlbumEntity entity, int position) {
-                AlbumDetailActivity.start(getActivity(), entity.getAlbumId(), cover);
+                AlbumDetailActivity.start(getActivity(), entity.getAlbumId(),cover);
             }
         });
 

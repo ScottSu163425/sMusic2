@@ -74,81 +74,14 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
         return mLiveDataClearSongSuccess;
     }
 
-    public void removeSong(@NonNull final LocalSongEntity song) {
-        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
-
-        Observable.just(collection)
-                .map(new Function<LocalCollectionEntity, LocalCollectionEntity>() {
-                    @Override
-                    public LocalCollectionEntity apply(@io.reactivex.annotations.NonNull LocalCollectionEntity entity) throws Exception {
-                        LocalCollectionDataSource.getInstance(getContext())
-                                .removeSongFromCollection(getContext(), collection, song);
-                        return collection;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<LocalCollectionEntity>() {
-                    @Override
-                    public void accept(LocalCollectionEntity collectionEntity) throws Exception {
-                        mLiveDataCollection.setValue(collection);
-                        mLiveDataRemoveSongSuccess.setValue(true);
-                        fetchCollection();
-                    }
-                });
-
-
-    }
-
-    public void clearSong() {
-        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
-        Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-                LocalCollectionDataSource.getInstance(getContext())
-                        .clearSongsFromCollection(getContext(), collection);
-
-                emitter.onNext(true);
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        mLiveDataCollection.setValue(collection);
-                        mLiveDataClearSongSuccess.setValue(true);
-                    }
-                });
-    }
-
-    public void deleteCollection() {
-        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
-        Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
-                LocalCollectionDataSource.getInstance(getContext())
-                        .deleteCollection(getContext(), collection);
-
-                emitter.onNext(true);
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        mLiveDataDeleteCollectionSuccess.setValue(true);
-                    }
-                });
-    }
-
     private void fetchCollection() {
         Observable.just(mCollectionId)
                 .map(new Function<String, LocalCollectionEntity>() {
                     @Override
                     public LocalCollectionEntity apply(@io.reactivex.annotations.NonNull String string) throws Exception {
-                        return LocalCollectionDataSource.getInstance(getContext()).getCollection(getContext(), string);
+                        LocalCollectionEntity collectionEntity = LocalCollectionDataSource.getInstance(getContext())
+                                .getCollection(getContext(), string);
+                        return collectionEntity;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -197,6 +130,73 @@ public class CollectionDetailViewModel extends BaseSongListViewModel {
                     @Override
                     public void accept(List<LocalSongEntity> localSongEntities) throws Exception {
                         mLiveDataCollectionSongs.setValue(localSongEntities);
+                    }
+                });
+    }
+
+    public void removeSong(@NonNull final LocalSongEntity song) {
+        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
+
+        Observable.just(collection)
+                .map(new Function<LocalCollectionEntity, LocalCollectionEntity>() {
+                    @Override
+                    public LocalCollectionEntity apply(@io.reactivex.annotations.NonNull LocalCollectionEntity entity) throws Exception {
+                        LocalCollectionDataSource.getInstance(getContext())
+                                .removeSongFromCollection(getContext(), collection, song);
+                        return collection;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<LocalCollectionEntity>() {
+                    @Override
+                    public void accept(LocalCollectionEntity collectionEntity) throws Exception {
+                        mLiveDataCollection.setValue(collection);
+                        mLiveDataRemoveSongSuccess.setValue(true);
+                        fetchCollection();
+                    }
+                });
+    }
+
+    public void clearSong() {
+        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+                LocalCollectionDataSource.getInstance(getContext())
+                        .clearSongsFromCollection(getContext(), collection);
+
+                emitter.onNext(true);
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        mLiveDataCollection.setValue(collection);
+                        mLiveDataClearSongSuccess.setValue(true);
+                    }
+                });
+    }
+
+    public void deleteCollection() {
+        final LocalCollectionEntity collection = mLiveDataCollection.getValue();
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Exception {
+                LocalCollectionDataSource.getInstance(getContext())
+                        .deleteCollection(getContext(), collection);
+
+                emitter.onNext(true);
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        mLiveDataDeleteCollectionSuccess.setValue(true);
                     }
                 });
     }

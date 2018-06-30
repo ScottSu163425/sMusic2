@@ -25,6 +25,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.manager.FragmentHelper;
 import com.scott.su.common.manager.SnackBarMaker;
+import com.scott.su.common.manager.ToastMaker;
 import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
@@ -80,12 +81,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setEnterTransition(new Fade());
-        }
-
-        launchPlayDetailIfNeed(getIntent());
-
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         StatusBarUtil.setColorForDrawerLayout(this, mBinding.drawerLayout,
@@ -136,19 +131,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-        launchPlayDetailIfNeed(intent);
-    }
-
-    /**
-     * 点击通知，跳转播放详情
-     */
-    private void launchPlayDetailIfNeed(Intent intent) {
-        Intent intentDetail = intent.getParcelableExtra("intent");
-
-        if (intentDetail != null) {
-            startActivity(intentDetail);
-        }
     }
 
     private void initTitle() {
@@ -280,13 +262,13 @@ public class MainActivity extends BaseActivity {
         intent.putExtra(KEY_EXTRA_TAB_INDEX, mBinding.vpMain.getCurrentItem());
         startActivity(intent);
 
-//        if (forNightMode) {
-//            if (AppConfig.getInstance().isNightModeOn()) {
-//                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
-//            } else {
-//                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-//            }
-//        }
+        if (forNightMode) {
+            if (AppConfig.getInstance().isNightModeOn()) {
+                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+            } else {
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            }
+        }
     }
 
     private void showFabForScrolling() {

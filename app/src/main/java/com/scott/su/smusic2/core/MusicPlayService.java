@@ -132,8 +132,9 @@ public class MusicPlayService extends Service {
 
     /**
      * 8.0以后，开启前台服务需要申请ChannelId，否则会抛异常
-     *  android.app.RemoteServiceException:
-     *  Bad notification for startForeground: java.lang.RuntimeException: invalid channel for service notification:
+     * android.app.RemoteServiceException:
+     * Bad notification for startForeground: java.lang.RuntimeException: invalid channel for service notification:
+     *
      * @return
      */
     private String getChannelId() {
@@ -365,10 +366,14 @@ public class MusicPlayService extends Service {
                 }
 
                 Intent intentMain = MainActivity.getStartIntent(getApplicationContext());
-                Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
-                        (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
-                        mMusicPlayer.getCurrentPlayingSong());
-                intentMain.putExtra("intent", intentPlayDetail);
+                intentMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                //只跳转到主页
+//                Intent intentPlayDetail = MusicPlayActivity.getStartIntent(getApplicationContext(),
+//                        (ArrayList<LocalSongEntity>) mMusicPlayer.getPlayQueue(),
+//                        mMusicPlayer.getCurrentPlayingSong());
+//                intentPlayDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intentMain.putExtra("intent", intentPlayDetail);
 
                 startActivity(intentMain);
             }

@@ -24,11 +24,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
-        } else {
-            if (autoTransition()) {
+        //初始化入场动画
+        if (autoTransition()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+            } else {
+                overridePendingTransition(provideAnimOpenIn(), provideAnimOpenOut());
             }
         }
 
@@ -48,11 +49,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void startActivity(Intent intent) {
-        //以Transition方式启动界面
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
-    }
+    //重写后可能导致SingleTask界面显示异常
+//    @Override
+//    public void startActivity(Intent intent) {
+////        以Transition方式启动界面
+//        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+//    }
 
     protected boolean autoTransition() {
         return true;

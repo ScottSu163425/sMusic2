@@ -3,6 +3,7 @@ package com.scott.su.smusic2.modules.entrance;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.scott.su.common.entity.PermissionEntity;
 import com.scott.su.common.interfaces.PermissionCallback;
 import com.scott.su.common.manager.PermissionHelper;
 import com.scott.su.common.util.ScreenUtil;
+import com.scott.su.common.util.ViewUtil;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.data.source.local.AppConfig;
 import com.scott.su.smusic2.modules.main.MainActivity;
@@ -30,6 +32,7 @@ import java.util.List;
  * 日期: 2018/4/25
  */
 public class SplashActivity extends BaseActivity {
+    private static final int DURATION_DELAY = 1500;
     protected boolean mAnimating = true;
     private View mViewBackground;
     private TextView mTextViewBrand, mTextViewBrand1, mTextViewBrand2;
@@ -38,6 +41,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_splash);
 
         mViewBackground = findViewById(R.id.layout_background);
@@ -149,7 +153,6 @@ public class SplashActivity extends BaseActivity {
     private void startReveal() {
         final View revealView = mViewBackground;
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             revealView.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -200,7 +203,7 @@ public class SplashActivity extends BaseActivity {
             // TODO: 2018/6/5
         }
 
-        AppConfig.getInstance().setFirstTimeLaunch(  false);
+        AppConfig.getInstance().setFirstTimeLaunch(false);
 
         requestPermissionsIfNeed();
     }
@@ -226,13 +229,14 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void launchNextActivity() {
-        mTextViewBrand.postDelayed(new Runnable() {
+        ViewUtil.runDelay(mTextViewBrand, new Runnable() {
             @Override
             public void run() {
-                MainActivity.start(getActivity());
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
                 finish();
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
-        }, 600);
+        }, DURATION_DELAY);
     }
 
     @Override

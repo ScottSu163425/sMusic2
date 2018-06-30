@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.scott.su.smusic2.modules.entrance.SplashActivity">
 
     <FrameLayout
         android:id="@+id/layout_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/background">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -51,14 +52,25 @@
                 android:id="@+id/tv_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:text="SMusic"
                 android:textColor="@color/textTertiary"
                 android:textSize="@dimen/text_size_display_1"
                 android:visibility="invisible"
                 tools:visibility="visible"/>
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_copy_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:alpha="0"
+            android:gravity="center"
+            android:padding="@dimen/padding_s"
+            android:text="@string/copy_right"
+            android:textColor="@color/white"/>
     </FrameLayout>
 
 </FrameLayout>

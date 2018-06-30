@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">sMusic</string>
+    <string name="copy_right">Copyright © 2018 Scott Inc. All Rights Reserved.</string>
     <string name="db_name">dbSMusic</string>
 
     <string name="transition_name_cover">transition_name_cover</string>

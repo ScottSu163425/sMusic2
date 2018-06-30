@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.scott.su.common.activity.BaseActivity;
@@ -35,7 +36,7 @@ public class SplashActivity extends BaseActivity {
     private static final int DURATION_DELAY = 1500;
     protected boolean mAnimating = true;
     private View mViewBackground;
-    private TextView mTextViewBrand, mTextViewBrand1, mTextViewBrand2;
+    private TextView mTextViewBrand, mTextViewBrand1, mTextViewBrand2, mTextViewCopyRight;
 
 
     @Override
@@ -48,6 +49,7 @@ public class SplashActivity extends BaseActivity {
         mTextViewBrand = findViewById(R.id.tv_brand);
         mTextViewBrand1 = findViewById(R.id.tv_brand_1);
         mTextViewBrand2 = findViewById(R.id.tv_brand_2);
+        mTextViewCopyRight = findViewById(R.id.tv_copy_right);
 
         mViewBackground.postDelayed(new Runnable() {
             @Override
@@ -68,8 +70,8 @@ public class SplashActivity extends BaseActivity {
         mTextViewBrand2.setAlpha(0);
 
         mTextViewBrand1.animate()
-                .setDuration(600)
-                .setInterpolator(new FastOutSlowInInterpolator())
+                .setDuration(800)
+                .setInterpolator(new OvershootInterpolator())
                 .translationX(0)
                 .alpha(1)
                 .setListener(new AnimatorListenerAdapter() {
@@ -90,6 +92,7 @@ public class SplashActivity extends BaseActivity {
                 .setDuration(600)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .translationX(0)
+                .setStartDelay(300)
                 .alpha(1)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -181,9 +184,7 @@ public class SplashActivity extends BaseActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            mAnimating = false;
-
-                            afterAnimationFinished();
+                            showCopyright();
                         }
                     });
                     reveal.start();
@@ -194,6 +195,22 @@ public class SplashActivity extends BaseActivity {
             mAnimating = false;
             afterAnimationFinished();
         }
+    }
+
+    private void showCopyright() {
+        mTextViewCopyRight.animate()
+                .setDuration(600)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .alpha(1.0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mAnimating = false;
+                        afterAnimationFinished();
+                    }
+                })
+                .start();
     }
 
     private void afterAnimationFinished() {
@@ -232,9 +249,9 @@ public class SplashActivity extends BaseActivity {
         ViewUtil.runDelay(mTextViewBrand, new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         }, DURATION_DELAY);
     }

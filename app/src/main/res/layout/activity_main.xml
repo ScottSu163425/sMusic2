@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:layout_margin="@dimen/padding_s"
+                app:borderWidth="0dp"
                 android:backgroundTint="@color/colorImpact"
                 android:src="@drawable/ic_play_arrow_white"
                 android:transitionName="@string/transition_name_fab"

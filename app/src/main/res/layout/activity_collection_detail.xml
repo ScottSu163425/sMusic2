@@ -13,7 +13,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background" >
+        android:background="@color/background">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -68,9 +68,10 @@
             android:layout_margin="@dimen/padding_s"
             android:src="@drawable/ic_play_arrow_white"
             android:transitionName="@string/transition_name_fab"
-            app:backgroundTint="@color/colorImpact"
-            app:fabSize="normal"
             android:visibility="gone"
+            app:backgroundTint="@color/colorImpact"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|right"/>
 

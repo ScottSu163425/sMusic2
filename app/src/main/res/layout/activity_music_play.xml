@@ -204,6 +204,7 @@
                                 android:src="@drawable/ic_pause_black"
                                 android:transitionName="@string/transition_name_fab"
                                 app:backgroundTint="@color/white"
+                                app:borderWidth="0dp"
                                 app:fabSize="normal"
                                 app:rippleColor="@color/md_grey_300"/>
 

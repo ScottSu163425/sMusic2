@@ -10,7 +10,7 @@ import android.os.HandlerThread;
  */
 
 public class MusicPlayProgressTimer {
-    private static final int DELAY = 300;
+    private static final int DELAY = 800;
     private HandlerThread mHandlerThread;
     private Handler mHandler;
     private Runnable mRunnable;

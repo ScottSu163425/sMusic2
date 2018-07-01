@@ -36,6 +36,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 
+import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
 import com.scott.su.common.interfaces.Judgment;
@@ -376,10 +377,11 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    mBinding.rvPlayQueue.setAlpha(0);
-//                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
-//                    mBinding.viewMaskContent.setVisibility(View.GONE);
+                    mBinding.rvPlayQueue.setAlpha(0);
+                    mBinding.rvPlayQueue.setTranslationY(0);//布局重叠，可能会影响点击事件；
+                    mBinding.viewMaskContent.setVisibility(View.GONE);
                     mBinding.layoutMusicPlayQueuePeek.setAlpha(0);
+                    mBinding.layoutCurrentPlaying.setCardElevation(0);
                 }
 
             }
@@ -387,13 +389,14 @@ public class MusicPlayActivity extends BaseActivity {
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 final float factorIn = slideOffset;
-//                final float factorOut = 1 - slideOffset;
+                final float factorOut = 1 - slideOffset;
 
-//                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
-//                mBinding.viewMaskContent.setAlpha(factorIn);
-//
-//                mBinding.rvPlayQueue.setAlpha(factorIn);
-//                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
+                mBinding.viewMaskContent.setVisibility(View.VISIBLE);
+                mBinding.viewMaskContent.setAlpha(factorIn);
+                mBinding.layoutCurrentPlaying.setCardElevation(12 * factorIn);
+
+                mBinding.rvPlayQueue.setAlpha(factorIn);
+                mBinding.rvPlayQueue.setTranslationY(factorOut * -360);
                 mBinding.layoutMusicPlayQueuePeek.setAlpha(factorIn);
             }
         });

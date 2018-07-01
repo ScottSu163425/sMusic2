@@ -83,7 +83,6 @@ public class MusicPlayService extends Service {
 //        LocalBroadcastManager.getInstance(getContext())
         registerReceiver(mCommandReceiver, new IntentFilter(MusicPlayController.ACTION_MUSIC_PLAY_CONTROL));
 
-
         mNotificationClickReceiver = new NotificationClickReceiver();
         registerReceiver(mNotificationClickReceiver, new IntentFilter(NotificationClickReceiver.ACTION));
 

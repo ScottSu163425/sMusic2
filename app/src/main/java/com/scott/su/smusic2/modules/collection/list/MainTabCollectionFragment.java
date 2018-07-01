@@ -64,7 +64,7 @@ public class MainTabCollectionFragment extends BaseFragment {
         mCollectionListAdapter = new MainTabCollectionListAdapter(getActivity()) {
             @Override
             void onItemClick(View itemView, ImageView cover, LocalCollectionEntity entity, int position) {
-                CollectionDetailActivity.start(getContext(), entity.getCollectionId(), new View[]{cover});
+                CollectionDetailActivity.start(getActivity(), entity.getCollectionId(), new View[]{cover});
             }
 
             @Override

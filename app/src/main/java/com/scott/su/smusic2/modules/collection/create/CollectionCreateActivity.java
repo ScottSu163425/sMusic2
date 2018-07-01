@@ -2,6 +2,7 @@ package com.scott.su.smusic2.modules.collection.create;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -37,7 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class CollectionCreateActivity extends BaseActivity {
 
-    public static void start(Context context, @NonNull View fab) {
+    public static void start(@NonNull Activity context, @NonNull View fab) {
         ActivityStarter.startWithSharedElements(context, getStartIntent(context), new View[]{fab});
     }
 

@@ -19,8 +19,16 @@ import android.view.View;
 
 public class ActivityStarter {
 
+    public static void startWithTransition(@NonNull Activity context, @NonNull Intent intent) {
+        if (isAfterLollipop()) {
+            context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(context).toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
 
-    public static void startWithSharedElements(Context context, Intent intent,
+
+    public static void startWithSharedElements(@NonNull Activity context, @NonNull Intent intent,
                                                @Nullable View[] sharedElements) {
         if (context == null || intent == null) {
             return;
@@ -41,7 +49,7 @@ public class ActivityStarter {
         }
 
         ActivityOptions options = ActivityOptions
-                .makeSceneTransitionAnimation((Activity) context, pairs);
+                .makeSceneTransitionAnimation(context, pairs);
 
         context.startActivity(intent, options.toBundle());
     }

@@ -1,5 +1,6 @@
 package com.scott.su.smusic2.modules.collection.detail;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -51,7 +52,7 @@ import java.util.List;
 public class CollectionDetailActivity extends BaseActivity {
     private static final String KEY_EXTRA_COLLECTION_ID = "KEY_EXTRA_COLLECTION_ID";
 
-    public static void start(Context context, String collectionId, @Nullable View[] shareElements) {
+    public static void start(@NonNull Activity context, String collectionId, @Nullable View[] shareElements) {
         Intent intent = getStartIntent(context, collectionId);
 
         if (shareElements == null || shareElements.length == 0) {

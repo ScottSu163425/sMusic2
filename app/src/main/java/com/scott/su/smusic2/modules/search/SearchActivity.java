@@ -1,19 +1,24 @@
 package com.scott.su.smusic2.modules.search;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.transition.Explode;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.common.manager.ActivityStarter;
 import com.scott.su.common.manager.SnackBarMaker;
 import com.scott.su.common.util.KeyboardUtil;
 import com.scott.su.smusic2.R;
@@ -40,8 +45,8 @@ import java.util.List;
 
 public class SearchActivity extends BaseActivity {
 
-    public static void start(Context context) {
-        context.startActivity(getStartIntent(context));
+    public static void start(@NonNull Activity context) {
+        ActivityStarter.startWithTransition(context, getStartIntent(context));
     }
 
     public static Intent getStartIntent(Context context) {

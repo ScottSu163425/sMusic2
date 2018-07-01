@@ -1,5 +1,6 @@
 package com.scott.su.smusic2.modules.album;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -46,7 +47,7 @@ public class AlbumDetailActivity extends BaseActivity {
     private static final String KEY_EXTRA_ALBUM_ID = "KEY_EXTRA_ALBUM_ID";
 
 
-    public static void start(Context context, String albumId, @Nullable View shareElement) {
+    public static void start(@NonNull Activity context, String albumId, @Nullable View shareElement) {
         Intent intent = getStartIntent(context, albumId);
 
         if (shareElement == null) {

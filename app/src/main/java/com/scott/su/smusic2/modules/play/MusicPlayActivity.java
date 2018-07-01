@@ -2,6 +2,7 @@ package com.scott.su.smusic2.modules.play;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -77,7 +78,7 @@ public class MusicPlayActivity extends BaseActivity {
     private static final int DURATION_REVEAL = 1200;
 
 
-    public static void start(Context context, ArrayList<LocalSongEntity> songList,
+    public static void start(@NonNull Activity context, ArrayList<LocalSongEntity> songList,
                              LocalSongEntity currentSong, @Nullable View[] shareElements) {
         Intent intent = getStartIntent(context, songList, currentSong);
 

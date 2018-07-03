@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scott.su.common.activity.BaseActivity;
+import com.scott.su.smusic2.BuildConfig;
 import com.scott.su.smusic2.R;
 import com.scott.su.smusic2.databinding.ActivityAboutBinding;
 
@@ -47,6 +48,8 @@ public class AboutActivity extends BaseActivity {
             }
         });
         setSupportActionBar(mBinding.toolbar);
+
+        mBinding.tvVersionName.setText(BuildConfig.VERSION_NAME);
 
         setUpItemClick();
     }

@@ -1,6 +1,7 @@
 package com.scott.su.smusic2.data.cache;
 
 import android.support.v4.util.LruCache;
+import android.text.TextUtils;
 
 /**
  * 描述:
@@ -25,10 +26,18 @@ public class CoverPathCache {
     }
 
     public void put(String songId, String coverPath) {
+        if (TextUtils.isEmpty(songId) || TextUtils.isEmpty(coverPath)) {
+            return;
+        }
+
         coverPathCache.put(songId, coverPath);
     }
 
     public String get(String songId) {
+        if (TextUtils.isEmpty(songId)) {
+            return null;
+        }
+
         return coverPathCache.get(songId);
     }
 
